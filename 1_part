@@ -1,0 +1,59 @@
+// Написать функцию которая проверяет являются две строки анаграммой или нет
+function Anagram (word1,word2) {
+    let countWord1 = 0;
+    let countWord2 = 0;
+    if (word1.length === word2.length){
+
+       for (let i = 0; i < word1.length; i++) {
+           for (let j = 0; j < word1.length; j++) {
+               if (word1[i] === word2[j]) {
+                   countWord1++;
+                  }
+           }
+       }
+        for (let i = 0; i < word1.length; i++) {
+            for (let j = 0; j < word1.length; j++) {
+                if (word1[i] === word1[j]) {
+                    countWord2++;
+                }
+            }
+        }
+       if (countWord1 === countWord2) {
+           return true;
+        } return false;
+    }
+    return false;
+}
+
+
+//Рекурсия
+
+let countWord1 = 0;
+let countWord2 = 0;
+function Anagram (word1,word2,i,j) {
+    if (word1.length !== word2.length){
+        return false;
+    }
+    if( i < word1.length) {
+        if(j < word1.length) {
+            if (word1[i] === word2[j]) {
+                countWord1++;
+                if (word1[i] === word1[j]) {
+                    countWord2++;
+                }
+            } else if (word1[i] === word1[j]) {
+                countWord2++;
+
+            }
+            return Anagram (word1,word2,i,j + 1);
+        }
+        return Anagram (word1,word2,i + 1,0);
+
+    }
+
+    if (countWord1 !== countWord2) {
+        return false;
+    }
+
+    return true;
+}

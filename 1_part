@@ -402,7 +402,7 @@ return function countWords (arg) {
                 arg = arg.filter(function(item) {
                     return item !== arg[i];
                 });
-                console.log("bla bla bla")
+                
                 countWords (arg);
             }
 

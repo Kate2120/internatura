@@ -375,3 +375,63 @@ arr = arr.filter(function(item) {
     };
     
     //Мемоизация
+let arr = sentence.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
+    return item !== "";
+});
+arr = arr.filter(function(item) {
+    return item !== "";
+});
+let obj = {};
+let memoized = (function () {
+    let memo = {};
+return function countWords (arg) {
+    if (arg in memo) {
+        return obj;
+    }
+    let i = 0;
+    if (i < arg.length) {
+        let counter = 1;
+
+        for (let j = i + 1; j <= arg.length; j++ ) {
+            if (arg[i] === arg[j]) {
+                counter++;
+
+            } else if (j === arg.length) {
+
+                obj [arg[i]] = counter;
+                arg = arg.filter(function(item) {
+                    return item !== arg[i];
+                });
+                console.log("bla bla bla")
+                countWords (arg);
+            }
+
+        }
+
+    } let result = obj;
+    memo[arg] = result;
+    return obj;
+}})();
+
+////Написать функцию которая возвращает N первых чисел фибоначчи
+function fibonacci (a, b, d) {
+    let arr = [a,b];
+    for (let i = 0; i < d; i++) {
+    let c = a + b;
+    arr.push (c);
+    a = b;
+    b = c;
+    }
+    return arr;
+};
+
+ //Рекурсия
+ 
+ function fibonacci (arr,N,i) {
+    if (i < N-2) {
+        arr.push (arr[i] + arr[i+1]);
+        fibonacci (arr,N ,i+1);
+    }
+    return arr;
+};
+ 

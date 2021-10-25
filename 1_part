@@ -1,4 +1,6 @@
-// Написать функцию которая проверяет являются две строки анаграммой или нет
+//// Написать функцию которая проверяет являются две строки анаграммой или нет
+
+
 function Anagram (word1,word2) {
     let countWord1 = 0;
     let countWord2 = 0;
@@ -57,3 +59,319 @@ function Anagram (word1,word2,i,j) {
 
     return true;
 }
+
+// Мемоизация
+
+let countWord1 = 0;
+let countWord2 = 0;
+
+let memoized = (function () {
+    let cache = {};
+
+return function anagram (word1,word2,i,j) {
+    if (word1 in cache && word2 in cache)  {
+        if (countWord1 !== countWord2) {
+            return false;
+        }
+
+        return true;
+    }
+    if (word1.length !== word2.length){
+        return false;
+    }
+    if( i < word1.length) {
+        if(j < word1.length) {
+            if (word1[i] === word2[j]) {
+                countWord1++;
+                if (word1[i] === word1[j]) {
+                    countWord2++;
+                }
+            } else if (word1[i] === word1[j]) {
+                countWord2++;
+
+            }
+            return anagram (word1,word2,i,j + 1);
+        }
+        return anagram (word1,word2,i + 1,0);
+
+    }
+let result = countWord1;
+    cache[word1] = result;
+    let result2 = countWord2;
+    cache[word2] = result2;
+    if (countWord1 !== countWord2) {
+        return false;
+    }
+
+    return true;
+}
+})();
+let rez = memoized ("пила","липа",0,0);
+console.log(rez);
+let rez2 = memoized ("пила","липа",0,0);
+console.log(rez2);
+
+////Написать функцию которая вычисляет подсчет количество каждой цифре в числе
+
+
+function  countDigit (num) {
+    let arr = [];
+    let obj ={};
+
+    for (; num > 0;) {
+        arr.push(num % 10);
+        num = parseInt(num/10);
+    }
+    for (let i = 0; i <= arr.length && arr.length > 0; ) {
+        let counter = 1;
+        for (let j = i + 1; j <= arr.length; j++) {
+            if (arr[i] === arr[j]) {
+                counter++;
+                obj[arr[i]] = counter;
+            }
+
+        }
+        obj[arr[i]] = counter;
+        arr = arr.filter(function(item) {
+            return item !== arr[i];
+        });
+
+    }return obj;
+};
+
+
+//Рекурсия
+
+let num = 29333;
+let arr = [];
+let obj ={};
+
+    for (; num > 0;) {
+        arr.push(num % 10);
+        num = parseInt(num/10);
+    };
+    
+    function countDigit(arg) {
+        let i = 0;
+        
+    if (i <= arg.length && arg.length > 0 ) {
+        let counter = 1;
+        
+        for (let j = i + 1; j <= arg.length; j++) {
+
+            if (arg[i] === arg[j]) {
+                counter++;
+                obj[arg[i]] = counter;
+            }
+
+        };
+        obj[arg[i]] = counter;
+        arg = arg.filter(function(item) {
+            return item !== arg[i];
+        });
+        countDigit(arg);
+    }return obj;
+    }
+console.log(countDigit (arr));
+
+//Мемоизация
+
+
+let num = 29333;
+let arr = [];
+let obj ={};
+
+for (; num > 0;) {
+    arr.push(num % 10);
+    num = parseInt(num/10);
+};
+
+let memoizedDigit = (function() {
+    let memo = {};
+    return  function countDigit(arg) {
+    if (arg in memo) {
+        return obj;
+    }
+    let i = 0;
+
+    if (i <= arg.length && arg.length > 0 ) {
+        let counter = 1;
+
+        for (let j = i + 1; j <= arg.length; j++) {
+
+            if (arg[i] === arg[j]) {
+                counter++;
+                obj[arg[i]] = counter;
+            }
+
+        };
+        obj[arg[i]] = counter;
+        arg = arg.filter(function(item) {
+            return item !== arg[i];
+        });
+        console.log("bla bla bla");
+        countDigit(arg);
+    } let result = obj;
+    memo[arg] = result;
+    return obj;
+}})();
+
+////Написать функцию которая вычисляет подсчет уникальных слов в предложении
+
+
+function uniqueWords (sentence) {
+sentence = sentence.toLowerCase()
+console.log(sentence);
+let re = (/[^а-яА-ЯёЁ]+/gui);
+let arr = sentence.split(re);
+arr = arr.filter(function(item) {
+    return item !== "";
+});
+
+let counter = 0;
+for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = i + 1; j < arr.length; j++ ) {
+        let a = arr[i];
+        let b = arr[j];
+        if (a === b) {
+                arr = arr.filter(function(item) {
+                return item !== a;
+            });
+        }
+    }
+
+} return (arr.length);
+}
+
+
+//Рекурсия
+
+let sentence = "Самшит, самшит, как ты крепко сшит коко шанель булавка булавка.";
+    sentence = sentence.toLowerCase();
+    console.log(sentence);
+     let re = (/[^а-яА-ЯёЁ]+/gui);
+    let arr = sentence.split(re);
+    arr = arr.filter(function(item) {
+        return item !== "";
+    });
+function countUniqueWords (arg) {
+    for (let i = 0; i < arg.length; i++) {
+
+       for (let j = i + 1; j < arg.length; j++ ) {
+             if (arg[i] === arg[j]) {
+                 arg = arg.filter(function(item) {
+                    return item !== arg[i];
+                });
+
+                 countUniqueWords(arg);
+            }
+
+        }
+
+    } return arg.length;
+
+}
+
+//Мемоизация
+
+let sentence = "Самшит, самшит, как ты крепко сшит коко шанель булавка булавка.";
+sentence = sentence.toLowerCase();
+console.log(sentence);
+let re = (/[^а-яА-ЯёЁ]+/gui);
+let arr = sentence.split(re);
+arr = arr.filter(function(item) {
+    return item !== "";
+});
+let memoized = (function () {
+    let memo = {};
+    let result;
+return function countUniqueWords (arg) {
+    if (arr in memo) {
+        return result;
+    }
+    for (let i = 0; i < arg.length; i++) {
+
+        for (let j = i + 1; j < arg.length; j++ ) {
+            if (arg[i] === arg[j]) {
+                arg = arg.filter(function(item) {
+                    return item !== arg[i];
+                });
+
+                countUniqueWords(arg);
+            }
+
+        }
+
+    } result = arg.length;
+    memo[arr] = result;
+    return result;
+
+}})();
+
+
+////Написать функцию которая вычисляет вхождение каждого слова в предложение
+
+function uniqueWords (sentence) {
+    sentence = sentence.toLowerCase()
+    console.log(sentence);
+    let re = (/[^а-яА-ЯёЁ]+/gui);
+    let arr = sentence.split(re);
+
+    arr = arr.filter(function(item) {
+        return item !== "";
+    });
+    let obj = {};
+
+    for (let i = 0; i < arr.length; ) {
+        let counter = 1;
+
+        for (let j = i + 1; j <= arr.length; j++ ) {
+             if (arr[i] === arr[j]) {
+                counter++;
+
+            } else if (j === arr.length) {
+                console.log(arr[i]);
+                obj [arr[i]] = counter;
+                arr = arr.filter(function(item) {
+                    return item !== arr[i];
+                });
+            }
+
+        }
+
+    } return obj;
+}
+
+//Рекурсия
+let arr = sentence.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
+    return item !== "";
+});
+arr = arr.filter(function(item) {
+    return item !== "";
+});
+
+    let obj = {};
+    function countWords (arg) {
+    let i = 0;
+    if (i < arg.length) {
+        let counter = 1;
+
+         for (let j = i + 1; j <= arg.length; j++ ) {
+             if (arg[i] === arg[j]) {
+                counter++;
+
+            } else if (j === arg.length) {
+                
+                obj [arg[i]] = counter;
+                 arg = arg.filter(function(item) {
+                    return item !== arg[i];
+                });
+                 countWords (arg);
+            }
+
+        }
+
+    } return obj;
+    };
+    
+    //Мемоизация

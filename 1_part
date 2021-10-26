@@ -447,3 +447,552 @@ function fibonacci (N,i) {
 };
 console.log(fibonacci (10,0));
  
+
+
+
+////Посчитать сумму всех элементов массива, только тех которые
+Кратные двум
+
+function sumMultipleTwo (arr) {
+    let sum = 0;
+    for (let item of arr) {
+        
+            if (item % 2 === 0) {
+                sum += item;
+            }
+    } return sum;
+}
+
+В двумерном
+function sumMultipleTwo (arr) {
+    let sum = 0;
+    let sum2 = 0;
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+            for (let i = 0; i < item.length; i++){
+                if (item[i] % 2 === 0) {
+                    sum2 += item[i];
+                }
+
+
+            } item = sum2;
+            sum2 = 0;
+            console.log(item);
+        }
+        if (item % 2 === 0) {
+            sum += item;
+        }
+    } return sum;
+}
+
+
+Рекурсия
+let sum = 0;
+
+function sumMultipleTwo (arr, i) {
+if (i < arr.length ) {
+    if (Array.isArray(arr[i])) {
+        for (let item of arr[i]) {
+            if (item%2 === 0){
+            sum += item;
+            }
+        } i++;
+
+    } if (arr[i] % 2 === 0) {
+        sum += arr[i];
+    }
+    console.log(arr[i]);
+
+    sumMultipleTwo(arr, i + 1);
+}
+    return sum;
+    }
+
+
+Кратные трем
+function sumMultipleThree (arr) {
+    let sum = 0;
+    for (let item of arr) {
+
+        if (item % 3 === 0) {
+            sum += item;
+        }
+    } return sum;
+}
+
+В двумерном
+
+function sumMultipleThree (arr) {
+    let sum = 0;
+    let sum2 = 0;
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+            for (let i = 0; i < item.length; i++){
+                if (item[i] % 3 === 0) {
+                    sum2 += item[i];
+                }
+                
+
+            } item = sum2;
+            sum2 = 0;
+            console.log(item);
+        }
+        if (item % 3 === 0) {
+            sum += item;
+        }
+
+    } return sum;
+}
+
+
+
+Рекурсия
+
+let sum = 0;
+
+function sumMultipleThree (arr, i) {
+if (i < arr.length ) {
+    if (Array.isArray(arr[i])) {
+        for (let item of arr[i]) {
+            if (item%3 === 0){
+            sum += item;
+            }
+        } i++;
+
+    } if (arr[i] % 3 === 0) {
+        sum += arr[i];
+    }
+    console.log(arr[i]);
+
+    sumMultipleThree(arr, i + 1);
+}
+    return sum;
+    }
+
+
+Которые только положительные и нечетные
+function sumPositiveOdd (arr) {
+    let sum = 0;
+    for (let item of arr) {
+
+        if (item % 2 !== 0 && item >= 0) {
+            sum += item;
+        }
+    } return sum;
+}
+
+
+В двумерном
+function sumPositiveOdd (arr) {
+    let sum = 0;
+    let sum2 = 0;
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+            for (let i = 0; i < item.length; i++){
+                if (item[i] % 2 !== 0 && item[i] >= 0) {
+                    sum2 += item[i];
+                }
+            }
+           }
+
+        if (item % 2 !== 0 && item >= 0) {
+            sum += item;
+        }
+    } return sum + sum2;
+}
+
+
+Рекурсия 
+let sum = 0;
+function sumPositiveOdd (arr, i) {
+if (i < arr.length ) {
+    if (Array.isArray(arr[i])) {
+        for (let item of arr[i]) {
+            if (item% 2 !== 0 && item > 0){
+            sum += item;
+            }
+        } i++;
+
+    } if (arr[i] % 2!== 0 && arr[i] > 0) {
+        sum += arr[i];
+    }
+    console.log(arr[i]);
+
+    sumPositiveOdd(arr, i + 1);
+}
+    return sum;
+    }
+    
+    Посчитать количество элементов массива которые 
+    Нулевые 
+    function countZerro (arr) {
+    let count = 0;
+
+    for (let item of arr) {
+        if (item === 0) {
+            count++;
+        }
+    } return count;
+}
+ В двумерном
+ function countZerro (arr) {
+    let count1 = 0;
+    let count2 = 0;
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+            for (let i = 0; i < item.length; i++){
+                if (item[i] === 0) {
+                    count1++;
+                }
+
+
+            }
+
+        }
+
+        if (item === 0) {
+            count2++;
+
+        }
+
+    } return count1 + count2;
+}
+
+
+
+Рекурсия
+let count = 0;
+
+function countZerro (arr, i) {
+if (i < arr.length ) {
+    if (Array.isArray(arr[i])) {
+        for (let item of arr[i]) {
+            if (item === 0){
+            count++;
+            }
+        } i++;
+
+    } if (arr[i] === 0) {
+        count++;
+    }
+    console.log(arr[i]);
+
+    countZerro(arr, i + 1);
+}
+    return count;
+    }
+
+
+
+    Отрицательные
+    
+    function countNegative (arr) {
+    let count = 0;
+
+    for (let item of arr) {
+        if (item < 0) {
+            count++;
+        }
+    } return count;
+}
+
+В двумерном
+function countNegative (arr) {
+    let count1 = 0;
+    let count2 = 0;
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+            for (let i = 0; i < item.length; i++){
+                if (item[i] < 0) {
+                    count1++;
+                }
+
+
+            }
+
+        }
+
+        if (item < 0) {
+            count2++;
+
+        }
+
+    } return count1 + count2;
+}
+
+
+
+
+Рекурсия
+let count = 0;
+
+function countNegative (arr, i) {
+if (i < arr.length ) {
+    if (Array.isArray(arr[i])) {
+        for (let item of arr[i]) {
+            if (item < 0){
+            count++;
+            }
+        } i++;
+
+    } if (arr[i] < 0) {
+        count++;
+    }
+    console.log(arr[i]);
+
+    countNegative(arr, i + 1);
+}
+    return count;
+    }
+    
+    
+    
+Положительные
+function countPositive (arr) {
+    let count = 0;
+
+    for (let item of arr) {
+        if (item > 0) {
+            count++;
+        }
+    } return count;
+}
+
+В двумерном
+function countPositive (arr) {
+    let count1 = 0;
+    let count2 = 0;
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+            for (let i = 0; i < item.length; i++){
+                if (item[i] > 0) {
+                    count1++;
+                }
+
+
+            }
+
+        }
+
+        if (item > 0) {
+            count2++;
+
+        }
+
+    } return count1 + count2;
+}
+
+
+Рекурсия
+let count = 0;
+
+function countPositive (arr, i) {
+if (i < arr.length ) {
+    if (Array.isArray(arr[i])) {
+        for (let item of arr[i]) {
+            if (item > 0){
+            count++;
+            }
+        } i++;
+
+    } if (arr[i] > 0) {
+        count++;
+    }
+    console.log(arr[i]);
+
+    countPositive(arr, i + 1);
+}
+    return count;
+    }
+
+Простые
+function countNative (arr) {
+    let count = 0;
+
+    label:
+    for (let item of arr) {
+        for (let i = 2; i < item - 1; i++) {
+            if (item % i === 0) {
+               continue label;
+            }
+        }
+        count++;
+
+    }
+    return count;
+}
+
+В двумерном
+function countPrimeNumbers (arr) {
+    let count = 0;
+    let count2 = 0;
+    let count3 = 0;
+    for (let item of arr) {
+
+        if (Array.isArray(item)) {
+
+            for (let el of item) {
+
+            for (let i = 1; i < el; i++) {
+
+                if (el % i !== 0 ) {
+                    count++;
+
+                    if (count === el - 2) {
+                        count2++;
+                        count = 0;
+                    }
+                }
+
+            } count = 0;
+
+            }
+        }
+
+
+        for (let j = 1; j < item; j++) {
+
+        if (item % j !== 0) {
+            count++;
+
+            if (count === item - 2) {
+                count3++;
+                count = 0;
+
+            }
+        }
+        } count = 0;
+
+    }
+
+    return count2 + count3;
+}
+
+
+второй вариант
+let sum = 0;
+let count = 0;
+function simpleDigit (arr) {
+    for (let i = 0; i < arr.length; i++) {
+
+            if (Array.isArray(arr[i])) {
+                for (let item of arr[i]) {
+                    for (let j = 1; j < item; j++) {
+                        if (item % j === 0 && item > 0) {
+                            count++;
+                        }
+                    }
+                    if (count === 1) {
+                        sum += count;
+                        count = 0;
+                    }
+                }
+            }
+for (let j = 1; j < arr[i]; j++) {
+            if (arr[i] % j === 0 && arr[i] > 0) {
+                count++;
+
+            }
+
+} if (count === 1) {
+            sum +=count;
+            count = 0;
+        } count = 0;
+    } return sum;
+}
+
+
+
+
+Рекурсия
+let sum = 0;
+let count = 0;
+function simpleDigit (arr, i) {
+    if (i < arr.length) {
+
+            if (Array.isArray(arr[i])) {
+                for (let item of arr[i]) {
+                    for (let j = 1; j < item; j++) {
+                        if (item % j === 0 && item > 0) {
+                            count++;
+                        }
+                    }
+                    if (count === 1) {
+                        sum += count;
+                        count = 0;
+                    }
+                }
+            }
+for (let j = 1; j < arr[i]; j++) {
+            if (arr[i] % j === 0 && arr[i] > 0) {
+                count++;
+
+            }
+
+} if (count === 1) {
+            sum +=count;
+            count = 0;
+        } count = 0;
+        simpleDigit (arr, i + 1);
+    }
+
+    return sum;
+}
+
+
+Написать функции которые преобразовывают число из десятичной системы счисления в двоичную и в обратную сторону. (Достаточно написать для целых положительных чисел)
+
+
+function decimalConversion(num) {
+    let sum = 0;
+    for (let i = 0; i < num.length; i++) {
+        if(parseInt(num[i]) === 1) {
+            sum += Math.pow(2, num.length - i - 1);
+        }
+    }
+
+    return sum;
+}
+
+
+Рекурсия 
+
+let sum = 0;
+function decimalConversion (num, i, j) {
+    num = String(num);
+    console.log(j);
+    if (i <= num.length && j < num.length) {
+        console.log(num.length);
+if (num[j] == 1) {
+        sum += Math.pow(2, num.length - i)
+}
+        console.log(Math.pow(2, num.length - i));
+        decimalConversion (num, i + 1, j + 1)
+    }
+    return sum;
+}
+
+
+function binaryTranslation(a) {
+    let arr = [];
+    for (;a >= 1;) {
+        arr.unshift (a % 2);
+        a = parseInt(a/2);
+    } return arr.join('')
+}
+
+
+
+
+рекурсия 
+
+let arr = [];
+function binaryTranslation(a) {
+
+    if (a >= 1) {
+        arr.unshift (a % 2);
+        binaryTranslation(parseInt(a/2));
+    } return arr.join('')
+}
+
+

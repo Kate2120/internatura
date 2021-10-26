@@ -1405,26 +1405,41 @@ return function sumUpToMax (min,max,divider) {
     return sum;
 }})();
 
-
 всех
-function sum (a,b) {
-let sum = 0;
-let c = a;
-for (let i = 1; i < b - (a-1); i++) {
+function sum (min,max) {
+    let sum = 0;
+    let c = min;
+    for (let i = 1; i < max - (min-1); i++) {
 
-    sum = c + (a + i);
-    c = sum;
+        sum = c + (min + i);
+        c = sum;
 
-   } return sum;
+    } return sum;
 }
 
 
 Рекурсия
-function sumUptoMax (a,b) {
+function sumUptoMax (min,max) {
     let sum = 0;
-       if (a <= b) {
-        sum = a + sumUptoMax (a + 1,b);
+    if (min <= max) {
+        sum = min + sumUptoMax (min + 1,max);
     } return sum;
 }
-console.log(sumUptoMax (2,6));
+
+//Мемоизация
+
+let memoisedSumUptoMax = (function (){
+    let memo = {};
+return function sumUptoMax (min,max) {
+    let arr = [min,max];
+    if (arr in memo){
+        return memo[arr];
+    }
+    let sum = 0;
+    if (min <= max) {
+        sum = min + sumUptoMax (min + 1,max);
+    } let result = sum;
+    memo[arr] = result;
+    return sum;
+}})();
 

@@ -1255,3 +1255,93 @@ if (a in memo) {
     memo[a] = result;
     return result
 }})();
+
+
+Из двоичной в десятичную
+
+function decimalConversion(num) {
+    let sum = 0;
+    for (let i = 0; i < num.length; i++) {
+        if(parseInt(num[i]) === 1) {
+            sum += Math.pow(2, num.length - i - 1);
+        }
+    }
+
+    return sum;
+}
+
+console.log(decimalConversion('11101'));
+
+//Рекурсия 
+
+let sum = 0;
+function decimalConversion (num, i, j) {
+    num = String(num);
+    console.log(j);
+    if (i <= num.length && j < num.length) {
+        console.log(num.length);
+if (num[j] == 1) {
+        sum += Math.pow(2, num.length - i)
+}
+        console.log(Math.pow(2, num.length - i));
+        decimalConversion (num, i + 1, j + 1)
+    }
+    return sum;
+}
+console.log(decimalConversion (11101, i = 1, 0));
+
+
+//Мемоизация
+
+let sum = 0;
+let memoisedDecimalConversion = (function(){
+    let memo = {};
+return function decimalConversion (num, i, j) {
+    if (num in memo) {
+        return memo[num];
+    }
+    num = String(num);
+    console.log(j);
+    if (i <= num.length && j < num.length) {
+         if (num[j] == 1) {
+            sum += Math.pow(2, num.length - i)
+        }
+        console.log(Math.pow(2, num.length - i));
+        decimalConversion (num, i + 1, j + 1)
+    }
+    let result = sum;
+    memo[num] = result;
+    return sum;
+}})();
+
+
+////Посчитать сумму значений чисел от min до max
+всех
+function sum (a,b) {
+let sum = 0;
+let d;
+for (let i = 0; i < b - (a - 1); i++) {
+    d = a + i;
+
+        if (d > 0) {
+            sum +=d;
+        }
+   } return sum;
+}
+
+
+//Рекурсия
+let sum = 0;
+function sumUpToMax (min,max) {
+    if (min <= max) {
+        if (min > 0) {
+            sum +=min;
+        } sumUpToMax (min + 1,max);
+    }
+    return sum;
+}
+console.log(sumUpToMax (-2,3));
+
+только тех которые кратны 3
+
+ только положительные

@@ -1316,7 +1316,7 @@ return function decimalConversion (num, i, j) {
 
 
 ////Посчитать сумму значений чисел от min до max
-всех
+только положительные
 function sum (a,b) {
 let sum = 0;
 let d;
@@ -1340,8 +1340,91 @@ function sumUpToMax (min,max) {
     }
     return sum;
 }
-console.log(sumUpToMax (-2,3));
+
+let sum = 0;
+let memoisedSumUpToMax = (function(){
+    let memo = {};
+return function sumUpToMax (min,max) {
+    let arr = [min,max];
+    if(arr in memo){
+        return memo[arr];
+    }
+    if (min <= max) {
+        if (min > 0) {
+            sum +=min;
+        } sumUpToMax (min + 1,max);
+    } let result = sum;
+    memo[arr] = result;
+    return sum;
+}})();
 
 только тех которые кратны 3
 
- только положительные
+function sum (a,b) {
+let sum = 0;
+let d;
+for (let i = 0; i < b - 1); i++) {
+    d = a + i;
+    
+        if (d%3 === 0) {
+            sum +=d;
+        }
+   } return sum;
+}
+
+
+
+//Рекурсия
+let sum = 0;
+function sumUpToMax (min,max,divider) {
+    if (min <= max) {
+        if (min % divider === 0) {
+            sum +=min;
+        } sumUpToMax (min + 1,max,divider);
+    }
+    return sum;
+}
+
+
+//Мемоизация
+let sum = 0;
+let memoisedSumUpToMax = (function (){
+    let memo = {};
+return function sumUpToMax (min,max,divider) {
+    let arr = [min,max,divider];
+    if (arr in memo){
+        return memo[arr];
+    }
+    if (min <= max) {
+        if (min % divider === 0) {
+            sum +=min;
+            } sumUpToMax (min + 1,max,divider);
+    }
+    let result = sum;
+    memo[arr] = result;
+    return sum;
+}})();
+
+
+всех
+function sum (a,b) {
+let sum = 0;
+let c = a;
+for (let i = 1; i < b - (a-1); i++) {
+
+    sum = c + (a + i);
+    c = sum;
+
+   } return sum;
+}
+
+
+Рекурсия
+function sumUptoMax (a,b) {
+    let sum = 0;
+       if (a <= b) {
+        sum = a + sumUptoMax (a + 1,b);
+    } return sum;
+}
+console.log(sumUptoMax (2,6));
+

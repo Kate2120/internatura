@@ -1240,4 +1240,18 @@ function binaryTranslation(a) {
     } return arr.join('')
 }
 
-
+//Мемоизация
+let arr = [];
+let memoisedBinaryTranslation = (function () {
+    let memo = {};
+return  function binaryTranslation(a) {
+if (a in memo) {
+    return memo[a];
+}
+    if (a >= 1) {
+        arr.unshift (a % 2);
+        binaryTranslation(parseInt(a/2));
+    } let result =  arr.join('')
+    memo[a] = result;
+    return result
+}})();

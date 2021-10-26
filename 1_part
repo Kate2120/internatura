@@ -1443,3 +1443,86 @@ return function sumUptoMax (min,max) {
     return sum;
 }})();
 
+
+////Найти среднее значение всех элементов одномерного/двумерного массива (Среднее только тех которые четные и которые не четные)
+всех в одномерном
+function sumAll (arr) {
+    let sum = 0;
+    let count = 0;
+    for (let item of arr) {
+        sum += item;
+        count++;
+    } return sum/count;
+}
+
+всех в двумерном
+function average (arr) {
+    let sum = 0;
+
+    let count = 0;
+
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+
+            for (let el of item){
+                count++;
+                sum += el;
+                }
+        } else if (typeof item === "number") {
+            count++;
+
+        sum += item;
+
+        }
+
+    } return sum/count;
+}
+
+среднее значение в одномерном кратное двум
+function sumMultipleTwo (arr) {
+    let sum = 0;
+    let count = 0;
+    for (let item of arr) {
+
+        if (item % 2 === 0) {
+            sum += item;
+            count++;
+        }
+    } return sum/count;
+}
+
+среднее значение в одномерном массиве нечтных значений
+function sumMultipleTwo (arr) {
+    let sum = 0;
+    let count = 0;
+    for (let item of arr) {
+
+        if (item % 2 !== 0) {
+            sum += item;
+            count++;
+        }
+    } return sum/count;
+}
+
+
+среднее значение в двумерном массиве нечтных значений
+
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+
+            for (let el of item){
+                if (el % 2 === 0) {
+                count++;
+                sum += el;
+                }
+            }
+        } else if (typeof item === "number" && item % 2 ===0) {
+            count++;
+
+        sum += item;
+
+        }
+
+    } return sum/count;
+}
+

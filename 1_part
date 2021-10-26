@@ -796,13 +796,40 @@ if (i < arr.length ) {
     return count;
     }
 
+//Мемоизация
 
+let count = 0;
+let memoisedCountZerro = (function(){
+    let memo = {};
+return  function countZerro (arr, i) {
+    
+    if (arr in memo) {
+        return memo[arr];
+    }
+    
+    if (i < arr.length ) {
+        if (Array.isArray(arr[i])) {
+            for (let item of arr[i]) {
+                if (item === 0){
+                    count++;
+                }
+            } i++;
+
+        } if (arr[i] === 0) {
+            count++;
+        }
+       
+        countZerro(arr, i + 1);
+    } let result = count;
+    memo[arr] = result;
+    return count;
+}})();
 
     Отрицательные
     
     function countNegative (arr) {
     let count = 0;
-
+    
     for (let item of arr) {
         if (item < 0) {
             count++;
@@ -859,7 +886,36 @@ if (i < arr.length ) {
     return count;
     }
     
+ //Мемоизация
+ 
+ let count = 0;
+let memoisedCountNegative = (function (){
+    let memo = {};
+return function countNegative (arr, i) {
     
+    if (arr in memo) {
+        return memo[arr];
+    }
+    if (i < arr.length ) {
+        
+        if (Array.isArray(arr[i])) {
+            
+            for (let item of arr[i]) {
+                
+                if (item < 0){
+                    count++;
+                }
+            } i++;
+
+        } if (arr[i] < 0) {
+            count++;
+        }
+         countNegative(arr, i + 1);
+    }
+    let result = count;
+    memo[arr] = result;
+    return count;
+}})();
     
 Положительные
 function countPositive (arr) {
@@ -882,10 +938,7 @@ function countPositive (arr) {
                 if (item[i] > 0) {
                     count1++;
                 }
-
-
             }
-
         }
 
         if (item > 0) {

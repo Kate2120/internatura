@@ -1526,3 +1526,62 @@ function sumMultipleTwo (arr) {
     } return sum/count;
 }
 
+////Транспонировать матрицу
+let arrSt = [];
+for (let i = 0; i < arr[0].length; i++) {
+    arrSt.push([]);
+}
+
+for (let a = 0; a < arr.length; a++) {
+
+    for (let j = 0; j < arr[0].length; j++) {
+        arrSt[j].push(arr[a][j]);
+
+    }
+
+}
+ console.log(arrSt);
+}
+
+// Мемоизация
+
+let arrSt = [];
+let memoisedMatrixTranspose = ( function(){
+    let memo = {};
+return function matrixTranspose (arr,j,i) {
+
+    if (i < arr.length)  {
+
+        if (j < arr[0].length) {
+            arrSt.push([]);
+            arrSt[j].push(arr[i][j]);
+            return matrixTranspose(arr,j+1,i);
+
+        }
+        return matrixTranspose(arr,0,i +1);
+    } let result = arrSt.filter(function (el) {
+        return el.length !== 0;
+    });
+    memo[arr] = result
+    return result;
+}})();
+
+//рекурсия
+
+let arrSt = [];
+function matrix (arr,j,i) {
+
+    if (i < arr.length)  {
+
+        if (j < arr[0].length) {
+           arrSt.push([]);
+            arrSt[j].push(arr[i][j]);
+            return matrix(arr,j+1,i);
+
+        }
+        return matrix(arr,0,i +1);
+    }
+    return arrSt.filter(function (el) {
+        return el.length !== 0;
+    });;
+}

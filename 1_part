@@ -1,7 +1,7 @@
 //// Написать функцию которая проверяет являются две строки анаграммой или нет
 
 
-function Anagram (word1,word2) {
+function Anagram (word1, word2) {
     let countWord1 = 0;
     let countWord2 = 0;
     if (word1.length === word2.length){
@@ -32,7 +32,7 @@ function Anagram (word1,word2) {
 
 let countWord1 = 0;
 let countWord2 = 0;
-function Anagram (word1,word2,i,j) {
+function Anagram (word1, word2, i, j) {
     if (word1.length !== word2.length){
         return false;
     }
@@ -68,7 +68,7 @@ let countWord2 = 0;
 let memoized = (function () {
     let cache = {};
 
-return function anagram (word1,word2,i,j) {
+return function anagram (word1, word2, i, j) {
     if (word1 in cache && word2 in cache)  {
         if (countWord1 !== countWord2) {
             return false;

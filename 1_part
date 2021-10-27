@@ -1,7 +1,7 @@
 //// Написать функцию которая проверяет являются две строки анаграммой или нет
 
 
-function Anagram (word1, word2) {
+function Anagram(word1, word2) {
     let countWord1 = 0;
     let countWord2 = 0;
     if (word1.length === word2.length){
@@ -32,7 +32,7 @@ function Anagram (word1, word2) {
 
 let countWord1 = 0;
 let countWord2 = 0;
-function Anagram (word1, word2, i, j) {
+function Anagram(word1, word2, i, j) {
     if (word1.length !== word2.length){
         return false;
     }
@@ -47,9 +47,9 @@ function Anagram (word1, word2, i, j) {
                 countWord2++;
 
             }
-            return Anagram (word1,word2,i,j + 1);
+            return Anagram(word1,word2,i,j + 1);
         }
-        return Anagram (word1,word2,i + 1,0);
+        return Anagram(word1,word2,i + 1,0);
 
     }
 
@@ -65,10 +65,10 @@ function Anagram (word1, word2, i, j) {
 let countWord1 = 0;
 let countWord2 = 0;
 
-let memoized = (function () {
+let memoized = (function() {
     let cache = {};
 
-return function anagram (word1, word2, i, j) {
+return function anagram(word1, word2, i, j) {
     if (word1 in cache && word2 in cache)  {
         if (countWord1 !== countWord2) {
             return false;
@@ -90,9 +90,9 @@ return function anagram (word1, word2, i, j) {
                 countWord2++;
 
             }
-            return anagram (word1,word2,i,j + 1);
+            return anagram(word1, word2, i, j + 1);
         }
-        return anagram (word1,word2,i + 1,0);
+        return anagram(word1, word2, i + 1, 0);
 
     }
 let result = countWord1;
@@ -114,7 +114,7 @@ console.log(rez2);
 ////Написать функцию которая вычисляет подсчет количество каждой цифре в числе
 
 
-function  countDigit (num) {
+function  countDigit(num) {
     let arr = [];
     let obj ={};
 
@@ -172,7 +172,7 @@ let obj ={};
         countDigit(arg);
     }return obj;
     }
-console.log(countDigit (arr));
+
 
 //Мемоизация
 
@@ -209,7 +209,7 @@ let memoizedDigit = (function() {
         arg = arg.filter(function(item) {
             return item !== arg[i];
         });
-        console.log("bla bla bla");
+       
         countDigit(arg);
     } let result = obj;
     memo[arg] = result;
@@ -219,7 +219,7 @@ let memoizedDigit = (function() {
 ////Написать функцию которая вычисляет подсчет уникальных слов в предложении
 
 
-function uniqueWords (sentence) {
+function uniqueWords(sentence) {
 sentence = sentence.toLowerCase()
 console.log(sentence);
 let re = (/[^а-яА-ЯёЁ]+/gui);
@@ -254,7 +254,7 @@ let sentence = "Самшит, самшит, как ты крепко сшит к
     arr = arr.filter(function(item) {
         return item !== "";
     });
-function countUniqueWords (arg) {
+function countUniqueWords(arg) {
     for (let i = 0; i < arg.length; i++) {
 
        for (let j = i + 1; j < arg.length; j++ ) {
@@ -282,10 +282,10 @@ let arr = sentence.split(re);
 arr = arr.filter(function(item) {
     return item !== "";
 });
-let memoized = (function () {
+let memoized = (function() {
     let memo = {};
     let result;
-return function countUniqueWords (arg) {
+return function countUniqueWords(arg) {
     if (arr in memo) {
         return result;
     }
@@ -311,7 +311,7 @@ return function countUniqueWords (arg) {
 
 ////Написать функцию которая вычисляет вхождение каждого слова в предложении
 
-function uniqueWords (sentence) {
+function uniqueWords(sentence) {
     sentence = sentence.toLowerCase()
     console.log(sentence);
     let re = (/[^а-яА-ЯёЁ]+/gui);
@@ -366,7 +366,7 @@ arr = arr.filter(function(item) {
                  arg = arg.filter(function(item) {
                     return item !== arg[i];
                 });
-                 countWords (arg);
+                 countWords(arg);
             }
 
         }
@@ -382,9 +382,9 @@ arr = arr.filter(function(item) {
     return item !== "";
 });
 let obj = {};
-let memoized = (function () {
+let memoized = (function() {
     let memo = {};
-return function countWords (arg) {
+return function countWords(arg) {
     if (arg in memo) {
         return obj;
     }
@@ -403,7 +403,7 @@ return function countWords (arg) {
                     return item !== arg[i];
                 });
                 
-                countWords (arg);
+                countWords(arg);
             }
 
         }
@@ -429,7 +429,7 @@ function fibonacci (a, b, d) {
  
  let arr = [];
 let value;
-function fibonacci (N,i) {
+function fibonacci(N, i) {
     if (i === 0) {
         value = i;
         arr.push(value);
@@ -439,21 +439,21 @@ function fibonacci (N,i) {
     if (i < N-2 && i > 0) {
         value = arr[i-1] + arr[i];
         console.log(value);
-        arr.push (value);
+        arr.push(value);
 
-        return fibonacci (N ,i+1);
+        return fibonacci(N ,i+1);
     }
     return arr;
 };
-console.log(fibonacci (10,0));
+
  
 //Мемоизация
 
 let arr = [];
 let value;
-let memoisedFibonacci = (function () {
+let memoisedFibonacci = (function() {
     let memo = {};
-    return function fibonacci (N,i) {
+    return function fibonacci(N, i) {
         
         if (N in memo) {
             return memo[N];
@@ -481,7 +481,7 @@ let memoisedFibonacci = (function () {
 ////Посчитать сумму всех элементов массива, только тех которые
 Кратные двум
 
-function sumMultipleTwo (arr) {
+function sumMultipleTwo(arr) {
     let sum = 0;
     for (let item of arr) {
         
@@ -492,7 +492,7 @@ function sumMultipleTwo (arr) {
 }
 
 В двумерном
-function sumMultipleTwo (arr) {
+function sumMultipleTwo(arr) {
     let sum = 0;
     let sum2 = 0;
     for (let item of arr) {

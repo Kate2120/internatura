@@ -1739,13 +1739,26 @@ function factorial (n) {
 
 //Рекурсия 
 
-let c = 1;
-function factorial (i,n) {
-
-    if (i <= n) {
-        c *= i;
-
-        factorial (i + 1,n);
+result = 1;
+function factorial (n) {
+    if (n > 0) {
+        result = n * factorial (n -1);
     }
-    return c;
+    return result;
 }
+
+
+let sum = 1;
+let memoisedFactorial = (function() {
+    let memo = {};
+return function factorial (n) {
+    if (n in memo) {
+        return memo[n];
+    }
+
+    if (n > 0) {
+        sum = n * factorial (n -1);
+    }let result = sum;
+    memo[n] = result;
+    return result;
+}})();

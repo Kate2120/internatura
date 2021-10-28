@@ -7,7 +7,9 @@ function anagram(word1, word2) {
     if (word1.length === word2.length){
 
         for (let i = 0; i < word1.length; i++) {
+        
             for (let j = 0; j < word1.length; j++) {
+            
                 if (word1[i] === word2[j]) {
                     countWord1++;
                 }
@@ -37,9 +39,12 @@ function anagram(word1, word2, i, j, countWord1, countWord2) {
         return false;
     }
        if( i < word1.length) {
+       
            if(j < word1.length) {
+           
                 if (word1[i] === word2[j]) {
                     countWord1++;
+                    
                        if (word1[i] === word1[j]) {
                           countWord2++;
                        }
@@ -75,10 +80,14 @@ return function anagram(word1, word2, i, j, countWord1, countWord2) {
             return false;
         }
             if( i < word1.length) {
+            
                 if(j < word1.length) {
+                
                     if (word1[i] === word2[j]) {
                         countWord1++;
+                        
                         console.log(countWord1);
+                        
                         if (word1[i] === word1[j]) {
                             countWord2++;
                             console.log(countWord2);
@@ -105,29 +114,30 @@ return function anagram(word1, word2, i, j, countWord1, countWord2) {
 
 function  countDigit(num) {
     let arr = [];
-    let obj ={};
+    let obj = {};
 
-    for (; num > 0;) {
+    for(; num > 0;) {
         arr.push(num % 10);
         num = parseInt(num/10);
     }
-    for (let i = 0; i <= arr.length && arr.length > 0; ) {
-        let counter = 1;
-        for (let j = i + 1; j <= arr.length; j++) {
-            if (arr[i] === arr[j]) {
-                counter++;
-                obj[arr[i]] = counter;
+        for(let i = 0; i <= arr.length && arr.length > 0;) {
+            let counter = 1;
+
+            for(let j = i + 1; j <= arr.length; j++) {
+
+                if(arr[i] === arr[j]) {
+                    counter++;
+                    obj[arr[i]] = counter;
+                }
             }
+                obj[arr[i]] = counter;
+                arr = arr.filter(function(item) {
+                return item !== arr[i];
+                });
 
         }
-        obj[arr[i]] = counter;
-        arr = arr.filter(function(item) {
-            return item !== arr[i];
-        });
-
-    }return obj;
+        return obj;
 };
-
 
 //Рекурсия
 

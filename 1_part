@@ -30,9 +30,9 @@ function Anagram(word1, word2) {
 
 //Рекурсия
 
-let countWord1 = 0;
-let countWord2 = 0;
-function Anagram(word1, word2, i, j) {
+function anagram(word1, word2, i, j, countWord1, countWord2) {
+   countWord1 = countWord1 || 0;
+    countWord2 = countWord2 || 0;
     if (word1.length !== word2.length){
         return false;
     }
@@ -47,9 +47,9 @@ function Anagram(word1, word2, i, j) {
                 countWord2++;
 
             }
-            return Anagram(word1,word2,i,j + 1);
+            return anagram(word1, word2,i,j + 1, countWord1, countWord2);
         }
-        return Anagram(word1,word2,i + 1,0);
+        return anagram(word1, word2,i + 1,0, countWord1, countWord2);
 
     }
 

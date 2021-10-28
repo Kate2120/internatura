@@ -141,36 +141,33 @@ function  countDigit(num) {
 
 //Рекурсия
 
-let num = 29333;
-let arr = [];
-let obj ={};
-
+function countDigit(num, arr, obj, i) {
+    arr = arr || [];
+    obj = obj || {};
+    i = i || 0;
+    
     for (; num > 0;) {
         arr.push(num % 10);
         num = parseInt(num/10);
-    };
-    
-    function countDigit(arg) {
-        let i = 0;
-        
-    if (i <= arg.length && arg.length > 0 ) {
-        let counter = 1;
-        
-        for (let j = i + 1; j <= arg.length; j++) {
-
-            if (arg[i] === arg[j]) {
-                counter++;
-                obj[arg[i]] = counter;
-            }
-
-        };
-        obj[arg[i]] = counter;
-        arg = arg.filter(function(item) {
-            return item !== arg[i];
-        });
-        countDigit(arg);
-    }return obj;
     }
+        if (i <= arr.length && arr.length > 0 ) {
+            let counter = 1;
+    
+            for (let j = i + 1; j <= arr.length; j++) {
+    
+                if (arr[i] === arr[j]) {
+                    counter++;
+                    obj[arr[i]] = counter;
+                }
+            }
+            obj[arr[i]] = counter;
+            arr = arr.filter(function(item) {
+                return item !== arr[i];
+            });
+            countDigit(num, arr, obj, i);
+        }
+         return obj;
+}
 
 
 //Мемоизация

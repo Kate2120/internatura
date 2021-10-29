@@ -433,25 +433,16 @@ function fibonacci(n, arr) {
 }
  //Рекурсия
  
- let arr = [];
-let value;
-function fibonacci(N, i) {
-    if (i === 0) {
-        value = i;
-        arr.push(value);
-        arr.push(value + 1);
-       return fibonacci (N ,i+1);
-    } else
-    if (i < N-2 && i > 0) {
-        value = arr[i-1] + arr[i];
-        console.log(value);
-        arr.push(value);
+ function fibonacci(n, arr, i) {
+   arr = arr || [0,1];
+   i = i || 0;
 
-        return fibonacci(N ,i+1);
-    }
-    return arr;
-};
-
+   if(i < n - 2){
+      arr.push (arr[i] + arr[i+1]);
+      fibonacci(n, arr, i + 1)
+   }
+   return arr;
+}
  
 //Мемоизация
 

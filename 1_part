@@ -277,37 +277,39 @@ function countUniqueWords(arg, arr) {
 
 //Мемоизация
 
-let sentence = "Самшит, самшит, как ты крепко сшит коко шанель булавка булавка.";
-sentence = sentence.toLowerCase();
-console.log(sentence);
-let re = (/[^а-яА-ЯёЁ]+/gui);
-let arr = sentence.split(re);
-arr = arr.filter(function(item) {
-    return item !== "";
-});
-let memoized = (function() {
-    let memo = {};
-    let result;
-return function countUniqueWords(arg) {
-    if (arr in memo) {
-        return result;
-    }
-    for (let i = 0; i < arg.length; i++) {
+let memoisedCountWords = (function(){
+   let memo = {};
+return function countUniqueWords(arg, arr) {
+   if(arg in memo){
+      return memo[arg];
+   }
+   arr = arr || [];
 
-        for (let j = i + 1; j < arg.length; j++ ) {
-            if (arg[i] === arg[j]) {
-                arg = arg.filter(function(item) {
-                    return item !== arg[i];
-                });
+   if(arr.length === 0) {
+      arg = arg.toLowerCase();
+      console.log(arg);
+      let re = (/[^а-яА-ЯёЁ]+/gui);
+      arr = arg.split(re);
+      arr = arr.filter(function(item) {
+         return item !== "";
+      });
+   }
 
-                countUniqueWords(arg);
-            }
+   for(let i = 0; i < arr.length; i++) {
 
-        }
+      for(let j = i + 1; j < arr.length; j++ ) {
+               
+         if(arr[i] === arr[j]) {
+            arr = arr.filter(function(item) {
+               return item !== arr[i];
+            });
 
-    } result = arg.length;
-    memo[arr] = result;
-    return result;
+            return countUniqueWords(arg, arr);
+         }
+      }
+   }
+   memo[arg] = arr.length;
+   return arr.length;
 
 }})();
 

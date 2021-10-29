@@ -402,7 +402,7 @@ return function countWords (arg, arr, obj, i, j, counter) {
    
       }
    
-         if(i < arr.length -1) {
+         if(i < arr.length) {
       
             if(j < arr.length) {
                

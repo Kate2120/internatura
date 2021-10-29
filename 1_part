@@ -216,27 +216,29 @@ let memoizedDigit = (function() {
 
 
 function uniqueWords(sentence) {
-sentence = sentence.toLowerCase()
-console.log(sentence);
-let re = (/[^а-яА-ЯёЁ]+/gui);
-let arr = sentence.split(re);
-arr = arr.filter(function(item) {
-    return item !== "";
-});
+   sentence = sentence.toLowerCase()
+   console.log(sentence);
+   let re = (/[^а-яА-ЯёЁ]+/gui);
+   let arr = sentence.split(re);
+   arr = arr.filter(function(item) {
+      return item !== "";
+   });
 
-let counter = 0;
-for (let i = 0; i < arr.length - 1; i++) {
-    for (let j = i + 1; j < arr.length; j++ ) {
-        let a = arr[i];
-        let b = arr[j];
-        if (a === b) {
-                arr = arr.filter(function(item) {
-                return item !== a;
-            });
-        }
-    }
+   let counter = 0;
+   for(let i = 0; i < arr.length - 1; i++) {
+      
+      for(let j = i + 1; j < arr.length; j++ ) {
+         let a = arr[i];
+         let b = arr[j];
+         
+            if(a === b) {
+               arr = arr.filter(function(item) {
+                  return item !== a;
+               });
+            }
+      }
 
-} return (arr.length);
+   } return (arr.length);
 }
 
 

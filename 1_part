@@ -423,17 +423,14 @@ return function countWords (arg, arr, obj, i, j, counter) {
 }})();
 
 ////Написать функцию которая возвращает N первых чисел фибоначчи
-function fibonacci (a, b, d) {
-    let arr = [a,b];
-    for (let i = 0; i < d; i++) {
-    let c = a + b;
-    arr.push (c);
-    a = b;
-    b = c;
-    }
-    return arr;
-};
-
+function fibonacci(n, arr) {
+   arr = [0,1];
+   
+   for(let i = 0; i < n - 2; i++){
+      arr.push (arr[i] + arr[i+1]);
+   }
+   return arr;
+}
  //Рекурсия
  
  let arr = [];

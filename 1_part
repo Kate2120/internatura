@@ -317,34 +317,31 @@ return function countUniqueWords(arg, arr) {
 ////Написать функцию которая вычисляет вхождение каждого слова в предложении
 
 function uniqueWords(sentence) {
-    sentence = sentence.toLowerCase()
-    console.log(sentence);
-    let re = (/[^а-яА-ЯёЁ]+/gui);
-    let arr = sentence.split(re);
+   sentence = sentence.toLowerCase()
+   console.log(sentence);
+   let re = (/[^а-яА-ЯёЁ]+/gui);
+   let arr = sentence.split(re);
 
-    arr = arr.filter(function(item) {
-        return item !== "";
-    });
-    let obj = {};
+   arr = arr.filter(function(item) {
+      return item !== "";
+   });
+   let obj = {};
 
-    for (let i = 0; i < arr.length; ) {
-        let counter = 1;
+   for(let i = 0; i < arr.length; ) {
+      let counter = 1;
 
-        for (let j = i + 1; j <= arr.length; j++ ) {
-             if (arr[i] === arr[j]) {
-                counter++;
+      for(let j = i + 1; j <= arr.length; j++ ) {
+         
+         if(arr[i] === arr[j]) {
+            counter++;
 
-            } else if (j === arr.length) {
-                console.log(arr[i]);
-                obj [arr[i]] = counter;
-                arr = arr.filter(function(item) {
-                    return item !== arr[i];
-                });
-            }
-
-        }
-
-    } return obj;
+         } else if (j === arr.length) {
+            obj [arr[i]] = counter;
+            arr = arr.filter(function(item) {
+            return item !== arr[i];});
+         }
+      }
+   } return obj;
 }
 
 //Рекурсия

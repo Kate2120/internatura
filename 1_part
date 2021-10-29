@@ -244,29 +244,34 @@ function uniqueWords(sentence) {
 
 //Рекурсия
 
-let sentence = "Самшит, самшит, как ты крепко сшит коко шанель булавка булавка.";
-    sentence = sentence.toLowerCase();
-    console.log(sentence);
-     let re = (/[^а-яА-ЯёЁ]+/gui);
-    let arr = sentence.split(re);
-    arr = arr.filter(function(item) {
-        return item !== "";
-    });
-function countUniqueWords(arg) {
-    for (let i = 0; i < arg.length; i++) {
+function countUniqueWords(arg, arr) {
+   arr = arr || [];
 
-       for (let j = i + 1; j < arg.length; j++ ) {
-             if (arg[i] === arg[j]) {
-                 arg = arg.filter(function(item) {
-                    return item !== arg[i];
-                });
+      if(arr.length === 0) {
+      arg = arg.toLowerCase();
+      console.log(arg);
+      let re = (/[^а-яА-ЯёЁ]+/gui);
+      arr = arg.split(re);
+      arr = arr.filter(function(item) {
+         return item !== "";
+      });
+   }
 
-                 countUniqueWords(arg);
-            }
+   for(let i = 0; i < arr.length; i++) {
 
-        }
+      for(let j = i + 1; j < arr.length; j++ ) {
 
-    } return arg.length;
+         if(arr[i] === arr[j]) {
+            arr = arr.filter(function(item) {
+               return item !== arr[i];
+            });
+
+           return countUniqueWords(arg, arr);
+         }
+
+      }
+
+   } return arr.length;
 
 }
 

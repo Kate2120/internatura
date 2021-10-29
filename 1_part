@@ -345,36 +345,40 @@ function uniqueWords(sentence) {
 }
 
 //Рекурсия
-let arr = sentence.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
-    return item !== "";
-});
-arr = arr.filter(function(item) {
-    return item !== "";
-});
+function countWords (arg, arr, obj, i, j, counter) {
+   arr = arr || [];
+   obj = obj || {};
+   i = i || 0;
+   j = j || 0;
+   counter = counter || 0;
+   if(arr.length === 0) {
+      arr = arg.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
+         return item !== "";
+      });
+      arr = arr.filter(function(item) {
+         return item !== "";
+      });
 
-    let obj = {};
-    function countWords (arg) {
-    let i = 0;
-    if (i < arg.length) {
-        let counter = 1;
-
-         for (let j = i + 1; j <= arg.length; j++ ) {
-             if (arg[i] === arg[j]) {
-                counter++;
-
-            } else if (j === arg.length) {
-                
-                obj [arg[i]] = counter;
-                 arg = arg.filter(function(item) {
-                    return item !== arg[i];
-                });
-                 countWords(arg);
+   }
+   console.log(arr);
+      if(i < arr.length -1) {
+         
+         if(j < arr.length) {
+            if(arr[i] === arr[j]){
+               counter++;
+               return countWords(arg, arr, obj, i, j + 1, counter);
             }
+            return countWords(arg, arr, obj, i, j + 1, counter);
 
-        }
+         }
+            if(typeof obj[arr[i]] === "undefined"){
+               obj[arr[i]] = counter;
+            }
+         return countWords(arg, arr, obj, i + 1, i+1);
+      }
 
-    } return obj;
-    };
+   return obj;
+}
     
     //Мемоизация
 let arr = sentence.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {

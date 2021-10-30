@@ -623,52 +623,57 @@ function sumMultipleThree(arr) {
 
 //Рекурсия
 
-let sum = 0;
-
-function sumMultipleThree (arr, i) {
-if (i < arr.length ) {
-    if (Array.isArray(arr[i])) {
-        for (let item of arr[i]) {
-            if (item%3 === 0){
-            sum += item;
-            }
-        } i++;
-
-    } if (arr[i] % 3 === 0) {
-        sum += arr[i];
+function sumMultipleThree (arr, i, sum) {
+    sum = sum || 0;
+    i = i || 0;
+    if(i < arr.length ) {
+        
+        if(Array.isArray(arr[i])) {
+            
+            for(let item of arr[i]) {
+                
+                if(item%3 === 0){
+                    sum += item;
+                }
+            } 
+            i++;
+        } 
+        if(arr[i] % 3 === 0) {
+            sum += arr[i];
+        }
+        return sumMultipleThree(arr, i + 1, sum);
     }
-    console.log(arr[i]);
-
-    sumMultipleThree(arr, i + 1);
-}
     return sum;
-    }
+}
 
 //Мемоизация
 
-let sum = 0;
-let memoisedSumMultipleThree = (function () {
+let memoisedSumMultipleTree = (function() {
     let memo = {};
-return function sumMultipleThree (arr, i) {
-    
-    if (arr in memo) {
-        return memo[arr];
+return function sumMultipleThree (arr, i, sum) {
+    if(arr in memo) {
+       return memo[arr];
     }
-    if (i < arr.length ) {
-        
-        if (Array.isArray(arr[i])) {
-            for (let item of arr[i]) {
-                if (item%3 === 0){
+    sum = sum || 0;
+    i = i || 0;
+    if(i < arr.length ) {
+
+        if(Array.isArray(arr[i])) {
+
+            for(let item of arr[i]) {
+
+                if(item%3 === 0){
                     sum += item;
                 }
-            } i++;
-
-        } if (arr[i] % 3 === 0) {
+            }
+            i++;
+        }
+        if(arr[i] % 3 === 0) {
             sum += arr[i];
         }
-        sumMultipleThree (arr, i + 1);
-    } let result = sum;
-    memo[arr] = result;
+        return sumMultipleThree(arr, i + 1, sum);
+    }
+    memo[arr] = sum;
     return sum;
 }})();
 

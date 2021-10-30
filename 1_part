@@ -582,30 +582,33 @@ return function sumMultipleTwo(arr, i, sum) {
 
 
 Кратные трем
-function sumMultipleThree (arr) {
+function sumMultipleThree(arr) {
     let sum = 0;
-    for (let item of arr) {
+    for(let item of arr) {
 
-        if (item % 3 === 0) {
+        if(item % 3 === 0) {
             sum += item;
         }
-    } return sum;
+    } 
+    return sum;
 }
 
 В двумерном
 
-function sumMultipleThree (arr) {
+function sumMultipleThree(arr) {
     let sum = 0;
     let sum2 = 0;
-    for (let item of arr) {
-        if (Array.isArray(item)) {
-            for (let i = 0; i < item.length; i++){
-                if (item[i] % 3 === 0) {
+    for(let item of arr) {
+        
+        if(Array.isArray(item)) {
+            
+            for(let i = 0; i < item.length; i++){
+                
+                if(item[i] % 3 === 0) {
                     sum2 += item[i];
                 }
-                
-
-            } item = sum2;
+            } 
+            item = sum2;
             sum2 = 0;
             console.log(item);
         }

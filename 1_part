@@ -1785,50 +1785,55 @@ function matrixCleanZero(matrix, i, j) {
 
 //Удалить столбец
 
-function matrixCleanZero (matrix) {
+function matrixCleanZero(matrix) {
 
-for (let i = 0; i < matrix.length; i++) {
+    for(let i = 0; i < matrix.length; i++) {
 
-    for (let j = 0; j < matrix[i].length; j++) {
-        if (matrix[i][j] === 0) {
-for (let i = 0; i < matrix.length; i++) {
-            matrix[i].splice(j,1);
-}
-        }
-    }
-}
-        return matrix;
-  }
-
-
-
-
-Рекурсия
-
-let count = 0;
-function matrixCleanZero (i,j,matrix) {
-    if (i < matrix.length) {
-        if(j < matrix[i].length) {
+        for(let j = 0; j < matrix[i].length; j++) {
+            
             if (matrix[i][j] === 0) {
-                  count++;
-                  matrix[i].splice(j,1);
-                return matrixCleanZero (i+1,j,matrix);
-            } else if (count > 0) {
-                      matrix[i].splice(j,1);
-                return matrixCleanZero (i+1,j,matrix);
-            }return matrixCleanZero (0,j+1,matrix);
+                for(let i = 0; i < matrix.length; i++) {
+                    matrix[i].splice(j,1);
+                }
+            }
         }
     }
     return matrix;
 }
 
 
+
+Рекурсия
+
+function matrixCleanZero(matrix, i ,j, count) {
+    i = i || 0;
+    j = j || 0;
+    count = count || 0;
+    if(i < matrix.length) {
+
+        if(j < matrix[i].length) {
+
+            if(matrix[i][j] === 0) {
+                count++;
+                matrix[i].splice(j,1);
+                return matrixCleanZero (matrix, i+1, j, count);
+            }
+            else if(count > 0) {
+            matrix[i].splice(j,1);
+            return matrixCleanZero(matrix, i+1, j, count);
+            }
+            return matrixCleanZero(matrix, 0,j+1, count);
+        }
+    }
+    return matrix;
+}
+
 ////Факториал
-function factorial (n) {
+function factorial(n) {
     let a = 1;
     let b = 2;
     let c;
-    for (let i = 2; i <= n; i++ ) {
+    for(let i = 2; i <= n; i++ ) {
         c = a * b;
         a = c;
         b = b + 1;
@@ -1838,26 +1843,25 @@ function factorial (n) {
 
 //Рекурсия 
 
-result = 1;
-function factorial (n) {
-    if (n > 0) {
-        result = n * factorial (n -1);
+function factorial(n, result) {
+    result = result || 1;
+    if(n > 0) {
+        result = n * factorial(n -1);
     }
     return result;
 }
 
-
-let sum = 1;
+// Мемоизация
 let memoisedFactorial = (function() {
     let memo = {};
-return function factorial (n) {
-    if (n in memo) {
+return function factorial(n, result) {
+    if(n in memo) {
         return memo[n];
     }
-
-    if (n > 0) {
-        sum = n * factorial (n -1);
-    }let result = sum;
+    result = result || 1;
+    if(n > 0) {
+        result = n * factorial(n -1);
+    }
     memo[n] = result;
     return result;
 }})();

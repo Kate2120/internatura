@@ -1584,84 +1584,93 @@ function sumMultipleTwo(arr) {
 
 среднее значение в двумерном массиве нечтных значений
 
+   function averageOdd(arr, count, sum) {
+    sum = sum || 0;
+    count = count || 0;
     for(let item of arr) {
-    
+
         if(Array.isArray(item)) {
 
             for(let el of item){
-            
+
                 if(el % 2 === 0) {
-                count++;
-                sum += el;
+                    count++;
+                    sum += el;
                 }
             }
-        } else if(typeof item === "number" && item % 2 ===0) {
-            count++;
-        sum += item;
         }
-    } return sum/count;
+        else if(typeof item === "number" && item % 2 ===0) {
+            count++;
+            sum += item;
+        }
+    }
+    return sum/count;
 }
 
 ////Транспонировать матрицу
-let arrSt = [];
-for (let i = 0; i < arr[0].length; i++) {
-    arrSt.push([]);
-}
-
-for (let a = 0; a < arr.length; a++) {
-
-    for (let j = 0; j < arr[0].length; j++) {
-        arrSt[j].push(arr[a][j]);
-
+function matrixTranspose(arr) {
+    let arrSt = [];
+    for(let i = 0; i < arr[0].length; i++) {
+        arrSt.push([]);
     }
 
-}
- console.log(arrSt);
+    for(let a = 0; a < arr.length; a++) {
+
+        for(let j = 0; j < arr[0].length; j++) {
+            arrSt[j].push(arr[a][j]);
+        }
+    }
+    return arrSt;
 }
 
 // Мемоизация
 
-let arrSt = [];
-let memoisedMatrixTranspose = ( function(){
+let memoisedMatrixTranspose = (function() {
     let memo = {};
-    return function matrixTranspose (arr,j,i) {
-      if (arr in memo) {
-    return memo[arr];
-       }
-        if (i < arr.length)  {
+return function matrixTranspose(arr, j, i, arrSt) {
+    if(arr in memo) {
+        return memo[arr];
+    }
+    arrSt = arrSt || [];
+    j = j || 0;
+    i = i || 0;
+    if(i < arr.length)  {
 
-            if (j < arr[0].length) {
-                arrSt.push([]);
-                arrSt[j].push(arr[i][j]);
-                return matrixTranspose(arr,j+1,i);
+        if(j < arr[0].length) {
+            arrSt.push([]);
+            arrSt[j].push(arr[i][j]);
+            return matrixTranspose(arr, j+1, i, arrSt);
 
-            }
-            return matrixTranspose(arr,0,i +1);
-        } let result = arrSt.filter(function (el) {
-            return el.length !== 0;
-        });
-        memo[arr] = result
-        return result;
-    }})();
+        }
+        return matrixTranspose(arr, 0, i +1, arrSt);
+    }
+    memo[arr] = arrSt.filter(function (el) {
+        return el.length !== 0;
+    });
+    return arrSt.filter(function (el) {
+        return el.length !== 0;
+    });
+}})();
 
 //рекурсия
 
-let arrSt = [];
-function matrix (arr,j,i) {
+function matrixTranspose(arr, j, i, arrSt) {
+    arrSt = arrSt || [];
+    j = j || 0;
+    i = i || 0;
+    if(i < arr.length)  {
 
-    if (i < arr.length)  {
-
-        if (j < arr[0].length) {
-           arrSt.push([]);
+        if(j < arr[0].length) {
+            arrSt.push([]);
             arrSt[j].push(arr[i][j]);
-            return matrix(arr,j+1,i);
+            return matrixTranspose(arr, j+1, i, arrSt);
 
         }
-        return matrix(arr,0,i +1);
+        return matrixTranspose(arr, 0, i +1, arrSt);
     }
     return arrSt.filter(function (el) {
         return el.length !== 0;
-    });;
+    });
 }
 
 ////Сложить две матрицы

@@ -1360,54 +1360,58 @@ function decimalConversion(num, i, j, sum) {
 
 //Мемоизация
 
-let sum = 0;
-let memoisedDecimalConversion = (function(){
+let memoisedDecimalConversion = (function() {
     let memo = {};
-return function decimalConversion (num, i, j) {
-    if (num in memo) {
+return function decimalConversion(num, i, j, sum) {
+    if(num in memo) {
         return memo[num];
     }
+    i = i || 1;
+    j = j || 0;
+    sum = sum || 0;
     num = String(num);
-    console.log(j);
-    if (i <= num.length && j < num.length) {
-         if (num[j] == 1) {
+
+    if(i <= num.length && j < num.length) {
+
+        if(num[j] == 1) {
             sum += Math.pow(2, num.length - i)
         }
-        console.log(Math.pow(2, num.length - i));
-        decimalConversion (num, i + 1, j + 1)
+        return decimalConversion (num, i + 1, j + 1, sum)
     }
-    let result = sum;
-    memo[num] = result;
+    memo[num] = sum;
     return sum;
 }})();
 
 
 ////Посчитать сумму значений чисел от min до max
 только положительные
-function sum (a,b) {
-let sum = 0;
-let d;
-for (let i = 0; i < b - (a - 1); i++) {
-    d = a + i;
+function sum(min, max) {
+    let sum = 0;
+    let d;
+    for(let i = 0; i < max - (min - 1); i++) {
+        d = min + i;
 
-        if (d > 0) {
+        if(d > 0) {
             sum +=d;
         }
-   } return sum;
+    } return sum;
 }
 
 
 //Рекурсия
-let sum = 0;
-function sumUpToMax (min,max) {
-    if (min <= max) {
-        if (min > 0) {
+function sumUpToMax(min, max, sum) {
+    sum = sum || 0;
+    if(min <= max) {
+        
+        if(min > 0) {
             sum +=min;
-        } sumUpToMax (min + 1,max);
+        }
+        return sumUpToMax(min + 1, max, sum);
     }
     return sum;
 }
 
+//Мемоизация
 let sum = 0;
 let memoisedSumUpToMax = (function(){
     let memo = {};

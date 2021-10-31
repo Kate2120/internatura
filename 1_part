@@ -1555,6 +1555,62 @@ function average(arr) {
     } return sum/count;
 }
 
+//Рекурсия
+function average(arr, sum, count, i, j) {
+    sum = sum || 0;
+    count = count || 0;
+    i = i || 0;
+    j = j || 0;
+    if(i < arr.length) {
+
+        if(Array.isArray(arr[i])) {
+
+            if(j < arr[i].length) {
+                count++;
+                sum += arr[i][j];
+                return average(arr, sum, count, i, j + 1)
+            }
+        }
+       if(typeof arr[i] === "number") {
+            count++;
+            sum += arr[i];
+            return average(arr, sum, count, i + 1)
+        }
+        }
+        return sum/count;
+}
+
+//Мемоизация
+let memoisedAverage = (function() {
+    let memo = {};
+return function average(arr, sum, count, i, j) {
+    if(arr in memo) {
+        return memo[arr];
+    }
+    sum = sum || 0;
+    count = count || 0;
+    i = i || 0;
+    j = j || 0;
+    if(i < arr.length) {
+
+        if(Array.isArray(arr[i])) {
+
+            if(j < arr[i].length) {
+                count++;
+                sum += arr[i][j];
+                return average(arr, sum, count, i, j + 1)
+            }
+        }
+        if(typeof arr[i] === "number") {
+            count++;
+            sum += arr[i];
+            return average(arr, sum, count, i + 1)
+        }
+    }
+    memo[arr] = sum/count;
+    return sum/count;
+}})();
+
 среднее значение в одномерном кратное двум
 function sumMultipleTwo (arr) {
     let sum = 0;
@@ -1606,6 +1662,71 @@ function sumMultipleTwo(arr) {
     }
     return sum/count;
 }
+
+// Рекурсия
+function averageOdd(arr, count, sum, i, j) {
+    sum = sum || 0;
+    count = count || 0;
+    i = i || 0;
+    j = j || 0;
+    if(i < arr.length) {
+
+        if(Array.isArray(arr[i])) {
+
+            if(j < arr[i].length){
+
+                if(arr[i][j] % 2 === 0 && arr[i][j] > 0) {
+                    count++;
+                    sum += arr[i][j];
+                    return averageOdd(arr, count, sum, i, j + 1);
+                }
+            }
+        }
+        else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
+            count++;
+            sum += arr[i];
+            return averageOdd(arr, count, sum, i + 1);
+        }
+        return averageOdd(arr, count, sum, i + 1);
+    }
+    return sum/count;
+}
+
+//Мемоизация
+
+let memoisedAverageOdd = (function() {
+    let memo = {};
+return function averageOdd(arr, count, sum, i, j) {
+    if(arr in memo) {
+        return memo[arr];
+    }
+    sum = sum || 0;
+    count = count || 0;
+    i = i || 0;
+    j = j || 0;
+    if(i < arr.length) {
+
+        if(Array.isArray(arr[i])) {
+
+            if(j < arr[i].length){
+
+                if(arr[i][j] % 2 === 0 && arr[i][j] > 0) {
+                    count++;
+                    sum += arr[i][j];
+                    return averageOdd(arr, count, sum, i, j + 1);
+                }
+            }
+        }
+        else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
+            count++;
+            sum += arr[i];
+            return averageOdd(arr, count, sum, i + 1);
+        }
+        return averageOdd(arr, count, sum, i + 1);
+    }
+    memo[arr] = sum/count;
+    return sum/count;
+}})();
 
 ////Транспонировать матрицу
 function matrixTranspose(arr) {
@@ -1782,6 +1903,32 @@ function matrixCleanZero(matrix, i, j) {
     }
     return matrix;
 }
+// Мемоизация
+
+let memoisedMatrixCleanZero = (function() {
+    let memo = {};
+return function matrixCleanZero (matrix, i, j) {
+    if(matrix in memo) {
+        return memo[matrix];
+    }
+        i = i || 0;
+        j = j || 0;
+    if (i < matrix.length) {
+
+        if (j < matrix[i].length) {
+
+            if (matrix[i][j] === 0) {
+
+                matrix.splice(i,1);
+
+            } return matrixCleanZero (matrix, i,j+1);
+
+        } return matrixCleanZero (matrix, i+1,0);
+    }
+    memo[matrix] = matrix;
+    return matrix;
+}})();
+
 
 //Удалить столбец
 
@@ -1827,6 +1974,38 @@ function matrixCleanZero(matrix, i ,j, count) {
     }
     return matrix;
 }
+
+// Мемоизация
+
+let memoisedMatrixCleanZero = (function() {
+    let memo = {};
+return function matrixCleanZero(matrix, i ,j, count) {
+    if(matrix in memo) {
+        return memo[matrix];
+    }
+    i = i || 0;
+    j = j || 0;
+    count = count || 0;
+    if(i < matrix.length) {
+
+        if(j < matrix[i].length) {
+
+            if(matrix[i][j] === 0) {
+                count++;
+                matrix[i].splice(j,1);
+                return matrixCleanZero (matrix, i+1, j, count);
+            }
+            else if(count > 0) {
+                matrix[i].splice(j,1);
+                return matrixCleanZero(matrix, i+1, j, count);
+            }
+            return matrixCleanZero(matrix, 0,j+1, count);
+        }
+    }
+    memo[matrix] = matrix;
+    return matrix;
+}})();
+
 
 ////Факториал
 function factorial(n) {

@@ -207,7 +207,8 @@ let memoizedDigit = (function() {
         });
        
         countDigit(arg);
-    } let result = obj;
+    }
+    let result = obj;
     memo[arg] = result;
     return obj;
 }})();
@@ -238,7 +239,8 @@ function uniqueWords(sentence) {
             }
       }
 
-   } return (arr.length);
+   } 
+   return (arr.length);
 }
 
 

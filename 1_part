@@ -1,15 +1,11 @@
 //// Написать функцию которая проверяет являются две строки анаграммой или нет
 
-
 function anagram(word1, word2) {
     let countWord1 = 0;
     let countWord2 = 0;
     if (word1.length === word2.length){
-
         for (let i = 0; i < word1.length; i++) {
-        
             for (let j = 0; j < word1.length; j++) {
-            
                 if (word1[i] === word2[j]) {
                     countWord1++;
                 }
@@ -23,40 +19,37 @@ function anagram(word1, word2) {
             }
         }
         if (countWord1 === countWord2) {
-            return true;
-        } return false;
+           return true;
+        }
+        return false;
     }
     return false;
 }
 
-
 //Рекурсия
 
 function anagram(word1, word2, i, j, countWord1, countWord2) {
-   countWord1 = countWord1 || 0;
+    countWord1 = countWord1 || 0;
     countWord2 = countWord2 || 0;
     if (word1.length !== word2.length){
         return false;
     }
-       if( i < word1.length) {
-       
-           if(j < word1.length) {
-           
-                if (word1[i] === word2[j]) {
-                    countWord1++;
-                    
-                       if (word1[i] === word1[j]) {
-                          countWord2++;
-                       }
-                } else if (word1[i] === word1[j]) {
-                         countWord2++;
-                       }
-                       return anagram(word1, word2,i,j + 1, countWord1, countWord2);
+    if( i < word1.length) {
+        if(j < word1.length) {
+            if (word1[i] === word2[j]) {
+                countWord1++;
+                if (word1[i] === word1[j]) {
+                    countWord2++;
                 }
-           return anagram(word1, word2,i + 1,0, countWord1, countWord2);
+            } else if (word1[i] === word1[j]) {
+                countWord2++;
+            }
+            return anagram(word1, word2,i,j + 1, countWord1, countWord2);
+        }
+        return anagram(word1, word2,i + 1,0, countWord1, countWord2);
 
-       }
-        if (countWord1 !== countWord2) {
+    }
+    if (countWord1 !== countWord2) {
         return false;
     }
     return true;
@@ -66,77 +59,64 @@ function anagram(word1, word2, i, j, countWord1, countWord2) {
 
 let memoisedAnangram = (function() {
     let memo = {};
-return function anagram(word1, word2, i, j, countWord1, countWord2) {
-    countWord1 = countWord1 || 0;
-    countWord2 = countWord2 || 0;
-    i = i || 0;
-    j = j || 0;
-    let arr = [word1, word2];
-    if(arr in memo) {
-        return memo[arr];
-    }
+    return function anagram(word1, word2, i, j, countWord1, countWord2) {
+        countWord1 = countWord1 || 0;
+        countWord2 = countWord2 || 0;
+        i = i || 0;
+        j = j || 0;
+        let arr = [word1, word2];
+        if(arr in memo) {
+            return memo[arr];
+        }
         if (word1.length !== word2.length){
             memo[arr] = false;
             return false;
         }
-            if( i < word1.length) {
-            
-                if(j < word1.length) {
-                
-                    if (word1[i] === word2[j]) {
-                        countWord1++;
-                        
-                        console.log(countWord1);
-                        
-                        if (word1[i] === word1[j]) {
-                            countWord2++;
-                            console.log(countWord2);
-                        }
-                    } else if (word1[i] === word1[j]) {
+        if( i < word1.length) {
+            if(j < word1.length) {
+                if (word1[i] === word2[j]) {
+                    countWord1++;
+                       if (word1[i] === word1[j]) {
                         countWord2++;
-                        console.log(countWord2);
-                    }
-                    return anagram(word1, word2,i,j + 1, countWord1, countWord2);
+                        }
+                } else if (word1[i] === word1[j]) {
+                    countWord2++;
                 }
-                return anagram(word1, word2,i + 1,0, countWord1, countWord2);
-        
+                return anagram(word1, word2,i,j + 1, countWord1, countWord2);
             }
-            if (countWord1 !== countWord2) {
-                    memo[arr] = false;
-                    return false;
-            }
-            memo[arr] = true;
-            return true;
-}})();
+            return anagram(word1, word2,i + 1,0, countWord1, countWord2);
+        }
+        if (countWord1 !== countWord2) {
+            memo[arr] = false;
+            return false;
+        }
+        memo[arr] = true;
+        return true;
+    }})();
 
 ////Написать функцию которая вычисляет подсчет количество каждой цифре в числе
-
 
 function  countDigit(num) {
     let arr = [];
     let obj = {};
-
     for(; num > 0;) {
         arr.push(num % 10);
         num = parseInt(num/10);
     }
-        for(let i = 0; i <= arr.length && arr.length > 0;) {
-            let counter = 1;
-
-            for(let j = i + 1; j <= arr.length; j++) {
-
-                if(arr[i] === arr[j]) {
-                    counter++;
-                    obj[arr[i]] = counter;
-                }
-            }
+    for(let i = 0; i <= arr.length && arr.length > 0;) {
+        let counter = 1;
+        for(let j = i + 1; j <= arr.length; j++) {
+            if(arr[i] === arr[j]) {
+                counter++;
                 obj[arr[i]] = counter;
-                arr = arr.filter(function(item) {
-                return item !== arr[i];
-                });
-
+            }
         }
-        return obj;
+        obj[arr[i]] = counter;
+        arr = arr.filter(function(item) {
+            return item !== arr[i];
+        });
+    }
+    return obj;
 };
 
 //Рекурсия
@@ -145,33 +125,28 @@ function countDigit(num, arr, obj, i) {
     arr = arr || [];
     obj = obj || {};
     i = i || 0;
-    
     for (; num > 0;) {
         arr.push(num % 10);
         num = parseInt(num/10);
     }
-        if (i <= arr.length && arr.length > 0 ) {
-            let counter = 1;
-    
-            for (let j = i + 1; j <= arr.length; j++) {
-    
-                if (arr[i] === arr[j]) {
-                    counter++;
-                    obj[arr[i]] = counter;
-                }
+    if (i <= arr.length && arr.length > 0 ) {
+        let counter = 1;
+        for (let j = i + 1; j <= arr.length; j++) {
+            if (arr[i] === arr[j]) {
+                counter++;
+                obj[arr[i]] = counter;
             }
-            obj[arr[i]] = counter;
-            arr = arr.filter(function(item) {
-                return item !== arr[i];
-            });
-            countDigit(num, arr, obj, i);
         }
-         return obj;
+        obj[arr[i]] = counter;
+        arr = arr.filter(function(item) {
+            return item !== arr[i];
+        });
+        countDigit(num, arr, obj, i);
+    }
+    return obj;
 }
 
-
 //Мемоизация
-
 
 let num = 29333;
 let arr = [];
@@ -185,267 +160,233 @@ for (; num > 0;) {
 let memoizedDigit = (function() {
     let memo = {};
     return  function countDigit(arg) {
-    if (arg in memo) {
-        return obj;
-    }
-    let i = 0;
-
-    if (i <= arg.length && arg.length > 0 ) {
-        let counter = 1;
-
-        for (let j = i + 1; j <= arg.length; j++) {
-
-            if (arg[i] === arg[j]) {
-                counter++;
-                obj[arg[i]] = counter;
+        if (arg in memo) {
+            return obj;
+        }
+        let i = 0;
+        if (i <= arg.length && arg.length > 0 ) {
+            let counter = 1;
+            for (let j = i + 1; j <= arg.length; j++) {
+                if (arg[i] === arg[j]) {
+                    counter++;
+                    obj[arg[i]] = counter;
+                }
             }
+            obj[arg[i]] = counter;
+            arg = arg.filter(function(item) {
+                return item !== arg[i];
+            });
 
-        };
-        obj[arg[i]] = counter;
-        arg = arg.filter(function(item) {
-            return item !== arg[i];
-        });
-       
-        countDigit(arg);
-    }
-    let result = obj;
-    memo[arg] = result;
-    return obj;
-}})();
+            countDigit(arg);
+        }
+        let result = obj;
+        memo[arg] = result;
+        return obj;
+    }})();
 
 ////Написать функцию которая вычисляет подсчет уникальных слов в предложении
 
-
 function uniqueWords(sentence) {
-   sentence = sentence.toLowerCase()
-   console.log(sentence);
-   let re = (/[^а-яА-ЯёЁ]+/gui);
-   let arr = sentence.split(re);
-   arr = arr.filter(function(item) {
-      return item !== "";
-   });
-
-   let counter = 0;
-   for(let i = 0; i < arr.length - 1; i++) {
-      
-      for(let j = i + 1; j < arr.length; j++ ) {
-         let a = arr[i];
-         let b = arr[j];
-         
+    sentence = sentence.toLowerCase()
+    console.log(sentence);
+    let re = (/[^а-яА-ЯёЁ]+/gui);
+    let arr = sentence.split(re);
+    arr = arr.filter(function(item) {
+        return item !== "";
+    });
+    let counter = 0;
+    for(let i = 0; i < arr.length - 1; i++) {
+        for(let j = i + 1; j < arr.length; j++ ) {
+            let a = arr[i];
+            let b = arr[j];
             if(a === b) {
-               arr = arr.filter(function(item) {
-                  return item !== a;
-               });
+                arr = arr.filter(function(item) {
+                    return item !== a;
+                });
             }
-      }
-
-   } 
-   return (arr.length);
+        }
+    }
+    return (arr.length);
 }
-
 
 //Рекурсия
 
 function countUniqueWords(arg, arr) {
-   arr = arr || [];
-
-      if(arr.length === 0) {
-      arg = arg.toLowerCase();
-      console.log(arg);
-      let re = (/[^а-яА-ЯёЁ]+/gui);
-      arr = arg.split(re);
-      arr = arr.filter(function(item) {
-         return item !== "";
-      });
-   }
-
-   for(let i = 0; i < arr.length; i++) {
-
-      for(let j = i + 1; j < arr.length; j++ ) {
-
-         if(arr[i] === arr[j]) {
-            arr = arr.filter(function(item) {
-               return item !== arr[i];
-            });
-
-           return countUniqueWords(arg, arr);
-         }
-
-      }
-
-   } return arr.length;
+    arr = arr || [];
+    if(arr.length === 0) {
+        arg = arg.toLowerCase();
+        console.log(arg);
+        let re = (/[^а-яА-ЯёЁ]+/gui);
+        arr = arg.split(re);
+        arr = arr.filter(function(item) {
+            return item !== "";
+        });
+    }
+    for(let i = 0; i < arr.length; i++) {
+        for(let j = i + 1; j < arr.length; j++ ) {
+            if(arr[i] === arr[j]) {
+                arr = arr.filter(function(item) {
+                    return item !== arr[i];
+                });
+                return countUniqueWords(arg, arr);
+            }
+        }
+    }
+    return arr.length;
 
 }
 
 //Мемоизация
 
 let memoisedCountWords = (function(){
-   let memo = {};
-return function countUniqueWords(arg, arr) {
-   if(arg in memo){
-      return memo[arg];
-   }
-   arr = arr || [];
-
-   if(arr.length === 0) {
-      arg = arg.toLowerCase();
-      console.log(arg);
-      let re = (/[^а-яА-ЯёЁ]+/gui);
-      arr = arg.split(re);
-      arr = arr.filter(function(item) {
-         return item !== "";
-      });
-   }
-
-   for(let i = 0; i < arr.length; i++) {
-
-      for(let j = i + 1; j < arr.length; j++ ) {
-               
-         if(arr[i] === arr[j]) {
+    let memo = {};
+    return function countUniqueWords(arg, arr) {
+        if(arg in memo){
+            return memo[arg];
+        }
+        arr = arr || [];
+        if(arr.length === 0) {
+            arg = arg.toLowerCase();
+            console.log(arg);
+            let re = (/[^а-яА-ЯёЁ]+/gui);
+            arr = arg.split(re);
             arr = arr.filter(function(item) {
-               return item !== arr[i];
+                return item !== "";
             });
+        }
+        for(let i = 0; i < arr.length; i++) {
+            for(let j = i + 1; j < arr.length; j++ ) {
+                if(arr[i] === arr[j]) {
+                    arr = arr.filter(function(item) {
+                        return item !== arr[i];
+                    });
+                    return countUniqueWords(arg, arr);
+                }
+            }
+        }
+        memo[arg] = arr.length;
+        return arr.length;
 
-            return countUniqueWords(arg, arr);
-         }
-      }
-   }
-   memo[arg] = arr.length;
-   return arr.length;
-
-}})();
-
+    }})();
 
 ////Написать функцию которая вычисляет вхождение каждого слова в предложении
 
 function uniqueWords(sentence) {
-   sentence = sentence.toLowerCase()
-   console.log(sentence);
-   let re = (/[^а-яА-ЯёЁ]+/gui);
-   let arr = sentence.split(re);
-
-   arr = arr.filter(function(item) {
-      return item !== "";
-   });
-   let obj = {};
-
-   for(let i = 0; i < arr.length; ) {
-      let counter = 1;
-
-      for(let j = i + 1; j <= arr.length; j++ ) {
-         
-         if(arr[i] === arr[j]) {
-            counter++;
-
-         } else if (j === arr.length) {
-            obj [arr[i]] = counter;
-            arr = arr.filter(function(item) {
-            return item !== arr[i];});
-         }
-      }
-   } return obj;
+    sentence = sentence.toLowerCase()
+    console.log(sentence);
+    let re = (/[^а-яА-ЯёЁ]+/gui);
+    let arr = sentence.split(re);
+    arr = arr.filter(function(item) {
+        return item !== "";
+    });
+    let obj = {};
+    for(let i = 0; i < arr.length; ) {
+        let counter = 1;
+        for(let j = i + 1; j <= arr.length; j++ ) {
+            if(arr[i] === arr[j]) {
+                counter++;
+            } else if (j === arr.length) {
+                obj [arr[i]] = counter;
+                arr = arr.filter(function(item) {
+                    return item !== arr[i];});
+            }
+        }
+    }
+    return obj;
 }
 
 //Рекурсия
-function countWords (arg, arr, obj, i, j, counter) {
-   arr = arr || [];
-   obj = obj || {};
-   i = i || 0;
-   j = j || 0;
-   counter = counter || 0;
-   if(arr.length === 0) {
-      arr = arg.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
-         return item !== "";
-      });
-      arr = arr.filter(function(item) {
-         return item !== "";
-      });
 
-   }
-   console.log(arr);
-      if(i < arr.length -1) {
-         
-         if(j < arr.length) {
+function countWords (arg, arr, obj, i, j, counter) {
+    arr = arr || [];
+    obj = obj || {};
+    i = i || 0;
+    j = j || 0;
+    counter = counter || 0;
+    if(arr.length === 0) {
+        arr = arg.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
+            return item !== "";
+        });
+        arr = arr.filter(function(item) {
+            return item !== "";
+        });
+    }
+    if(i < arr.length -1) {
+        if(j < arr.length) {
             if(arr[i] === arr[j]){
-               counter++;
-               return countWords(arg, arr, obj, i, j + 1, counter);
+                counter++;
+                return countWords(arg, arr, obj, i, j + 1, counter);
             }
             return countWords(arg, arr, obj, i, j + 1, counter);
-
-         }
-            if(typeof obj[arr[i]] === "undefined"){
-               obj[arr[i]] = counter;
-            }
-         return countWords(arg, arr, obj, i + 1, i+1);
-      }
-
-   return obj;
+        }
+        if(typeof obj[arr[i]] === "undefined"){
+            obj[arr[i]] = counter;
+        }
+        return countWords(arg, arr, obj, i + 1, i+1);
+    }
+    return obj;
 }
-    
-    //Мемоизация
+
+//Мемоизация
+
 let memoisedCountWords = (function() {
-   let memo = {};
-return function countWords (arg, arr, obj, i, j, counter) {
-   if(arg in memo) {
-      return memo[arg];
-   }
-   arr = arr || [];
-   obj = obj || {};
-   i = i || 0;
-   j = j || 0;
-   counter = counter || 0;
-      if(arr.length === 0) {
-         arr = arg.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
-            return item !== "";
-         });
-         arr = arr.filter(function(item) {
-            return item !== "";
-         });
-   
-      }
-   
-         if(i < arr.length) {
-      
+    let memo = {};
+    return function countWords (arg, arr, obj, i, j, counter) {
+        if(arg in memo) {
+            return memo[arg];
+        }
+        arr = arr || [];
+        obj = obj || {};
+        i = i || 0;
+        j = j || 0;
+        counter = counter || 0;
+        if(arr.length === 0) {
+            arr = arg.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
+                return item !== "";
+            });
+            arr = arr.filter(function(item) {
+                return item !== "";
+            });
+        }
+        if(i < arr.length) {
             if(j < arr.length) {
-               
-               if(arr[i] === arr[j]){
-                  counter++;
-                  return countWords(arg, arr, obj, i, j + 1, counter);
-               }
-               return countWords(arg, arr, obj, i, j + 1, counter);
-      
+                if(arr[i] === arr[j]){
+                    counter++;
+                    return countWords(arg, arr, obj, i, j + 1, counter);
+                }
+                return countWords(arg, arr, obj, i, j + 1, counter);
             }
-                  if(typeof obj[arr[i]] === "undefined"){
-                     obj[arr[i]] = counter;
-                  }
-                  return countWords(arg, arr, obj, i + 1, i+1);
-         }
-         memo[arg] = obj;
-         return obj;
-}})();
+            if(typeof obj[arr[i]] === "undefined"){
+                obj[arr[i]] = counter;
+            }
+            return countWords(arg, arr, obj, i + 1, i+1);
+        }
+        memo[arg] = obj;
+        return obj;
+    }})();
 
 ////Написать функцию которая возвращает N первых чисел фибоначчи
-function fibonacci(n, arr) {
-   arr = [0,1];
-   
-   for(let i = 0; i < n - 2; i++){
-      arr.push (arr[i] + arr[i+1]);
-   }
-   return arr;
-}
- //Рекурсия
- 
- function fibonacci(n, arr, i) {
-   arr = arr || [0,1];
-   i = i || 0;
 
-   if(i < n - 2){
-      arr.push (arr[i] + arr[i+1]);
-      fibonacci(n, arr, i + 1)
-   }
-   return arr;
+function fibonacci(n, arr) {
+    arr = [0,1];
+    for(let i = 0; i < n - 2; i++){
+        arr.push (arr[i] + arr[i+1]);
+    }
+    return arr;
 }
- 
+
+//Рекурсия
+
+function fibonacci(n, arr, i) {
+    arr = arr || [0,1];
+    i = i || 0;
+    if(i < n - 2){
+        arr.push (arr[i] + arr[i+1]);
+        fibonacci(n, arr, i + 1)
+    }
+    return arr;
+}
+
 //Мемоизация
 
 let memoisedFibonacci = (function() {
@@ -454,25 +395,22 @@ let memoisedFibonacci = (function() {
         count = count || 0;
         arr = arr || [];
         i = i || 0;
-         if(N in memo) {
+        if(N in memo) {
             return memo[N];
-        }
-        else if(Object.keys(memo).length > 0 && i < N && count ===0) {
+        } else if(Object.keys(memo).length > 0 && i < N && count ===0) {
             arr = memo[Object.keys(memo).length - 1];
             arr.push(memo[Object.keys(memo).length - 1][Object.keys(memo).length - 2] + memo[Object.keys(memo).length - 1][Object.keys(memo).length - 1]);
             memo[i] = arr.slice();
             count++;
             i = arr.length -1;
             return fibonacci(N, i + 1, arr, count);
-        }
-        else if(count === 1 && i < N) {
+        } else if(count === 1 && i < N) {
             console.log("i " + i);
             arr.push(arr[i-2] + arr[i-1]);
             memo[i] = arr.slice();
             return fibonacci(N, i + 1, arr, count);
 
-        } 
-        else if(i === 0 && Object.keys(memo).length === 0) {
+        } else if(i === 0 && Object.keys(memo).length === 0) {
             arr.push(i);
             memo[i] = arr.slice();
             i++;
@@ -483,133 +421,116 @@ let memoisedFibonacci = (function() {
             memo[i] = arr.slice();
             return fibonacci(N,i+1, arr);
         }
-
         return arr;
     }})();
 
-
-
 ////Посчитать сумму всех элементов массива, только тех которые
-Кратные двум
+//Кратные двум
 
 function sumMultipleTwo(arr) {
     let sum = 0;
-    
     for(let item of arr) {
-
         if(item % 2 === 0) {
             sum += item;
         }
-    } return sum;
+    }
+    return sum;
 }
 
-В двумерном
+//В двумерном
+
 function sumMultipleTwo(arr) {
     let sum = 0;
     let sum2 = 0;
     for(let item of arr) {
-        
         if(Array.isArray(item)) {
-            
             for(let i = 0; i < item.length; i++){
-                
                 if(item[i] % 2 === 0) {
                     sum2 += item[i];
                 }
-            } 
+            }
             item = sum2;
             sum2 = 0;
         }
-        
         if(item % 2 === 0) {
             sum += item;
         }
-    } return sum;
+    }
+    return sum;
 }
 
-
 //Рекурсия
+
 function sumMultipleTwo(arr, i, sum) {
     i = i || 0;
     sum = sum || 0;
     if(i < arr.length ) {
-
         if(Array.isArray(arr[i])) {
-
             for(let item of arr[i]) {
                 if(item%2 === 0){
                     sum += item;
                 }
             }
             return sumMultipleTwo(arr, i + 1, sum);
-        }
-        else if(arr[i] % 2 === 0) {
+        } else if(arr[i] % 2 === 0) {
             sum += arr[i];
         }
         return sumMultipleTwo(arr, i + 1, sum);
     }
     return sum;
 }
+
 //Мемоизация
 
 let memoisedSumMultipleTwo = (function() {
     let memo = {};
-return function sumMultipleTwo(arr, i, sum) {
-    if(arr in memo) {
-        return memo[arr];
-    }
-    i = i || 0;
-    sum = sum || 0;
-    if(i < arr.length ) {
-
-        if(Array.isArray(arr[i])) {
-
-            for(let item of arr[i]) {
-                
-                if(item%2 === 0){
-                    sum += item;
+    return function sumMultipleTwo(arr, i, sum) {
+        if(arr in memo) {
+            return memo[arr];
+        }
+        i = i || 0;
+        sum = sum || 0;
+        if(i < arr.length ) {
+            if(Array.isArray(arr[i])) {
+                for(let item of arr[i]) {
+                    if(item%2 === 0){
+                        sum += item;
+                    }
                 }
+                return sumMultipleTwo(arr, i + 1, sum);
+            } else if(arr[i] % 2 === 0) {
+                sum += arr[i];
             }
             return sumMultipleTwo(arr, i + 1, sum);
         }
-        else if(arr[i] % 2 === 0) {
-            sum += arr[i];
-        }
-        return sumMultipleTwo(arr, i + 1, sum);
-    }
-    memo[arr] = sum;
-    return sum;
-}})();
+        memo[arr] = sum;
+        return sum;
+    }})();
 
+//Кратные трем
 
-
-Кратные трем
 function sumMultipleThree(arr) {
     let sum = 0;
     for(let item of arr) {
-
         if(item % 3 === 0) {
             sum += item;
         }
-    } 
+    }
     return sum;
 }
 
-В двумерном
+//В двумерном
 
 function sumMultipleThree(arr) {
     let sum = 0;
     let sum2 = 0;
     for(let item of arr) {
-        
         if(Array.isArray(item)) {
-            
             for(let i = 0; i < item.length; i++){
-                
                 if(item[i] % 3 === 0) {
                     sum2 += item[i];
                 }
-            } 
+            }
             item = sum2;
             sum2 = 0;
             console.log(item);
@@ -617,11 +538,9 @@ function sumMultipleThree(arr) {
         if (item % 3 === 0) {
             sum += item;
         }
-
-    } return sum;
+    }
+    return sum;
 }
-
-
 
 //Рекурсия
 
@@ -629,17 +548,14 @@ function sumMultipleThree (arr, i, sum) {
     sum = sum || 0;
     i = i || 0;
     if(i < arr.length ) {
-        
         if(Array.isArray(arr[i])) {
-            
             for(let item of arr[i]) {
-                
                 if(item%3 === 0){
                     sum += item;
                 }
-            } 
+            }
             i++;
-        } 
+        }
         if(arr[i] % 3 === 0) {
             sum += arr[i];
         }
@@ -652,56 +568,50 @@ function sumMultipleThree (arr, i, sum) {
 
 let memoisedSumMultipleTree = (function() {
     let memo = {};
-return function sumMultipleThree (arr, i, sum) {
-    if(arr in memo) {
-       return memo[arr];
-    }
-    sum = sum || 0;
-    i = i || 0;
-    if(i < arr.length ) {
-
-        if(Array.isArray(arr[i])) {
-
-            for(let item of arr[i]) {
-
-                if(item%3 === 0){
-                    sum += item;
+    return function sumMultipleThree (arr, i, sum) {
+        if(arr in memo) {
+            return memo[arr];
+        }
+        sum = sum || 0;
+        i = i || 0;
+        if(i < arr.length ) {
+            if(Array.isArray(arr[i])) {
+                for(let item of arr[i]) {
+                    if(item%3 === 0){
+                        sum += item;
+                    }
                 }
+                i++;
             }
-            i++;
+            if(arr[i] % 3 === 0) {
+                sum += arr[i];
+            }
+            return sumMultipleThree(arr, i + 1, sum);
         }
-        if(arr[i] % 3 === 0) {
-            sum += arr[i];
-        }
-        return sumMultipleThree(arr, i + 1, sum);
-    }
-    memo[arr] = sum;
-    return sum;
-}})();
+        memo[arr] = sum;
+        return sum;
+    }})();
 
-Которые только положительные и нечетные
+//Которые только положительные и нечетные
+
 function sumPositiveOdd(arr) {
     let sum = 0;
     for(let item of arr) {
-
         if(item % 2 !== 0 && item >= 0) {
             sum += item;
         }
-    } 
+    }
     return sum;
 }
 
+//В двумерном
 
-В двумерном
 function sumPositiveOdd(arr) {
     let sum = 0;
     let sum2 = 0;
     for(let item of arr) {
-        
         if(Array.isArray(item)) {
-            
             for(let i = 0; i < item.length; i++){
-                
                 if(item[i] % 2 !== 0 && item[i] >= 0) {
                     sum2 += item[i];
                 }
@@ -710,26 +620,22 @@ function sumPositiveOdd(arr) {
         if(item % 2 !== 0 && item >= 0) {
             sum += item;
         }
-    } 
+    }
     return sum + sum2;
 }
 
+//Рекурсия
 
-Рекурсия 
 function sumPositiveOdd (arr, i, sum) {
     sum = sum || 0;
     i = i || 0;
     if(i < arr.length ) {
-
         if(Array.isArray(arr[i])) {
-
             for(let item of arr[i]) {
-
                 if(item% 2 !== 0 && item > 0){
                     sum += item;
                 }
             } i++;
-
         }
         if(arr[i] % 2!== 0 && arr[i] > 0) {
             sum += arr[i];
@@ -740,61 +646,54 @@ function sumPositiveOdd (arr, i, sum) {
 }
 
 //Мемоизация
+
 let memoisedSumPositiveOdd = (function() {
     let memo = {};
-return function sumPositiveOdd (arr, i, sum) {
-    if(arr in memo) {
-        return memo[arr];
-    }
-    sum = sum || 0;
-    i = i || 0;
-    
-    if(i < arr.length ) {
-
-        if(Array.isArray(arr[i])) {
-
-            for(let item of arr[i]) {
-
-                if(item% 2 !== 0 && item > 0){
-                    sum += item;
-                }
-            } i++;
+    return function sumPositiveOdd (arr, i, sum) {
+        if(arr in memo) {
+            return memo[arr];
         }
-        if(arr[i] % 2!== 0 && arr[i] > 0) {
-            sum += arr[i];
+        sum = sum || 0;
+        i = i || 0;
+        if(i < arr.length ) {
+            if(Array.isArray(arr[i])) {
+                for(let item of arr[i]) {
+                    if(item% 2 !== 0 && item > 0){
+                        sum += item;
+                    }
+                } i++;
+            }
+            if(arr[i] % 2!== 0 && arr[i] > 0) {
+                sum += arr[i];
+            }
+            return sumPositiveOdd(arr, i + 1, sum);
         }
-        return sumPositiveOdd(arr, i + 1, sum);
-    }
-    memo[arr] = sum;
-    return sum;
-}})();
+        memo[arr] = sum;
+        return sum;
+    }})();
 
+//// Посчитать количество элементов массива которые
 
-//// Посчитать количество элементов массива которые 
-Нулевые
+//Нулевые
+
 function countZerro (arr) {
     let count = 0;
-
     for(let item of arr) {
-        
         if(item === 0) {
             count++;
         }
-    } 
+    }
     return count;
 }
 
 // В двумерном
+
 function countZerro(arr) {
     let count1 = 0;
     let count2 = 0;
-    
     for(let item of arr) {
-        
         if(Array.isArray(item)) {
-            
             for(let i = 0; i < item.length; i++){
-                
                 if(item[i] === 0) {
                     count1++;
                 }
@@ -803,29 +702,24 @@ function countZerro(arr) {
         if(item === 0) {
             count2++;
         }
-
-    } 
+    }
     return count1 + count2;
 }
 
-
-
 //Рекурсия
+
 function countZerro(arr, i, count) {
     count = count || 0;
     i = i || 0;
     if(i < arr.length ) {
-        
         if(Array.isArray(arr[i])) {
-            
             for(let item of arr[i]) {
-                
                 if(item === 0){
                     count++;
                 }
-            } 
+            }
             i++;
-        } 
+        }
         if(arr[i] === 0) {
             count++;
         }
@@ -838,24 +732,21 @@ function countZerro(arr, i, count) {
 
 let memoisedCountZerro = (function() {
     let memo = {};
-return function countZerro (arr, i, count) {
-    if(arr in memo) {
-       return memo[arr];
-    }
-    count = count || 0;
-    i = i || 0;
+    return function countZerro (arr, i, count) {
+        if(arr in memo) {
+            return memo[arr];
+        }
+        count = count || 0;
+        i = i || 0;
         if(i < arr.length ) {
-            
             if(Array.isArray(arr[i])) {
-                
                 for(let item of arr[i]) {
-                    
                     if(item === 0){
                         count++;
                     }
-                } 
+                }
                 i++;
-            } 
+            }
             if (arr[i] === 0) {
                 count++;
             }
@@ -863,33 +754,28 @@ return function countZerro (arr, i, count) {
         }
         memo[arr] = count;
         return count;
-}})();
+    }})();
 
-    Отрицательные
+//Отрицательные
 
 function countNegative(arr) {
     let count = 0;
-
     for(let item of arr) {
-        
         if(item < 0) {
             count++;
         }
-    } 
+    }
     return count;
 }
 
-В двумерном
+//В двумерном
+
 function countNegative(arr) {
     let count1 = 0;
     let count2 = 0;
-    
     for(let item of arr) {
-        
         if(Array.isArray(item)) {
-            
             for(let i = 0; i < item.length; i++){
-                
                 if(item[i] < 0) {
                     count1++;
                 }
@@ -898,23 +784,18 @@ function countNegative(arr) {
         if (item < 0) {
             count2++;
         }
-    } 
+    }
     return count1 + count2;
 }
 
+//Рекурсия
 
-
-
-Рекурсия
 function countNegative (arr, i, count) {
     count = count || 0;
     i = i || 0;
     if(i < arr.length ) {
-
         if(Array.isArray(arr[i])) {
-
             for(let item of arr[i]) {
-
                 if(item < 0){
                     count++;
                 }
@@ -928,61 +809,55 @@ function countNegative (arr, i, count) {
     }
     return count;
 }
-    
- //Мемоизация
- 
+
+//Мемоизация
+
 let memoisedCountNegative = (function() {
     let memo = {};
-return function countNegative (arr, i, count) {
-    if(arr in memo) {
-        return memo[arr];
-    }
-    count = count || 0;
-    i = i || 0;
-    if(i < arr.length ) {
-
-        if(Array.isArray(arr[i])) {
-
-            for(let item of arr[i]) {
-
-                if(item < 0){
-                    count++;
+    return function countNegative (arr, i, count) {
+        if(arr in memo) {
+            return memo[arr];
+        }
+        count = count || 0;
+        i = i || 0;
+        if(i < arr.length ) {
+            if(Array.isArray(arr[i])) {
+                for(let item of arr[i]) {
+                    if(item < 0){
+                        count++;
+                    }
                 }
+                i++;
             }
-            i++;
+            if(arr[i] < 0) {
+                count++;
+            }
+            return countNegative(arr, i + 1, count);
         }
-        if(arr[i] < 0) {
-            count++;
-        }
-        return countNegative(arr, i + 1, count);
-    }
-    memo[arr] = count;
-    return count;
-}})();
-    
-Положительные
+        memo[arr] = count;
+        return count;
+    }})();
+
+//Положительные
+
 function countPositive(arr) {
     let count = 0;
-
     for(let item of arr) {
-        
         if(item > 0) {
             count++;
         }
-    } 
+    }
     return count;
 }
 
-В двумерном
+//В двумерном
+
 function countPositive(arr) {
     let count1 = 0;
     let count2 = 0;
     for(let item of arr) {
-        
         if(Array.isArray(item)) {
-            
             for(let i = 0; i < item.length; i++){
-                
                 if(item[i] > 0) {
                     count1++;
                 }
@@ -991,21 +866,18 @@ function countPositive(arr) {
         if (item > 0) {
             count2++;
         }
-    } 
+    }
     return count1 + count2;
 }
 
+//Рекурсия
 
-Рекурсия
 function countPositive(arr, i, count) {
     count = count || 0;
     i = i || 0;
     if(i < arr.length ) {
-
         if(Array.isArray(arr[i])) {
-
             for(let item of arr[i]) {
-
                 if(item > 0){
                     count++;
                 }
@@ -1018,129 +890,113 @@ function countPositive(arr, i, count) {
     }
     return count;
 }
-
 
 //Мемоизация
 
 let memoisedCountPositive = (function() {
     let memo = {};
-return function countPositive(arr, i, count) {
-    if(arr in memo) {
-        return memo[arr];
-    }
-    count = count || 0;
-    i = i || 0;
-    if(i < arr.length ) {
-
-        if(Array.isArray(arr[i])) {
-
-            for(let item of arr[i]) {
-
-                if(item > 0){
-                    count++;
-                }
-            } i++;
+    return function countPositive(arr, i, count) {
+        if(arr in memo) {
+            return memo[arr];
         }
-        if(arr[i] > 0) {
-            count++;
+        count = count || 0;
+        i = i || 0;
+        if(i < arr.length ) {
+            if(Array.isArray(arr[i])) {
+                for(let item of arr[i]) {
+                    if(item > 0){
+                        count++;
+                    }
+                } i++;
+            }
+            if(arr[i] > 0) {
+                count++;
+            }
+            return countPositive(arr, i + 1, count);
         }
-        return countPositive(arr, i + 1, count);
-    }
-    memo[arr] = count;
-    return count;
-}})();
+        memo[arr] = count;
+        return count;
+    }})();
 
-Простые
+//Простые
+
 function countNative(arr) {
     let count = 0;
-
     label:
         for(let item of arr) {
-            
             for(let i = 2; i < item - 1; i++) {
-                
                 if(item % i === 0) {
                     continue label;
                 }
             }
             count++;
         }
-    return count;
+        return count;
 }
 
-В двумерном
+//В двумерном
+
 function countPrimeNumbers(arr) {
     let count = 0;
     let count2 = 0;
     let count3 = 0;
     for(let item of arr) {
-
         if(Array.isArray(item)) {
-
             for(let el of item) {
-
                 for(let i = 1; i < el; i++) {
-
                     if(el % i !== 0 ) {
                         count++;
-
                         if(count === el - 2) {
                             count2++;
                             count = 0;
                         }
                     }
-                } 
+                }
                 count = 0;
             }
         }
         for (let j = 1; j < item; j++) {
-
             if (item % j !== 0) {
                 count++;
-
                 if (count === item - 2) {
                     count3++;
                     count = 0;
                 }
             }
-        } count = 0;
+        }
+        count = 0;
     }
     return count2 + count3;
 }
 
+//второй вариант
 
-второй вариант
-Простые
+//Простые
+
 function countNative(arr) {
     let count = 0;
-
     label:
         for(let item of arr) {
-
             for(let i = 2; i < item - 1; i++) {
-
                 if(item % i === 0) {
                     continue label;
                 }
             }
             count++;
         }
-    return count;
+        return count;
 }
 
-В двумерном
+//В двумерном
+
 function countPrimeNumbers(arr) {
     let count = 0;
     let count2 = 0;
     let count3 = 0;
     for(let item of arr) {
-
         if(Array.isArray(item)) {
-
             for(let el of item) {
-
                 for(let i = 1; i < el; i++) {
-
                     if(el % i !== 0 ) {
                         count++;
                         if(count === el - 2) {
@@ -1153,10 +1009,8 @@ function countPrimeNumbers(arr) {
             }
         }
         for(let j = 1; j < item; j++) {
-
             if(item % j !== 0) {
                 count++;
-                
                 if(count === item - 2) {
                     count3++;
                     count = 0;
@@ -1164,22 +1018,19 @@ function countPrimeNumbers(arr) {
             }
         } count = 0;
     }
-     return count2 + count3;
+    return count2 + count3;
 }
 
-Рекурсия
+//Рекурсия
+
 function simpleDigit (arr, i, sum, count) {
     count = count || 0;
     sum = sum || 0;
     i = i || 0;
     if(i < arr.length) {
-
         if(Array.isArray(arr[i])) {
-
             for(let item of arr[i]) {
-
                 for(let j = 1; j < item; j++) {
-
                     if(item % j === 0 && item > 0) {
                         count++;
                     }
@@ -1210,64 +1061,57 @@ function simpleDigit (arr, i, sum, count) {
 
 let memoisedSimpleDigit = (function() {
     let memo = {};
-return function simpleDigit (arr, i, sum, count) {
-    if(arr in memo) {
-       return memo[arr];
-    }
-    count = count || 0;
-    sum = sum || 0;
-    i = i || 0;
-    if(i < arr.length) {
-
-        if(Array.isArray(arr[i])) {
-
-            for(let item of arr[i]) {
-
-                for(let j = 1; j < item; j++) {
-
-                    if(item % j === 0 && item > 0) {
-                        count++;
+    return function simpleDigit (arr, i, sum, count) {
+        if(arr in memo) {
+            return memo[arr];
+        }
+        count = count || 0;
+        sum = sum || 0;
+        i = i || 0;
+        if(i < arr.length) {
+            if(Array.isArray(arr[i])) {
+                for(let item of arr[i]) {
+                    for(let j = 1; j < item; j++) {
+                        if(item % j === 0 && item > 0) {
+                            count++;
+                        }
+                    }
+                    if(count === 1) {
+                        sum += count;
+                        count = 0;
                     }
                 }
-                if(count === 1) {
-                    sum += count;
-                    count = 0;
+            }
+            for(let j = 1; j < arr[i]; j++) {
+
+                if(arr[i] % j === 0 && arr[i] > 0) {
+                    count++;
                 }
             }
-        }
-        for(let j = 1; j < arr[i]; j++) {
-
-            if(arr[i] % j === 0 && arr[i] > 0) {
-                count++;
+            if(count === 1) {
+                sum +=count;
+                count = 0;
             }
-        }
-        if(count === 1) {
-            sum +=count;
             count = 0;
+            return simpleDigit (arr, i + 1, sum, count);
         }
-        count = 0;
-        return simpleDigit (arr, i + 1, sum, count);
-    }
-    memo[arr] = sum;
-    return sum;
-}})();
+        memo[arr] = sum;
+        return sum;
+    }})();
 
 ////Написать функции которые преобразовывают число из десятичной системы счисления в двоичную и в обратную сторону. (Достаточно написать для целых положительных чисел)
-
 
 function decimalConversion(num) {
     let sum = 0;
     for(let i = 0; i < num.length; i++) {
-        
         if(parseInt(num[i]) === 1) {
             sum += Math.pow(2, num.length - i - 1);
         }
     }
-
     return sum;
 }
 
-Рекурсия 
+Рекурсия
 
 function decimalConversion (num, i, sum, j) {
     sum = sum || 0;
@@ -1275,7 +1119,6 @@ function decimalConversion (num, i, sum, j) {
     j = j || 0;
     num = String(num);
     if(i <= num.length && j < num.length) {
-
         if(num[j] == 1) {
             sum += Math.pow(2, num.length - i)
         }
@@ -1283,7 +1126,6 @@ function decimalConversion (num, i, sum, j) {
     }
     return sum;
 }
-
 
 function binaryTranslation(a) {
     let arr = [];
@@ -1293,45 +1135,39 @@ function binaryTranslation(a) {
     } return arr.join('')
 }
 
-
-
-
-рекурсия 
+//рекурсия
 
 function binaryTranslation(a, arr) {
-arr = arr || [];
+    arr = arr || [];
     if(a >= 1) {
         arr.unshift(a % 2);
-        
         return binaryTranslation(parseInt(a/2), arr);
-    } 
+    }
     return arr.join('');
 }
 
 //Мемоизация
+
 let memoisedBinaryTranslation = (function() {
     let memo = {};
-return function binaryTranslation(a, arr) {
-    if(a in memo) {
-     return memo[a];
-    }
-arr = arr || [];
-    if(a >= 1) {
-        arr.unshift(a % 2);
+    return function binaryTranslation(a, arr) {
+        if(a in memo) {
+            return memo[a];
+        }
+        arr = arr || [];
+        if(a >= 1) {
+            arr.unshift(a % 2);
+            return binaryTranslation(parseInt(a/2), arr);
+        }
+        memo[a] = arr.join('');
+        return arr.join('');
+    }})();
 
-        return binaryTranslation(parseInt(a/2), arr);
-    }
-    memo[a] = arr.join('');
-    return arr.join('');
-}})();
-
-
-Из двоичной в десятичную
+//Из двоичной в десятичную
 
 function decimalConversion(num) {
     let sum = 0;
     for(let i = 0; i < num.length; i++) {
-
         if(parseInt(num[i]) === 1) {
             sum += Math.pow(2, num.length - i - 1);
         }
@@ -1339,18 +1175,14 @@ function decimalConversion(num) {
     return sum;
 }
 
-
-
-//Рекурсия 
+//Рекурсия
 
 function decimalConversion(num, i, j, sum) {
     i = i || 1;
     j = j || 0;
     sum = sum || 0;
     num = String(num);
-
     if(i <= num.length && j < num.length) {
-
         if(num[j] == 1) {
             sum += Math.pow(2, num.length - i)
         }
@@ -1358,53 +1190,50 @@ function decimalConversion(num, i, j, sum) {
     }
     return sum;
 }
-
 
 //Мемоизация
 
 let memoisedDecimalConversion = (function() {
     let memo = {};
-return function decimalConversion(num, i, j, sum) {
-    if(num in memo) {
-        return memo[num];
-    }
-    i = i || 1;
-    j = j || 0;
-    sum = sum || 0;
-    num = String(num);
-
-    if(i <= num.length && j < num.length) {
-
-        if(num[j] == 1) {
-            sum += Math.pow(2, num.length - i)
+    return function decimalConversion(num, i, j, sum) {
+        if(num in memo) {
+            return memo[num];
         }
-        return decimalConversion (num, i + 1, j + 1, sum)
-    }
-    memo[num] = sum;
-    return sum;
-}})();
-
+        i = i || 1;
+        j = j || 0;
+        sum = sum || 0;
+        num = String(num);
+        if(i <= num.length && j < num.length) {
+            if(num[j] == 1) {
+                sum += Math.pow(2, num.length - i)
+            }
+            return decimalConversion (num, i + 1, j + 1, sum)
+        }
+        memo[num] = sum;
+        return sum;
+    }})();
 
 ////Посчитать сумму значений чисел от min до max
-только положительные
+
+//только положительные
+
 function sum(min, max) {
     let sum = 0;
     let d;
     for(let i = 0; i < max - (min - 1); i++) {
         d = min + i;
-
         if(d > 0) {
             sum +=d;
         }
-    } return sum;
+    }
+    return sum;
 }
 
-
 //Рекурсия
+
 function sumUpToMax(min, max, sum) {
     sum = sum || 0;
     if(min <= max) {
-        
         if(min > 0) {
             sum +=min;
         }
@@ -1414,40 +1243,37 @@ function sumUpToMax(min, max, sum) {
 }
 
 //Мемоизация
+
 let memoisedSumUpToMax = (function() {
     let memo = {};
-return function sumUpToMax(min, max, sum) {
-    let arr = [min,max];
-    if(arr in memo) {
-        return memo[arr];
-    }
-    sum = sum || 0;
-    if(min <= max) {
-
-        if(min > 0) {
-            sum +=min;
+    return function sumUpToMax(min, max, sum) {
+        let arr = [min,max];
+        if(arr in memo) {
+            return memo[arr];
         }
-        return sumUpToMax(min + 1, max, sum);
-    }
-    memo[arr] = sum;
-    return sum;
-}})();
+        sum = sum || 0;
+        if(min <= max) {
+            if(min > 0) {
+                sum +=min;
+            }
+            return sumUpToMax(min + 1, max, sum);
+        }
+        memo[arr] = sum;
+        return sum;
+    }})();
 
-только тех которые кратны 3
+//только тех которые кратны 3
 
 function sumUpToMax(min, max) {
     let sum = 0;
     let d;
     for(let i = 0; i < max - 1; i++) {
         d = min + i;
-
         if(d%3 === 0) {
             sum +=d;
         }
     } return sum;
 }
-
-
 
 //Рекурсия
 
@@ -1455,7 +1281,6 @@ function sumUpToMax(min, max, divider, sum) {
     sum = sum || 0;
     divider = divider || 3;
     if(min <= max) {
-
         if(min % divider === 0) {
             sum +=min;
         }
@@ -1464,71 +1289,70 @@ function sumUpToMax(min, max, divider, sum) {
     return sum;
 }
 
-
 //Мемоизация
+
 let memoisedSumUpToMax = (function() {
     let memo = {};
-return function sumUpToMax(min, max, divider, sum) {
-    let arr = [min, max];
-    if(arr in memo) {
-        return memo[arr];
-    }
-    sum = sum || 0;
-    divider = divider || 3;
-    
-    if(min <= max) {
-
-        if(min % divider === 0) {
-            sum +=min;
+    return function sumUpToMax(min, max, divider, sum) {
+        let arr = [min, max];
+        if(arr in memo) {
+            return memo[arr];
         }
-        return sumUpToMax(min + 1, max, divider, sum);
-    }
-    memo[arr] = sum;
-    return sum;
-}})();
+        sum = sum || 0;
+        divider = divider || 3;
+        if(min <= max) {
+            if(min % divider === 0) {
+                sum +=min;
+            }
+            return sumUpToMax(min + 1, max, divider, sum);
+        }
+        memo[arr] = sum;
+        return sum;
+    }})();
 
-всех
+//всех
+
 function sumUptoMax(min, max) {
     let sum = 0;
     let c = min;
     for(let i = 1; i < max - (min-1); i++) {
-
         sum = c + (min + i);
         c = sum;
-
-    } 
+    }
     return sum;
 }
 
+//Рекурсия
 
-Рекурсия
 function sumUptoMax(min, max) {
     let sum = 0;
     if(min <= max) {
         sum = min + sumUptoMax(min + 1,max);
-    } return sum;
+    }
+    return sum;
 }
 
 //Мемоизация
 
 let memoisedSumUptoMax = (function (){
     let memo = {};
-return function sumUptoMax(min, max) {
-    let arr = [min,max];
-    if(arr in memo){
-        return memo[arr];
-    }
-    let sum = 0;
-    if(min <= max) {
-        sum = min + sumUptoMax(min + 1, max);
-    } let result = sum;
-    memo[arr] = result;
-    return sum;
-}})();
-
+    return function sumUptoMax(min, max) {
+        let arr = [min,max];
+        if(arr in memo){
+            return memo[arr];
+        }
+        let sum = 0;
+        if(min <= max) {
+            sum = min + sumUptoMax(min + 1, max);
+        }
+        let result = sum;
+        memo[arr] = result;
+        return sum;
+    }})();
 
 ////Найти среднее значение всех элементов одномерного/двумерного массива (Среднее только тех которые четные и которые не четные)
-всех в одномерном
+//всех в одномерном
+
 function sumAll(arr) {
     let sum = 0;
     let count = 0;
@@ -1538,65 +1362,34 @@ function sumAll(arr) {
     } return sum/count;
 }
 
-всех в двумерном
+//всех в двумерном
+
 function average(arr) {
     let sum = 0;
     let count = 0;
     for(let item of arr) {
-    
         if(Array.isArray(item)) {
-
-            for(let el of item){
+            for(let element of item){
                 count++;
-                sum += el;
-                }
+                sum += element;
+            }
         } else if(typeof item === "number") {
             count++;
-        sum += item;
+            sum += item;
         }
-    } return sum/count;
+    } 
+    return sum/count;
 }
 
 //Рекурсия
+
 function average(arr, sum, count, i, j) {
     sum = sum || 0;
     count = count || 0;
     i = i || 0;
     j = j || 0;
     if(i < arr.length) {
-
         if(Array.isArray(arr[i])) {
-
-            if(j < arr[i].length) {
-                count++;
-                sum += arr[i][j];
-                return average(arr, sum, count, i, j + 1)
-            }
-        }
-       if(typeof arr[i] === "number") {
-            count++;
-            sum += arr[i];
-            return average(arr, sum, count, i + 1)
-        }
-        }
-        return sum/count;
-}
-
-//Мемоизация
-let memoisedAverage = (function() {
-    let memo = {};
-return function average(arr, sum, count, i, j) {
-    if(arr in memo) {
-        return memo[arr];
-    }
-    sum = sum || 0;
-    count = count || 0;
-    i = i || 0;
-    j = j || 0;
-    if(i < arr.length) {
-
-        if(Array.isArray(arr[i])) {
-
             if(j < arr[i].length) {
                 count++;
                 sum += arr[i][j];
@@ -1609,16 +1402,45 @@ return function average(arr, sum, count, i, j) {
             return average(arr, sum, count, i + 1)
         }
     }
-    memo[arr] = sum/count;
     return sum/count;
-}})();
+}
 
-среднее значение в одномерном кратное двум
+//Мемоизация
+
+let memoisedAverage = (function() {
+    let memo = {};
+    return function average(arr, sum, count, i, j) {
+        if(arr in memo) {
+            return memo[arr];
+        }
+        sum = sum || 0;
+        count = count || 0;
+        i = i || 0;
+        j = j || 0;
+        if(i < arr.length) {
+            if(Array.isArray(arr[i])) {
+                if(j < arr[i].length) {
+                    count++;
+                    sum += arr[i][j];
+                    return average(arr, sum, count, i, j + 1)
+                }
+            }
+            if(typeof arr[i] === "number") {
+                count++;
+                sum += arr[i];
+                return average(arr, sum, count, i + 1)
+            }
+        }
+        memo[arr] = sum/count;
+        return sum/count;
+    }})();
+
+//среднее значение в одномерном кратное двум
+
 function sumMultipleTwo (arr) {
     let sum = 0;
     let count = 0;
     for (let item of arr) {
-
         if (item % 2 === 0) {
             sum += item;
             count++;
@@ -1626,12 +1448,12 @@ function sumMultipleTwo (arr) {
     } return sum/count;
 }
 
-среднее значение в одномерном массиве нечтных значений
+//среднее значение в одномерном массиве нечтных значений
+
 function sumMultipleTwo(arr) {
     let sum = 0;
     let count = 0;
     for(let item of arr) {
-
         if(item % 2 !== 0) {
             sum += item;
             count++;
@@ -1639,18 +1461,14 @@ function sumMultipleTwo(arr) {
     } return sum/count;
 }
 
+//среднее значение в двумерном массиве нечтных значений
 
-среднее значение в двумерном массиве нечтных значений
-
-   function averageOdd(arr, count, sum) {
+function averageOdd(arr, count, sum) {
     sum = sum || 0;
     count = count || 0;
     for(let item of arr) {
-
         if(Array.isArray(item)) {
-
             for(let el of item){
-
                 if(el % 2 === 0) {
                     count++;
                     sum += el;
@@ -1666,25 +1484,22 @@ function sumMultipleTwo(arr) {
 }
 
 // Рекурсия
+
 function averageOdd(arr, count, sum, i, j) {
     sum = sum || 0;
     count = count || 0;
     i = i || 0;
     j = j || 0;
     if(i < arr.length) {
-
         if(Array.isArray(arr[i])) {
-
             if(j < arr[i].length){
-
                 if(arr[i][j] % 2 === 0 && arr[i][j] > 0) {
                     count++;
                     sum += arr[i][j];
                     return averageOdd(arr, count, sum, i, j + 1);
                 }
             }
-        }
-        else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
+        }  else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
             count++;
             sum += arr[i];
             return averageOdd(arr, count, sum, i + 1);
@@ -1698,47 +1513,45 @@ function averageOdd(arr, count, sum, i, j) {
 
 let memoisedAverageOdd = (function() {
     let memo = {};
-return function averageOdd(arr, count, sum, i, j) {
-    if(arr in memo) {
-        return memo[arr];
-    }
-    sum = sum || 0;
-    count = count || 0;
-    i = i || 0;
-    j = j || 0;
-    if(i < arr.length) {
-
-        if(Array.isArray(arr[i])) {
-
-            if(j < arr[i].length){
-
-                if(arr[i][j] % 2 === 0 && arr[i][j] > 0) {
-                    count++;
-                    sum += arr[i][j];
-                    return averageOdd(arr, count, sum, i, j + 1);
-                }
-            }
+    return function averageOdd(arr, count, sum, i, j) {
+        if(arr in memo) {
+            return memo[arr];
         }
-        else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
-            count++;
-            sum += arr[i];
+        sum = sum || 0;
+        count = count || 0;
+        i = i || 0;
+        j = j || 0;
+        if(i < arr.length) {
+
+            if(Array.isArray(arr[i])) {
+
+                if(j < arr[i].length){
+
+                    if(arr[i][j] % 2 === 0 && arr[i][j] > 0) {
+                        count++;
+                        sum += arr[i][j];
+                        return averageOdd(arr, count, sum, i, j + 1);
+                    }
+                }
+            } else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
+                count++;
+                sum += arr[i];
+                return averageOdd(arr, count, sum, i + 1);
+            }
             return averageOdd(arr, count, sum, i + 1);
         }
-        return averageOdd(arr, count, sum, i + 1);
-    }
-    memo[arr] = sum/count;
-    return sum/count;
-}})();
+        memo[arr] = sum/count;
+        return sum/count;
+    }})();
 
 ////Транспонировать матрицу
+
 function matrixTranspose(arr) {
     let arrSt = [];
     for(let i = 0; i < arr[0].length; i++) {
         arrSt.push([]);
     }
-
     for(let a = 0; a < arr.length; a++) {
-
         for(let j = 0; j < arr[0].length; j++) {
             arrSt[j].push(arr[a][j]);
         }
@@ -1750,30 +1563,28 @@ function matrixTranspose(arr) {
 
 let memoisedMatrixTranspose = (function() {
     let memo = {};
-return function matrixTranspose(arr, j, i, arrSt) {
-    if(arr in memo) {
-        return memo[arr];
-    }
-    arrSt = arrSt || [];
-    j = j || 0;
-    i = i || 0;
-    if(i < arr.length)  {
-
-        if(j < arr[0].length) {
-            arrSt.push([]);
-            arrSt[j].push(arr[i][j]);
-            return matrixTranspose(arr, j+1, i, arrSt);
-
+    return function matrixTranspose(arr, j, i, arrSt) {
+        if(arr in memo) {
+            return memo[arr];
         }
-        return matrixTranspose(arr, 0, i +1, arrSt);
-    }
-    memo[arr] = arrSt.filter(function (el) {
-        return el.length !== 0;
-    });
-    return arrSt.filter(function (el) {
-        return el.length !== 0;
-    });
-}})();
+        arrSt = arrSt || [];
+        j = j || 0;
+        i = i || 0;
+        if(i < arr.length)  {
+            if(j < arr[0].length) {
+                arrSt.push([]);
+                arrSt[j].push(arr[i][j]);
+                return matrixTranspose(arr, j+1, i, arrSt);
+            }
+            return matrixTranspose(arr, 0, i +1, arrSt);
+        }
+        memo[arr] = arrSt.filter(function (el) {
+            return el.length !== 0;
+        });
+        return arrSt.filter(function (el) {
+            return el.length !== 0;
+        });
+    }})();
 
 //рекурсия
 
@@ -1782,12 +1593,10 @@ function matrixTranspose(arr, j, i, arrSt) {
     j = j || 0;
     i = i || 0;
     if(i < arr.length)  {
-
         if(j < arr[0].length) {
             arrSt.push([]);
             arrSt[j].push(arr[i][j]);
             return matrixTranspose(arr, j+1, i, arrSt);
-
         }
         return matrixTranspose(arr, 0, i +1, arrSt);
     }
@@ -1799,33 +1608,30 @@ function matrixTranspose(arr, j, i, arrSt) {
 ////Сложить две матрицы
 
 function sumMatrix(...matrix) {
-        let matrixSum = [];
-        let sum = 0;
+    let matrixSum = [];
+    let sum = 0;
     for(let i = 0; i < matrix[0].length; i++){
         matrixSum.push([]);
         for(let j = 0; j < matrix[0][0].length; j++) {
-
             for(let e = 0; e < matrix.length; e++) {
                 sum += matrix[e][i][j];
             }
             matrixSum[i].push(sum);
             sum = 0;
         }
-    } 
+    }
     return matrixSum;
 }
 
+//Рекурсия
 
-Рекурсия
 function sumMatrices(matr1, matr2, i, j, arrSumMatrices, sum) {
     arrSumMatrices = arrSumMatrices || [];
     sum = sum || 0;
     i = i || 0;
     j = j || 0;
     if(i < matr1.length) {
-        
         if(j < matr1[j].length){
-            
             if(j === 0) {
                 arrSumMatrices.push([]);
             }
@@ -1839,107 +1645,92 @@ function sumMatrices(matr1, matr2, i, j, arrSumMatrices, sum) {
 }
 
 //Мемоизация
+
 let memoisedSumMatrices = (function() {
     let memo = {};
-return function sumMatrices(matr1, matr2, i, j, arrSumMatrices, sum) {
-    let arr = [matr1, matr2];
-    if(arr in memo) {
-        return memo[arr];
-    }
-    arrSumMatrices = arrSumMatrices || [];
-    sum = sum || 0;
-    i = i || 0;
-    j = j || 0;
-    if(i < matr1.length) {
-
-        if(j < matr1[j].length){
-
-            if(j === 0) {
-                arrSumMatrices.push([]);
-            }
-            sum = matr1[i][j] + matr2[i][j];
-            arrSumMatrices[i].push(sum);
-            return sumMatrices(matr1, matr2, i,j+1, arrSumMatrices, sum);
+    return function sumMatrices(matr1, matr2, i, j, arrSumMatrices, sum) {
+        let arr = [matr1, matr2];
+        if(arr in memo) {
+            return memo[arr];
         }
-        return sumMatrices(matr1,matr2, i+1,0, arrSumMatrices, sum);
-    }
-    memo[arr] = arrSumMatrices;
-    return arrSumMatrices;
-}})();
-
+        arrSumMatrices = arrSumMatrices || [];
+        sum = sum || 0;
+        i = i || 0;
+        j = j || 0;
+        if(i < matr1.length) {
+            if(j < matr1[j].length){
+                if(j === 0) {
+                    arrSumMatrices.push([]);
+                }
+                sum = matr1[i][j] + matr2[i][j];
+                arrSumMatrices[i].push(sum);
+                return sumMatrices(matr1, matr2, i,j+1, arrSumMatrices, sum);
+            }
+            return sumMatrices(matr1,matr2, i+1,0, arrSumMatrices, sum);
+        }
+        memo[arr] = arrSumMatrices;
+        return arrSumMatrices;
+    }})();
 
 ////Удалить из двумерного массива строку в которой присутствует хотя бы один нулевой элемент. Для столбца аналогично реализовать.
 
 function matrixCleanZero(matrix) {
-
-for(let i = 0; i < matrix.length; i++) {
-
-    for(let j = 0; j < matrix[i].length; j++) {
-    
-        if(matrix[i][j] === 0) {
-
-            matrix.splice(i,1);
+    for(let i = 0; i < matrix.length; i++) {
+        for(let j = 0; j < matrix[i].length; j++) {
+            if(matrix[i][j] === 0) {
+                matrix.splice(i,1);
+            }
         }
     }
+    return matrix;
 }
-        return matrix;
-  }
 
-
-Рекурсия
+//Рекурсия
 
 function matrixCleanZero(matrix, i, j) {
     i = i || 0;
     j = j || 0;
     if (i < matrix.length) {
-
         if (j < matrix[i].length) {
-
             if (matrix[i][j] === 0) {
-
                 matrix.splice(i,1);
-
-            } return matrixCleanZero (matrix, i,j+1);
-
-        } return matrixCleanZero (matrix, i+1,0);
+            } 
+            return matrixCleanZero (matrix, i,j+1);
+        } 
+        return matrixCleanZero (matrix, i+1,0);
     }
     return matrix;
 }
+
 // Мемоизация
 
 let memoisedMatrixCleanZero = (function() {
     let memo = {};
-return function matrixCleanZero (matrix, i, j) {
-    if(matrix in memo) {
-        return memo[matrix];
-    }
+    return function matrixCleanZero (matrix, i, j) {
+        if(matrix in memo) {
+            return memo[matrix];
+        }
         i = i || 0;
         j = j || 0;
-    if (i < matrix.length) {
+        if (i < matrix.length) {
+            if (j < matrix[i].length) {
+                if (matrix[i][j] === 0) {
+                    matrix.splice(i,1);
+                } 
+                return matrixCleanZero (matrix, i,j+1);
 
-        if (j < matrix[i].length) {
-
-            if (matrix[i][j] === 0) {
-
-                matrix.splice(i,1);
-
-            } return matrixCleanZero (matrix, i,j+1);
-
-        } return matrixCleanZero (matrix, i+1,0);
-    }
-    memo[matrix] = matrix;
-    return matrix;
-}})();
-
+            } 
+            return matrixCleanZero (matrix, i+1,0);
+        }
+        memo[matrix] = matrix;
+        return matrix;
+    }})();
 
 //Удалить столбец
 
 function matrixCleanZero(matrix) {
-
     for(let i = 0; i < matrix.length; i++) {
-
         for(let j = 0; j < matrix[i].length; j++) {
-            
             if (matrix[i][j] === 0) {
                 for(let i = 0; i < matrix.length; i++) {
                     matrix[i].splice(j,1);
@@ -1950,26 +1741,21 @@ function matrixCleanZero(matrix) {
     return matrix;
 }
 
-
-
-Рекурсия
+//Рекурсия
 
 function matrixCleanZero(matrix, i ,j, count) {
     i = i || 0;
     j = j || 0;
     count = count || 0;
     if(i < matrix.length) {
-
         if(j < matrix[i].length) {
-
             if(matrix[i][j] === 0) {
                 count++;
                 matrix[i].splice(j,1);
                 return matrixCleanZero (matrix, i+1, j, count);
-            }
-            else if(count > 0) {
-            matrix[i].splice(j,1);
-            return matrixCleanZero(matrix, i+1, j, count);
+            } else if(count > 0) {
+                matrix[i].splice(j,1);
+                return matrixCleanZero(matrix, i+1, j, count);
             }
             return matrixCleanZero(matrix, 0,j+1, count);
         }
@@ -1981,35 +1767,32 @@ function matrixCleanZero(matrix, i ,j, count) {
 
 let memoisedMatrixCleanZero = (function() {
     let memo = {};
-return function matrixCleanZero(matrix, i ,j, count) {
-    if(matrix in memo) {
-        return memo[matrix];
-    }
-    i = i || 0;
-    j = j || 0;
-    count = count || 0;
-    if(i < matrix.length) {
-
-        if(j < matrix[i].length) {
-
-            if(matrix[i][j] === 0) {
-                count++;
-                matrix[i].splice(j,1);
-                return matrixCleanZero (matrix, i+1, j, count);
-            }
-            else if(count > 0) {
-                matrix[i].splice(j,1);
-                return matrixCleanZero(matrix, i+1, j, count);
-            }
-            return matrixCleanZero(matrix, 0,j+1, count);
+    return function matrixCleanZero(matrix, i ,j, count) {
+        if(matrix in memo) {
+            return memo[matrix];
         }
-    }
-    memo[matrix] = matrix;
-    return matrix;
-}})();
-
+        i = i || 0;
+        j = j || 0;
+        count = count || 0;
+        if(i < matrix.length) {
+            if(j < matrix[i].length) {
+                if(matrix[i][j] === 0) {
+                    count++;
+                    matrix[i].splice(j,1);
+                    return matrixCleanZero (matrix, i+1, j, count);
+                } else if(count > 0) {
+                    matrix[i].splice(j,1);
+                    return matrixCleanZero(matrix, i+1, j, count);
+                }
+                return matrixCleanZero(matrix, 0,j+1, count);
+            }
+        }
+        memo[matrix] = matrix;
+        return matrix;
+    }})();
 
 ////Факториал
+
 function factorial(n) {
     let a = 1;
     let b = 2;
@@ -2021,8 +1804,7 @@ function factorial(n) {
     } return c;
 }
 
-
-//Рекурсия 
+//Рекурсия
 
 function factorial(n, result) {
     result = result || 1;
@@ -2033,16 +1815,17 @@ function factorial(n, result) {
 }
 
 // Мемоизация
+
 let memoisedFactorial = (function() {
     let memo = {};
-return function factorial(n, result) {
-    if(n in memo) {
-        return memo[n];
-    }
-    result = result || 1;
-    if(n > 0) {
-        result = n * factorial(n -1);
-    }
-    memo[n] = result;
-    return result;
-}})();
+    return function factorial(n, result) {
+        if(n in memo) {
+            return memo[n];
+        }
+        result = result || 1;
+        if(n > 0) {
+            result = n * factorial(n -1);
+        }
+        memo[n] = result;
+        return result;
+    }})();

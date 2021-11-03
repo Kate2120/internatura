@@ -1,0 +1,20 @@
+//bind
+
+function sum() {
+    return this.term1 + this.term2;
+}
+let digit = {
+    term1: 2,
+    term2: 1,
+}
+
+function customBind(fn, context){
+    function worksLikeBind() {
+        let key = "uniqKeyForFn";
+        context[key] = fn;
+        let result = context[key]();
+        delete context[key];
+        return result;
+    }
+    return worksLikeBind();
+}

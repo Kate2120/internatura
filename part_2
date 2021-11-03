@@ -33,7 +33,7 @@ let customCall = (function likeCall(fn, context){
 
 //map
 
-let customFanctionMap = (function likeMap(argument){
+let customFunctionMap = (function likeMap(argument){
     let newArray = [];
     for(let i = 0; i < argument.length; i++){
         let result = argument[i] * 5;

@@ -41,3 +41,15 @@ let customFunctionMap = (function likeMap(argument){
     }
     return newArray;
 })([1,2,3]);
+
+//filter
+
+let customFilter = (function likeFilter(argument){
+    let newArray = [];
+    for(let i = 0; i < argument.length; i++){
+        if(!argument[i] == 0) {
+            newArray.push(argument[i]);
+        }
+    }
+    return newArray;
+})([1,0,3,5,0,7,8,0]);

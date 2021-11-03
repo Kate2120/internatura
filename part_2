@@ -30,3 +30,14 @@ let customCall = (function likeCall(fn, context){
     }
     return worksLikeCall();
 })(sum, digit);
+
+//map
+
+let customFanctionMap = (function likeMap(argument){
+    let newArray = [];
+    for(let i = 0; i < argument.length; i++){
+        let result = argument[i] * 5;
+        newArray.push(result);
+    }
+    return newArray;
+})([1,2,3]);

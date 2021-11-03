@@ -18,3 +18,15 @@ function customBind(fn, context){
     }
     return worksLikeBind();
 }
+
+//call
+let customCall = (function likeCall(fn, context){
+    function worksLikeCall() {
+        let key = "uniqKeyForFn";
+        context[key] = fn;
+        let result = context[key]();
+        delete context[key];
+        return result;
+    }
+    return worksLikeCall();
+})(sum, digit);

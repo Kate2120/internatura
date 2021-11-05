@@ -8,15 +8,15 @@ let digit = {
     term2: 1,
 }
 
-function customBind(fn, context){
-    function worksLikeBind() {
-        let key = "uniqKeyForFn";
-        context[key] = fn;
+Function.prototype.customBind = function (context){
+    let key = Symbol();
+    context[key] = this;
+    return (function() {
         let result = context[key]();
         delete context[key];
         return result;
-    }
-    return worksLikeBind();
+    });
+
 }
 
 //call

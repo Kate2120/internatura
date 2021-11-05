@@ -58,13 +58,13 @@ Array.prototype.customFilter = function(func){
 
 //reduce
 
-let customReduce = (function likeReduce(argument){
+Array.prototype.customReduce = function(func){
     let result = 0;
-    for(let i = 0; i < argument.length; i++){
-        result += argument[i];
+    for(let i = 0; i < this.length; i++){
+        result += func(this[i]);
     }
     return result;
-})([1,0,3,4,2]);
+};
 
 //foreach
 

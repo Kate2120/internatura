@@ -36,7 +36,6 @@ Function.prototype.customCall = function (context){
 Array.prototype.customMap = function(func){
     let newArray = [];
     for(let i = 0; i < this.length; i++){
-        console.log(this[i]);
         let result = func(this[i]);
         newArray.push(result);
     }

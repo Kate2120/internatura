@@ -106,6 +106,4 @@ let obj = {
     },
 
 }
-for(let element of obj){
-    console.log(element);
-}
+

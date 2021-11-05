@@ -68,14 +68,13 @@ Array.prototype.customReduce = function(func){
 
 //foreach
 
-let customForeach = (function likeForeach(argument){
-    let obj = {};
-    for(let i = 0; i < argument.length; i++){
-        let result = argument[i] * 10;
-        obj[i] = result;
+Array.prototype.customForEach = function(func){
+    let result = 0;
+    for(let i = 0; i < this.length; i++){
+        result = func(this[i]);
     }
-    return obj;
-})([1,3,5,7]);
+    return result;
+};
 
 //iterable object
 

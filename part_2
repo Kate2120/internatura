@@ -44,15 +44,17 @@ Array.prototype.customMap = function(func){
 
 //filter
 
-let customFilter = (function likeFilter(argument){
+Array.prototype.customFilter = function(func){
     let newArray = [];
-    for(let i = 0; i < argument.length; i++){
-        if(!argument[i] == 0) {
-            newArray.push(argument[i]);
-        }
+    for(let i = 0; i < this.length; i++){
+        let result = func(this[i]);
+        if(result === true){
+            newArray.push(this[i])
+        };
+
     }
     return newArray;
-})([1,0,3,5,0,7,8,0]);
+};
 
 //reduce
 

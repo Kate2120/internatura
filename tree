@@ -1,3 +1,71 @@
+/*class Node {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class BinaryTree {
+    constructor() {
+        this.root = null;
+    }
+    add(value){
+        let nodeDigit = new Node(value);
+        console.log(nodeDigit);
+        if(!this.root){
+            this.root = nodeDigit;
+            return;
+        }
+        let currentNode = this.root;
+        while(currentNode) {
+            if(nodeDigit.value < currentNode.value) {
+                if(!currentNode.left){
+                currentNode.left = nodeDigit;
+                return;
+                }
+            currentNode = currentNode.left;
+            } else if(nodeDigit.value > currentNode.value) {
+                if(!currentNode.right){
+                    currentNode.right = nodeDigit;
+                    return;
+                }
+                currentNode = currentNode.right;
+            }
+
+        }
+    }
+    search(value, currentNode){
+        currentNode = currentNode || this.root;
+        if(value < currentNode.value) {
+            return this.search(value, currentNode.left);
+        } else if(value > currentNode.value) {
+            return this.search(value, currentNode.right);
+        }
+        return currentNode;
+    }
+}
+let myTree = new BinaryTree();
+myTree.add(12);
+myTree.add(10);
+myTree.add(15);
+myTree.add(9);
+myTree.add(8);
+myTree.add(4);
+myTree.add(19);
+myTree.add(18);
+myTree.add(14);
+console.log(myTree);
+console.log(myTree.search(9));*/
+
+/*class Node {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}*/
+
 class BinaryTree {
     constructor(value) {
         this.value = value;

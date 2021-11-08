@@ -1,0 +1,46 @@
+class BinaryTree {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+    add(value, currentNode) {
+        currentNode = currentNode || this.value;
+       if(!this.value) {
+           return this.value = value;
+       } else if(currentNode > value) {
+           if(!this.left){
+              return this.left = value;
+           }
+           return this.add(value, this.left);
+       } else  if(currentNode < value) {
+           if (!this.right) {
+               return this.right = value;
+           }
+           return this.add(value, this.right);
+       }
+
+    }
+/*    search(value, currentNode){
+        currentNode = currentNode || this.root;
+        if(value < currentNode.value) {
+            return this.search(value, currentNode.left);
+        } else if(value > currentNode.value) {
+            return this.search(value, currentNode.right);
+        }
+        return currentNode;
+    }*/
+}
+let myTree = new BinaryTree();
+myTree.add(12);
+myTree.add(10);
+myTree.add(15);
+myTree.add(9);
+/*myTree.add(8);
+myTree.add(4);
+myTree.add(19);
+myTree.add(18);
+myTree.add(14);*/
+console.log(myTree);
+/*
+console.log(myTree.search(9));*/

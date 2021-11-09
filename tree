@@ -1,21 +1,36 @@
-function sort(arg, i, j, counter) {
+function sort(argument, i, j, counter) {
     i = i || 0;
     j = j || i + 1;
     counter = counter || 0;
     let value = 0;
-        if(i < arg.length - 1 && j < arg.length){
-            if(arg[i] > arg[j]) {
-                value = arg[i];
-                arg[i] = arg[j];
-                arg[j] = value;
+        if(i < argument.length - 1 && j < argument.length){
+            if(argument[i] > argument[j]) {
+                value = argument[i];
+                argument[i] = argument[j];
+                argument[j] = value;
                 counter++
-                return sort(arg, i + 1, j + 1, counter);
+                return sort(argument, i + 1, j + 1, counter);
             }
-            return sort(arg, i + 1, j + 1, counter);
+            return sort(argument, i + 1, j + 1, counter);
         }
        if(counter === 0) {
-        return arg;
+        return argument;
         }
         
-        return sort(arg);
+        return sort(argument);
+}
+
+///
+
+function sort (argument){
+    for (let i = 1; i < argument.length; i++) {
+        let currentValue = argument[i];
+        let j = i;
+        while (j > 0 && argument[j - 1] > currentValue) {
+            argument[j] = argument[j - 1];
+            j--;
+        }
+        argument[j] = currentValue;
+    }
+    return argument;
 }

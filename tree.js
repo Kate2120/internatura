@@ -102,39 +102,41 @@ binaryTree.add(14);
 
 //
 
-function sort(argument, i, j, counter) {
-    i = i || 0;
-    j = j || i + 1;
-    counter = counter || 0;
-    let value = 0;
-        if(i < argument.length - 1 && j < argument.length){
-            if(argument[i] > argument[j]) {
-                value = argument[i];
-                argument[i] = argument[j];
-                argument[j] = value;
-                counter++
-                return sort(argument, i + 1, j + 1, counter);
-            }
-            return sort(argument, i + 1, j + 1, counter);
+Array.prototype.customSort = function sort(func) {
+let value;
+
+let arr = this.slice();
+for(let j = 0; j < arr.length; j++) {
+    let counter = 0;
+    for (let i = 0; i < arr.length - 1; i++) {
+        let result = func(arr[i], arr[i + 1]);
+        if (result) {
+            value = arr[i];
+            arr[i] = arr[i + 1];
+            arr[i + 1] = value;
+            counter++
         }
-       if(counter === 0) {
-        return argument;
-        }
-        
-        return sort(argument);
+
+    }
+    if(counter === 0){
+        break;
+    }
+}
+    return arr;
 }
 
 ///
 
-function sort (argument){
-    for (let i = 1; i < argument.length; i++) {
-        let currentValue = argument[i];
+Array.prototype.customSort = function sort(func) {
+    let arr = this.slice();
+    for (let i = 1; i < arr.length; i++) {
+    let currentValue = arr[i];
         let j = i;
-        while (j > 0 && argument[j - 1] > currentValue) {
-            argument[j] = argument[j - 1];
+        while (j > 0 && func(arr[j - 1], currentValue)) {
+            arr[j] = arr[j - 1];
             j--;
         }
-        argument[j] = currentValue;
+        arr[j] = currentValue;
     }
-    return argument;
-}
+    return arr;
+ }

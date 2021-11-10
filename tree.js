@@ -1,59 +1,3 @@
-
-class Node {
-    value;
-    left;
-    right;
-
-    constructor() {
-        this.value = null;
-        this.left = null;
-        this.right = null;
-    }
-
-    add(value, node) {
-        node = node || this;
-
-        if(node.value === null){
-            node.value = value;
-            return;
-        }
-
-        if(node.value > value){
-            if(node.left === null){
-                node.left = new Node();
-            }
-            return this.add(value, node.left);
-        }
-
-        if(node.right === null){
-            node.right = new Node();
-        }
-        return this.add(value, node.right);
-    }
-        search(value, node){
-            node = node || this;
-
-            if(value < node.value) {
-                return this.search(value, node.left);
-            }
-
-            if(value > node.value) {
-                return this.search(value, node.right);
-            }
-
-            return node;
-        }
-
-    delite(value, node) {
-
-        node = node || this;
-        if(node.value === value){
-            console.log(node);
-            console.log(node.value);
-            if(node.right === null && node.left === null){
-                this.node = null;
-               return this.node;
-            }
 class Node {
     value;
     left;
@@ -154,6 +98,7 @@ binaryTree.add(4);
 binaryTree.add(19);
 binaryTree.add(18);
 binaryTree.add(14);
+
 
 //
 

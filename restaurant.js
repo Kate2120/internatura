@@ -4,7 +4,7 @@ class Department {
         this.title = title;
         this.numberEmployees = numberEmployees;
     }
-  
+
 
 }
 
@@ -54,18 +54,37 @@ let departments = [
                 {employeeId: 312, name: 'Ольга', surname: 'Иванова', age: 28, employmentDate: '03.06.2021', position: accountant, dismissalDate: null},
                 {employeeId: 313, name: 'Марина', surname: 'Петрова', age: 28, employmentDate: '11.06.2021', position: accountantHelper, dismissalDate: '14.06.2021'},
                 {employeeId: 314, name: 'Наталия', surname: 'Сачкова', age: 28, employmentDate: '15.06.2021', position: accountantHelper, dismissalDate: null}]}}
-  ];
+];
 
 console.log(departments);
 function allSalaries(argument){
     for (let item of argument){
 
-    let valueItem = Object.values(item);
+        for(let key in item){
 
-let valueSecond = Object.values(valueItem);
-        console.log(valueSecond);
-        let valueTree = Object.values(financial);
-        console.log(valueTree);
+            if(typeof item[key] === 'object'){
+            for(let element in item[key]){
+
+                if(typeof item[key][element] === 'object'){
+                    for(let value in item[key][element]){
+                        
+                        if(typeof item[key][element][value] === 'object'){
+                            for(let el in item[key][element][value]){
+
+                                if(typeof item[key][element][value] === 'object'){
+                                    if(typeof item[key][element][value][el] === 'object'){
+                                        for(let data in item[key][element][value][el]){
+                                            console.log(item[key][element][value][el][data]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        }
     }
 }
 console.log(allSalaries(departments));
@@ -94,9 +113,9 @@ class Employee {
     }
     getInfoPosition(position){
         for(let item of positionsAll) {
-        if(this.position === item.title){
-            return item;
-        }
+            if(this.position === item.title){
+                return item;
+            }
         }
     }
 
@@ -115,4 +134,3 @@ let employees = [
     {employeeId: 32, name: 'Марина', surname: 'Петрова', age: 28, employmentDate: '14.06.2021', position: waiter, dismissalDate: null}
 ];
 /*console.log(employees);*/
-

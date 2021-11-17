@@ -201,7 +201,7 @@ let arrayDepartmentWithoutHead = [];
            arrEmployee = arrayPosition[j].getArrayEmployee();
            if(arrayPosition[j][position]){
            for(let k = 0; k < arrEmployee.length; k++){
-               if(arrEmployee[k].dismiss() !== "" || arrEmployee[k] === []){
+               if(arrEmployee[k].dismiss() !== "" || arrEmployee.length === 0){
                    arrayDepartmentWithoutHead.push(restaurant[i].title);
                }
            }

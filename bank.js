@@ -1,9 +1,10 @@
 let myBank;
 class Bank {
     customerArray = [];
-    constructor(name, nationalCurrency) {
+    allBankMoney;
+    debtInactiveClients;
+    constructor(name) {
         this.name = name;
-        this.nationalCurrency = nationalCurrency;
     }
     getCustomerArray(){
         return this.customerArray;
@@ -147,7 +148,8 @@ function addCreditAccount(accountId, type, createDate, expiredDate, currency, am
 }
 addCreditAccount(1, 'Кредитная', '15.12.2020', '15.12.2025', 'UAH', 2000, 0, 10000, 'Нина', 'Малыгина');
 addCreditAccount(2, 'Кредитная', '17.12.2020', '17.12.2025', 'UAH', 0, 5000, 10000, 'Марина', 'Митина');
-addCreditAccount(2, 'Кредитная', '17.12.2020', '17.12.2025', 'UAH', 0, 60000, 100000, 'Максим', 'Ветров');
+addCreditAccount(3, 'Кредитная', '17.12.2020', '17.12.2025', 'UAH', 0, 60000, 100000, 'Максим', 'Ветров');
+addCreditAccount(4, 'Кредитная', '17.12.2020', '17.12.2025', 'UAH', 0, 60000, 100000, 'Ольга', 'Савенкова');
 
 
 let usdRate = 0;
@@ -171,7 +173,7 @@ if(data[i].ccy === 'USD'){
     return usdRate;
 }
 console.log(getRateCurrency(getUSDRate));
-function calc(data){
+function calcAllBankMoney(data){
     for(let i = 0; i < myBank.getCustomerArray().length; i++){
         console.log(myBank.getCustomerArray());
         for(let j = 0; j < myBank.getCustomerArray()[i].getAccountArray().length; j++){
@@ -182,16 +184,23 @@ function calc(data){
             } else if(myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Кредитная') {
                 sum += (myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUAH() / usdRate + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUSD() + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountBankUAH()/ usdRate + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountBankUSD());
             }
-
-
         }
-
-
     }
-    myBank.nationalCurrency = sum;
-    return sum;
+    myBank.allBankMoney = sum;
+    return myBank.allBankMoney;
 }
-console.log(getRateCurrency(calc));
-
-
+console.log(getRateCurrency(calcAllBankMoney));
+function calcDebtInactiveClients(data){
+    for(let i = 0; i < myBank.getCustomerArray().length; i++){
+        console.log(myBank.getCustomerArray());
+        for(let j = 0; j < myBank.getCustomerArray()[i].getAccountArray().length; j++){
+            if(myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Кредитная' && myBank.getCustomerArray()[i].getAccountArray()[j].getIsActive() === 'No'){
+                sum += myBank.getCustomerArray()[i].getAccountArray()[j].getCreditFunds();
+                console.log(sum);
+            }
+        }
+    }
+    myBank.debtInactiveClients = sum;
+}
+console.log(myBank.allBankMoney);
 console.log(myBank);

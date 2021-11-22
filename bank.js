@@ -38,7 +38,7 @@ class Customer {
 
 
 class Account {
-    constructor(accountId, type, createDate, expiredDate, currency, amount){
+    constructor(accountId, type, createDate, expiredDate, currency, amount) {
         this.accountId = accountId;
         this.type = type;
         this.createDate = createDate;
@@ -46,14 +46,30 @@ class Account {
         this.currency = currency;
         this.amount = amount;
     }
-    getTypeAccount(){
+
+    getTypeAccount() {
         return this.type;
     }
-    getCurrencyAccount(){
-       return this.currency;
+
+    getCurrencyAccount() {
+        return this.currency;
     }
-    getAmountAccount(){
-       return this.amount;
+
+    getAmountAccount() {
+        return this.amount;
+    }
+
+    getAmountUAH(){
+        if(this.currency === 'UAH') {
+        return this.amount;
+        }
+        return 0;
+    }
+    getAmountUSD(){
+        if(this.currency === 'USD') {
+            return this.amount;
+        }
+        return 0;
     }
 }
 class CreditAccount extends Account {
@@ -65,7 +81,21 @@ class CreditAccount extends Account {
     getAmountBank(){
         return this.creditLimit - this.creditFunds;
     }
-
+    getCreditFunds(){
+        return this.creditFunds;
+    }
+    getAmountBankUAH(){
+        if(this.currency === 'UAH'){
+        return this.creditLimit - this.creditFunds;
+        }
+        return 0;
+    }
+    getAmountBankUSD(){
+        if(this.currency === 'USD'){
+            return this.creditLimit - this.creditFunds;
+        }
+        return 0;
+    }
 }
 
 function createBank(name, nationalCurrency) {
@@ -146,18 +176,14 @@ function calc(data){
         console.log(myBank.getCustomerArray());
         for(let j = 0; j < myBank.getCustomerArray()[i].getAccountArray().length; j++){
             console.log(myBank.getCustomerArray()[i].getAccountArray()[j]);
-            if(myBank.getCustomerArray()[i].getAccountArray()[j].getCurrencyAccount() === 'UAH' && myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Дебет'){
-                sum += myBank.getCustomerArray()[i].getAccountArray()[j].getAmountAccount() / usdRate;
 
-            } else if(myBank.getCustomerArray()[i].getAccountArray()[j].getCurrencyAccount() === 'UAH' && myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Кредитная'){
-                sum += (myBank.getCustomerArray()[i].getAccountArray()[j].getAmountAccount() + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountBank())/ usdRate;
-
-            }else if(myBank.getCustomerArray()[i].getAccountArray()[j].getCurrencyAccount() === 'USD' && myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Дебет'){
-                sum += myBank.getCustomerArray()[i].getAccountArray()[j].getAmountAccount();
-            } else if(myBank.getCustomerArray()[i].getAccountArray()[j].getCurrencyAccount() === 'USD' && myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Кредитная'){
-                sum += (myBank.getCustomerArray()[i].getAccountArray()[j].getAmountAccount() + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountBank())/ usdRate;
-
+            if(myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Дебет'){
+                sum += (myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUAH() / usdRate + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUSD());
+            } else if(myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Кредитная') {
+                sum += (myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUAH() / usdRate + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUSD() + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountBankUAH()/ usdRate + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountBankUSD());
             }
+
+
         }
 
 

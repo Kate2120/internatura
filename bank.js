@@ -3,6 +3,9 @@ class Bank {
     customerArray = [];
     allBankMoney;
     debtInactiveClients;
+    countDebtInactiveClients;
+    debtActiveClients;
+    countDebtActiveClients;
     constructor(name) {
         this.name = name;
     }
@@ -10,14 +13,6 @@ class Bank {
         return this.customerArray;
     }
 }
-/*class Currency {
-    constructor(currencyId, title, rate) {
-        this.currencyId = currencyId;
-        this.title = title;
-        this.rate = rate;
-    }
-}*/
-
 
 class Customer {
     accountArray = [];
@@ -36,8 +31,6 @@ class Customer {
     }
 }
 
-
-
 class Account {
     constructor(accountId, type, createDate, expiredDate, currency, amount) {
         this.accountId = accountId;
@@ -47,22 +40,18 @@ class Account {
         this.currency = currency;
         this.amount = amount;
     }
-
     getTypeAccount() {
         return this.type;
     }
-
     getCurrencyAccount() {
         return this.currency;
     }
-
     getAmountAccount() {
         return this.amount;
     }
-
     getAmountUAH(){
         if(this.currency === 'UAH') {
-        return this.amount;
+            return this.amount;
         }
         return 0;
     }
@@ -73,6 +62,7 @@ class Account {
         return 0;
     }
 }
+
 class CreditAccount extends Account {
     constructor(accountId, type, createDate, expiredDate, currency, amount, creditFunds, creditLimit) {
         super(accountId, type, createDate, expiredDate, currency, amount);
@@ -82,12 +72,21 @@ class CreditAccount extends Account {
     getAmountBank(){
         return this.creditLimit - this.creditFunds;
     }
-    getCreditFunds(){
+    getCreditFundsUSD(){
+        if(this.currency === 'USD'){
         return this.creditFunds;
+        }
+        return 0;
+    }
+    getCreditFundsUAH(){
+        if(this.currency === 'UAH'){
+            return this.creditFunds;
+        }
+        return 0;
     }
     getAmountBankUAH(){
         if(this.currency === 'UAH'){
-        return this.creditLimit - this.creditFunds;
+            return this.creditLimit - this.creditFunds;
         }
         return 0;
     }
@@ -103,31 +102,30 @@ function createBank(name, nationalCurrency) {
     myBank = new Bank(name, nationalCurrency)
     return myBank;
 }
-console.log(createBank("My happy bank", "UAH"));
-console.log(myBank);
+createBank("My happy bank", "UAH");
 
 function addCustomer(customerId, name, surname, isActive, registrationDate){
     let newCustomer = new Customer(customerId, name, surname, isActive, registrationDate);
     myBank.customerArray.push(newCustomer);
+    return newCustomer;
 }
-addCustomer('1', 'Нина', 'Малыгина', 'Yes', '21.11.2020' );
-addCustomer('2', 'Ольга', 'Савенкова', 'No', '05.12.2020' );
-addCustomer('3', 'Марина', 'Митина', 'Yes', '08.12.2020' );
-addCustomer('4', 'Александра', 'Синицина', 'Yes', '09.12.2020' );
-addCustomer('5', 'Ольга', 'Валова', 'Yes', '10.12.2020' );
-addCustomer('6', 'Антонина', 'Сидорова', 'Yes', '10.12.2020' );
-addCustomer('7', 'Елизавета', 'Кукушкина', 'Yes', '12.12.2020' );
-addCustomer('8', 'Максим', 'Ветров', 'Yes', '13.12.2020' );
-console.log(myBank);
+addCustomer('1', 'Нина', 'Малыгина', 'true', '21.11.2020' );
+addCustomer('2', 'Ольга', 'Савенкова', 'false', '05.12.2020' );
+addCustomer('3', 'Марина', 'Митина', 'true', '08.12.2020' );
+addCustomer('4', 'Александра', 'Синицина', 'true', '09.12.2020' );
+addCustomer('5', 'Ольга', 'Валова', 'true', '10.12.2020' );
+addCustomer('6', 'Антонина', 'Сидорова', 'true', '10.12.2020' );
+addCustomer('7', 'Елизавета', 'Кукушкина', 'true', '12.12.2020' );
+addCustomer('8', 'Максим', 'Ветров', 'true', '13.12.2020' );
 
 function addAccount(accountId, type, createDate, expiredDate, currency, amount, customerName, customerSurname){
     let newAccount = new Account(accountId, type, createDate, expiredDate, currency,  amount, customerName, customerSurname);
     for(let i = 0; i < myBank.customerArray.length; i++){
         if(myBank.customerArray[i].name === customerName && myBank.customerArray[i].surname === customerSurname){
-console.log("iiii");
             myBank.customerArray[i].accountArray.push(newAccount);
         }
     }
+    return newAccount;
 }
 addAccount(1, 'Дебет', '15.12.2020', '15.12.2025', 'UAH', 2000, 'Нина', 'Малыгина');
 addAccount(2, 'Дебет', '16.12.2020', '16.12.2025', 'UAH', 7000, 'Ольга', 'Савенкова');
@@ -137,70 +135,124 @@ addAccount(5, 'Дебет', '18.12.2020', '18.12.2025', 'UAH', 50000, 'Алек�
 addAccount(6, 'Дебет', '18.12.2020', '18.12.2025', 'BTC', 10000, 'Ольга', 'Сидорова');
 addAccount(7, 'Дебет', '18.12.2020', '18.12.2025', 'UAH', 25000, 'Антонина', 'Валова');
 addAccount(8, 'Дебет', '18.12.2020', '18.12.2025', 'UAH', 40000, 'Елизавета', 'Кукушкина');
+
 function addCreditAccount(accountId, type, createDate, expiredDate, currency, amount, creditFunds, creditLimit, customerName, customerSurname){
     let newCreditAccount = new CreditAccount(accountId, type, createDate, expiredDate, currency, amount, creditFunds, creditLimit, customerName, customerSurname);
     for(let i = 0; i < myBank.customerArray.length; i++){
         if(myBank.customerArray[i].name === customerName && myBank.customerArray[i].surname === customerSurname){
-            console.log("iiii");
             myBank.customerArray[i].accountArray.push(newCreditAccount);
         }
     }
+    return newCreditAccount;
 }
 addCreditAccount(1, 'Кредитная', '15.12.2020', '15.12.2025', 'UAH', 2000, 0, 10000, 'Нина', 'Малыгина');
 addCreditAccount(2, 'Кредитная', '17.12.2020', '17.12.2025', 'UAH', 0, 5000, 10000, 'Марина', 'Митина');
 addCreditAccount(3, 'Кредитная', '17.12.2020', '17.12.2025', 'UAH', 0, 60000, 100000, 'Максим', 'Ветров');
 addCreditAccount(4, 'Кредитная', '17.12.2020', '17.12.2025', 'UAH', 0, 60000, 100000, 'Ольга', 'Савенкова');
 
-
 let usdRate = 0;
-async function getRateCurrency(callback){
+async function getCallbackValue(callback){
     let response = await fetch('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
     let data = await response.json();
-    console.log(data);
     callback(data);
-    return callback(data);
 }
-let sum = 0;
 
 function getUSDRate(data){
-
     for(let i = 0; i < data.length; i++){
-console.log(data[i]);
-if(data[i].ccy === 'USD'){
-    usdRate = data[i].buy;
-}
+       if(data[i].ccy === 'USD'){
+            usdRate = data[i].buy;
+        }
     }
     return usdRate;
 }
-console.log(getRateCurrency(getUSDRate));
-function calcAllBankMoney(data){
-    for(let i = 0; i < myBank.getCustomerArray().length; i++){
-        console.log(myBank.getCustomerArray());
-        for(let j = 0; j < myBank.getCustomerArray()[i].getAccountArray().length; j++){
-            console.log(myBank.getCustomerArray()[i].getAccountArray()[j]);
+getCallbackValue(getUSDRate);
 
-            if(myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Дебет'){
-                sum += (myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUAH() / usdRate + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUSD());
-            } else if(myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Кредитная') {
-                sum += (myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUAH() / usdRate + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountUSD() + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountBankUAH()/ usdRate + myBank.getCustomerArray()[i].getAccountArray()[j].getAmountBankUSD());
+function calcAllBankMoney(data){
+    let sum = 0;
+    let arrCustomer = myBank.getCustomerArray();
+    for(let i = 0; i < arrCustomer.length; i++){
+        let arrAccount = arrCustomer[i].getAccountArray();
+        for(let j = 0; j < arrAccount.length; j++){
+            if(arrAccount[j].getTypeAccount() === 'Дебет'){
+                sum += (arrAccount[j].getAmountUAH() / usdRate + arrAccount[j].getAmountUSD());
+            } else if(arrAccount[j].getTypeAccount() === 'Кредитная') {
+                sum += (arrAccount[j].getAmountUAH() / usdRate + arrAccount[j].getAmountUSD() + arrAccount[j].getAmountBankUAH()/ usdRate + arrAccount[j].getAmountBankUSD());
             }
         }
     }
     myBank.allBankMoney = sum;
     return myBank.allBankMoney;
 }
-console.log(getRateCurrency(calcAllBankMoney));
+getCallbackValue(calcAllBankMoney);
+
 function calcDebtInactiveClients(data){
-    for(let i = 0; i < myBank.getCustomerArray().length; i++){
-        console.log(myBank.getCustomerArray());
-        for(let j = 0; j < myBank.getCustomerArray()[i].getAccountArray().length; j++){
-            if(myBank.getCustomerArray()[i].getAccountArray()[j].getTypeAccount() === 'Кредитная' && myBank.getCustomerArray()[i].getAccountArray()[j].getIsActive() === 'No'){
-                sum += myBank.getCustomerArray()[i].getAccountArray()[j].getCreditFunds();
-                console.log(sum);
+    let sumDebtInactiveClients = 0;
+    let arrCustomer = myBank.getCustomerArray();
+    for(let i = 0; i < arrCustomer.length; i++){
+        if(arrCustomer[i].isActive === "false"){
+        for(let j = 0; j < arrCustomer[i].accountArray.length; j++){
+            if(arrCustomer[i].accountArray[j].type === "Кредитная"){
+                sumDebtInactiveClients += arrCustomer[i].accountArray[j].getCreditFundsUSD() + arrCustomer[i].accountArray[j].getCreditFundsUAH()/usdRate;
+            }
+        }
+        }
+    }
+    myBank.debtInactiveClients = sumDebtInactiveClients;
+    return myBank.debtInactiveClients;
+}
+
+getCallbackValue(calcDebtInactiveClients);
+
+function countClientsDebtInactive(data){
+    let counter = 0;
+    let arrCustomer = myBank.getCustomerArray();
+    for(let i = 0; i < arrCustomer.length; i++){
+        if(arrCustomer[i].isActive === "false"){
+            for(let j = 0; j < arrCustomer[i].accountArray.length; j++){
+                if(arrCustomer[i].accountArray[j].type === "Кредитная" && arrCustomer[i].accountArray[j].creditFunds > 0){
+                counter++;
+                }
             }
         }
     }
-    myBank.debtInactiveClients = sum;
+    myBank.countDebtInactiveClients = counter;
+    return myBank.countDebtInactiveClients;
 }
-console.log(myBank.allBankMoney);
+getCallbackValue(countClientsDebtInactive);
+
+function calcDebtActiveClients(data){
+    let sumDebtInactiveClients = 0;
+    let arrCustomer = myBank.getCustomerArray();
+    for(let i = 0; i < arrCustomer.length; i++){
+        if(arrCustomer[i].isActive){
+            for(let j = 0; j < arrCustomer[i].accountArray.length; j++){
+                if(arrCustomer[i].accountArray[j].type === "Кредитная"){
+                    sumDebtInactiveClients += arrCustomer[i].accountArray[j].getCreditFundsUSD() + arrCustomer[i].accountArray[j].getCreditFundsUAH()/usdRate;
+                }
+            }
+        }
+    }
+    myBank.debtActiveClients = sumDebtInactiveClients;
+    return myBank.debtActiveClients;
+}
+
+getCallbackValue(calcDebtActiveClients);
+
+function countClientsDebtActive(data){
+    let counter = 0;
+    let arrCustomer = myBank.getCustomerArray();
+    for(let i = 0; i < arrCustomer.length; i++){
+        if(arrCustomer[i].isActive){
+            for(let j = 0; j < arrCustomer[i].accountArray.length; j++){
+                if(arrCustomer[i].accountArray[j].type === "Кредитная" && arrCustomer[i].accountArray[j].creditFunds > 0){
+                    counter++;
+                }
+            }
+        }
+    }
+    myBank.countDebtActiveClients = counter;
+    return myBank.countDebtActiveClients;
+}
+getCallbackValue(countClientsDebtActive);
+
 console.log(myBank);

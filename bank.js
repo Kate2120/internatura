@@ -59,7 +59,7 @@ class Bank {
         }
     }
     
-    async getDataFromFetchToCallback(callback){
+    async getCurrencyToCallback(callback){
         let response = await fetch('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
         let data = await response.json();
         if(callback === myBank.budget){

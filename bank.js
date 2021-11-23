@@ -38,10 +38,11 @@ class Bank {
         }
     }
     
-    statusClient(isActive, clientId){
+    setActiveByClientId(isActive, clientId){
         for(let item of this.clients){
             if(item.id === clientId){
                 item.is_active = isActive;
+                break;
             }
         }
     }
@@ -58,7 +59,7 @@ class Bank {
         }
     }
     
-    async getCallbackValue(callback){
+    async getDataFromFetchToCallback(callback){
         let response = await fetch('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
         let data = await response.json();
         if(callback === myBank.budget){

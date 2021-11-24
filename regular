@@ -1,5 +1,3 @@
 ^\+{1}\d{2}\(\d{3}\)\d{3}(-\d{2}){2}$
 ^[0-9a-z\.]{6,30}@{1}[a-z0-9\.]{3,30}$
-let mail = 'https://kidsboutique.com.ua/vyazanyy-konvert-na-vypisku/';
-let rez = /^(http|https){1}:{1}\/{2}[\w\.\-]{1}(\/{1}[\w]*)*$/.test(mail);
-console.log(rez);
+^((http|https)?:?\/{2})?(\w+\.*\-*\/?)*$

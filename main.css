@@ -1,0 +1,92 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+header{
+    background-color: #4c44cf;
+    margin-bottom: 15px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+header h1{
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+
+}
+section {
+    display: flex;
+    justify-content: space-between;
+}
+.list{
+    width: 800px;
+    text-align: center;
+    background-color: #f5c1f0;
+    padding-top: 15px;
+    border: 1px solid #e353da;
+    border-radius: 2px;
+}
+.work_space{
+    width: 400px;
+    text-align: center;
+    background-color: #f5c1f0;
+    padding-top: 15px;
+    border: 1px solid #e353da;
+    border-radius: 2px;
+
+}
+h2{
+    color: #1e8cb0;
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+.head_department{
+    background-color: #e953da;
+    color: white;
+    border-radius: 2px;
+    border: 2px #d453da solid ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+
+}
+.item_list{
+    text-align: left;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid #fe8cda;
+    padding-left: 10px;
+    display: inline-block;
+    width: 250px;
+    margin-bottom: 5px;
+}
+.item_list .p{
+   width: 50px;
+}
+.button{
+    padding: 3px 5px;
+    background-color: #1e8cb0;
+    border: 1px solid #1e7daa;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+}
+select{
+    width: 250px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid #fe8cda;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+input{
+    width: 250px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid #fe8cda;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding-left: 5px;
+}

@@ -15,17 +15,28 @@ header h1{
     font-weight: bold;
 
 }
-section {
+.container {
     display: flex;
     justify-content: space-between;
 }
 .list{
-    width: 1000px;
+    width: 750px;
     text-align: center;
     background-color: #f5c1f0;
     padding-top: 15px;
     border: 1px solid #e353da;
     border-radius: 2px;
+    display: block;
+
+}
+.workSpace{
+    width: 350px;
+    text-align: center;
+    background-color: #f5c1f0;
+    padding-top: 15px;
+    border: 1px solid #e353da;
+    border-radius: 2px;
+    display: block;
 }
 .work_space{
     width: 400px;
@@ -36,20 +47,55 @@ section {
     border-radius: 2px;
 
 }
-.ooo{
+.headingH2{
     color: #1e8cb0;
     font-weight: bold;
     font-size: 22px;
     margin-bottom: 15px;
 }
-.head_department{
+h3{
+    margin: auto;
     background-color: #e953da;
     color: white;
     border-radius: 2px;
     border: 2px #d453da solid ;
     padding-top: 10px;
     padding-bottom: 10px;
+    width: 325px;
     text-align: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+
+}
+h4{
+    margin: auto;
+    background-color: #e953da;
+    color: white;
+    border-radius: 2px;
+    border: 2px #d453da solid ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 230px;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+
+}
+.cards{
+    display: flex;
+    justify-content: start;
+}
+.employerStyle{
+    width: 150px;
+    border: 1px solid #fe8cda;
+    border-radius: 4px;
+    margin: 10px 5px;
+    color: #1e8cb0;
+}
+p{
+    display: block;
+    line-height: 22px;
+    border-bottom: #d453da;
 
 }
 .item_list{
@@ -72,6 +118,7 @@ section {
     border-radius: 4px;
     text-align: center;
     color: white;
+    margin: 10px 5px;
 }
 select{
     width: 250px;
@@ -81,7 +128,7 @@ select{
     border-radius: 4px;
     margin-bottom: 20px;
 }
-input{
+.input{
     width: 250px;
     padding-top: 3px;
     padding-bottom: 3px;

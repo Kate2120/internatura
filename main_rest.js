@@ -85,6 +85,8 @@ class Employee {
 
 function addEmployee(department, position, employeeId, name, surname, age, employmentDate, dismissalDate) {
     let employer = new Employee(department, position, employeeId, name, surname, age, employmentDate, dismissalDate);
+    dismissalDate = dismissalDate || '';
+    employeeId = employeeId || 455;
     for(let i = 0; i < restaurant.length; i++){
 
         if(restaurant[i].title === department){
@@ -212,19 +214,8 @@ function departmentsWithoutHead(position){
     return arrayDepartmentWithoutHead;
 }
 departmentsWithoutHead("head");
-function createForm(argumentCreate){
-    if(argumentCreate === '1'){
-        let formAddEmployee = document.createElement('FORM');
-        let divWorkSpace = document.getElementsByClassName('work_space');
-        divWorkSpace.appendChild(formAddEmployee);
-        console.log(divWorkSpace);
-        let inputName = document.createElement('INPUT');
-        inputName.setAttribute('placeholder', 'Имя')
-        inputName.className = 'input';
-        formAddEmployee.appendChild(inputName);
-    }
-}
-createForm(1);
+
+
 
 function createAllElements(){
     let divContainer = document.createElement('DIV');
@@ -239,7 +230,7 @@ function createAllElements(){
     h2.innerHTML = 'Отделы и сотрудники';
     divDepartmentsList.appendChild(h2);
     for(let element of restaurant){
-    let divDepartment = document.createElement('DIV');
+        let divDepartment = document.createElement('DIV');
         divDepartment.className = 'department';
         divDepartmentsList.appendChild(divDepartment);
         let nameDepartment = element.title;
@@ -293,9 +284,10 @@ function createAllElements(){
     h2WorkSpace.innerHTML = 'Инструментарий';
     divWorkSpace.appendChild(h2WorkSpace);
     let chooseAction = document.createElement('select');
+    chooseAction.setAttribute('id', 'sectionId');
     chooseAction.setAttribute('name', 'Action');
-    chooseAction.setAttribute('onchange', 'createForm(this.id)');
-    console.log(this.id);
+    chooseAction.setAttribute('change', 'event)');
+
     chooseAction.className = 'select';
     divWorkSpace.appendChild(chooseAction);
     let optionSelectAction = document.createElement('option');
@@ -314,6 +306,80 @@ function createAllElements(){
     optionCreateNewPosition.setAttribute('id', '3');
     optionCreateNewPosition.innerHTML = 'Добавить новую должность';
     chooseAction.appendChild(optionCreateNewPosition);
+    chooseAction.addEventListener("change", function createForm(){
+        console.log(chooseAction.value);
+        if(chooseAction.value === 'Добавить нового сотрудника'){
+            let formAddEmployee = document.createElement('FORM');
+            divWorkSpace.appendChild(formAddEmployee);
+            console.log(divWorkSpace);
+            let inputName = document.createElement('INPUT');
+            inputName.setAttribute('placeholder', 'Имя');
+            inputName.setAttribute('type', 'text');
+            inputName.className = 'input';
+            formAddEmployee.appendChild(inputName);
+            let inputSurname = document.createElement('INPUT');
+            inputSurname.setAttribute('placeholder', 'Фамилия');
+            inputSurname.setAttribute('type', 'text');
+            inputSurname.className = 'input';
+            formAddEmployee.appendChild(inputSurname);
+            let inputAge = document.createElement('INPUT');
+            inputAge.setAttribute('placeholder', 'Возраст');
+            inputAge.setAttribute('type', 'text');
+            inputAge.className = 'input';
+            formAddEmployee.appendChild(inputAge);
+            let inputPosition = document.createElement('INPUT');
+            inputPosition.setAttribute('placeholder', 'Должность');
+            inputPosition.setAttribute('type', 'text');
+            inputPosition.className = 'input';
+            formAddEmployee.appendChild(inputPosition);
+            console.log(inputAge.value);
+            let inputDateEmployment = document.createElement('INPUT');
+            inputDateEmployment.setAttribute('placeholder', 'Дата принятия');
+            inputDateEmployment.setAttribute('type', 'date');
+            inputDateEmployment.className = 'input';
+            formAddEmployee.appendChild(inputDateEmployment);
+            let buttonForm = document.createElement('button');
+            buttonForm.className = 'button';
+            buttonForm.innerHTML = 'Добавить';
+            formAddEmployee.appendChild(buttonForm);
+            buttonForm.addEventListener("click", function add(){
+
+                let cardsEmployee = document.getElementById("cards");
+                let newcardEmployer = document.createElement('DIV');
+                newcardEmployer.className = 'employerStyle';
+                cardsEmployee.appendChild(newcardEmployer);
+                let newpName = document.createElement('P');
+
+                newpName.innerHTML = inputName.value;
+                newcardEmployer.appendChild(newpName);
+                alert(newpName);
+                let newpSurname = document.createElement('P');
+                newpSurname.innerHTML = inputSurname.value;
+                newcardEmployer.appendChild(newpSurname);
+                let newpAge = document.createElement('P');
+                newpAge.innerHTML = inputAge.value;
+                newcardEmployer.appendChild(newpAge);
+                let newpEmploymentDate = document.createElement('P');
+                newpEmploymentDate.innerHTML = inputDateEmployment.value;
+                newcardEmployer.appendChild(newpEmploymentDate);
+                let newpDismissalDate = document.createElement('P');
+                newpDismissalDate.innerHTML = "";
+                newcardEmployer.appendChild(newpDismissalDate);
+            if(inputPosition.value === 'Повар'){
+                let divDepartment = document.getElementsByClassName('department');
+                for (let item of divDepartment){
+
+                        let cardsEmployee = document.getElementsByClassName('cards');
+                        console.log(item.h4.innerHTML);
+                    if(item.h4.innerHTML === inputPosition.value){
+                        cardsEmployee.appendChild(newcardEmployer)
+                    }
+                }
+            }
+
+            })
+        }
+    })
 }
 createAllElements();
 

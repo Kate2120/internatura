@@ -146,6 +146,8 @@ select{
     border-radius: 4px;
     margin-bottom: 20px;
     padding-left: 5px;
+    color: black;
+    font-size: 14px;
 }
 input:focus{
     border: 1px solid #e953da;

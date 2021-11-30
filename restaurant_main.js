@@ -815,14 +815,11 @@ function getDepartmentsWithoutHead(){
     return arrayDepartmentWithoutHead;
 }
 
-let chooseAction = document.querySelector('select');
-chooseAction.addEventListener('change', function (event){
+function getValueSelect(event){
     let action = event.target.value;
     window[action]();
-})
-
+}
+let chooseAction = document.querySelector('select');
 let chooseCalc = document.getElementById('choose');
-chooseCalc.addEventListener('change', function (event){
-    let act = event.target.value;
-    window[act]();
-})
+chooseAction.addEventListener('change', chooseAction);
+chooseCalc.addEventListener('change', chooseAction);

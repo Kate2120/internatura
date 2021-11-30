@@ -201,9 +201,11 @@ function addPosition(){
     selectIsHead.appendChild(choise);
     let optionYes = document.createElement('OPTION');
     optionYes.innerHTML = 'да';
+    optionYes.setAttribute('value', 'true');
     selectIsHead.appendChild(optionYes);
     let optionNo = document.createElement('OPTION');
     optionNo.innerHTML = 'нет';
+    optionNo.setAttribute('value', 'false');
     selectIsHead.appendChild(optionNo);
     formAdd.appendChild(selectIsHead);
     let buttonForm = document.createElement('BUTTON');
@@ -304,6 +306,7 @@ function addEmployee(){
             formAdd.appendChild(buttonForm);
             buttonForm.addEventListener('click', function (){
                 let employer = new Employee(chooseDepartment.value, choosePosition.value, inputEployeeId.value, inputNameEmployee.value, inputSurnameEmployee.value, inputAgeEmployee.value, inputEmploymentDate.value, '');
+
                 for(let item of restaurant){
                     if(item.title === chooseDepartment.value){
                         for(let element of item.arrayPositions){
@@ -574,29 +577,29 @@ function getSumAllSalaries(){
         selectDepart.appendChild(chooseDepartment);
     }
     selectDepart.addEventListener('change', function (){
-            let sum = 0;
-            for(let i = 0; i < restaurant.length; i++){
-                if(restaurant[i].title === selectDepart.value){
-                    for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
-                        sum += restaurant[i].arrayPositions[j].salaryAmount() * restaurant[i].arrayPositions[j].currentEmployee();
-                    }
+        let sum = 0;
+        for(let i = 0; i < restaurant.length; i++){
+            if(restaurant[i].title === selectDepart.value){
+                for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
+                    sum += restaurant[i].arrayPositions[j].salaryAmount() * restaurant[i].arrayPositions[j].currentEmployee();
                 }
             }
-            let answer = document.createElement('DIV');
-            answer.className = 'divAnswer';
-            answer.innerHTML = sum;
-            workSpase.appendChild(answer);
-            let button = document.createElement('DIV');
-            button.className = 'buttonOk';
-            button.innerHTML = 'OK';
-            workSpase.appendChild(button);
-            button.addEventListener('click', function (){
-                selectDepart.remove();
-                answer.remove();
-                button.remove();
-                let select = document.getElementById('choose');
-                select.value = 'Выбрать рассчет';
-            })
+        }
+        let answer = document.createElement('DIV');
+        answer.className = 'divAnswer';
+        answer.innerHTML = sum;
+        workSpase.appendChild(answer);
+        let button = document.createElement('DIV');
+        button.className = 'buttonOk';
+        button.innerHTML = 'OK';
+        workSpase.appendChild(button);
+        button.addEventListener('click', function (){
+            selectDepart.remove();
+            answer.remove();
+            button.remove();
+            let select = document.getElementById('choose');
+            select.value = 'Выбрать рассчет';
+        })
     })
     return sum;
 }
@@ -788,11 +791,11 @@ function getDepartmentsWithoutHead(){
     let result;
     for(let i = 0; i < restaurant.length; i++){
         for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
-            if(restaurant[i].arrayPositions[j].head === "да"){
-                    if(restaurant[i].arrayPositions[j].arrayEmployee.dismissalDate !== "" || restaurant[i].arrayPositions[j].arrayEmployee[k].length === '0'){
-                        arrayDepartmentWithoutHead.push(restaurant[i].title);
-                        result = arrayDepartmentWithoutHead.join(', ');
-                    }
+            if(restaurant[i].arrayPositions[j].head){
+                if(restaurant[i].arrayPositions[j].arrayEmployee.dismissalDate !== "" || restaurant[i].arrayPositions[j].arrayEmployee[k].length === '0'){
+                    arrayDepartmentWithoutHead.push(restaurant[i].title);
+                    result = arrayDepartmentWithoutHead.join(', ');
+                }
 
             }
         }
@@ -815,11 +818,12 @@ function getDepartmentsWithoutHead(){
     return arrayDepartmentWithoutHead;
 }
 
-function getValueSelect(event){
-    let action = event.target.value;
-    window[action]();
-}
-let chooseAction = document.querySelector('select');
-let chooseCalc = document.getElementById('choose');
-chooseAction.addEventListener('change', chooseAction);
-chooseCalc.addEventListener('change', chooseAction);
+let selects = document.querySelectorAll('.select');
+
+selects.forEach(function(select){
+    select.addEventListener('change', function(event){
+        let act = event.target.value;
+        window[act]();
+    })
+})
+

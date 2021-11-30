@@ -93,6 +93,36 @@ function showFormAddEmployee() {
     formAdd.setAttribute('id', 'formAdd');
     formAdd.setAttribute('onsubmit', 'return false');
     divWorkSpace.appendChild(formAdd);
+    let selectСalculations = document.createElement('SELECT')
+    selectСalculations.setAttribute('id', 'choose');
+    divWorkSpace.appendChild(selectСalculations);
+    let version = document.createElement('OPTION');
+    version.innerHTML = 'Выбрать рассчет';
+    selectСalculations.appendChild(version);
+    let sumAllSalary = document.createElement('OPTION');
+    sumAllSalary.innerHTML = 'Сумма всех зарплат по отделу';
+    sumAllSalary.setAttribute('value', 'getSumAllSalaries');
+    selectСalculations.appendChild(sumAllSalary);
+    let avarageSalary = document.createElement('OPTION');
+    avarageSalary.innerHTML = 'Средняя зарплата по отделу';
+    avarageSalary.setAttribute('value','getAvarageSalary');
+    selectСalculations.appendChild(avarageSalary);
+    let minSalary = document.createElement('OPTION');
+    minSalary.innerHTML = 'Минимальная зарплата по отделу';
+    minSalary.setAttribute('value', 'getMinSalary');
+    selectСalculations.appendChild(minSalary);
+    let maxSalary = document.createElement('OPTION');
+    maxSalary.innerHTML = 'Максимальная зарплата по отделу';
+    maxSalary.setAttribute('value', 'getMaxSalary');
+    selectСalculations.appendChild(maxSalary);
+    let amountDimiss = document.createElement('OPTION');
+    amountDimiss.innerHTML = 'Количество уволенных';
+    amountDimiss.setAttribute('value', 'getAmountDismiss');
+    selectСalculations.appendChild(amountDimiss);
+    let amountWhithoutHead = document.createElement('OPTION');
+    amountWhithoutHead.innerHTML = 'Отделы без хеда';
+    amountWhithoutHead.setAttribute('value', 'getDepartmentsWithoutHead');
+    selectСalculations.appendChild(amountWhithoutHead);
 }
 showFormAddEmployee();
 
@@ -127,6 +157,7 @@ function addDepartment() {
         if (optionCreateNewPosition === null) {
             let optionCreateNewPosition = document.createElement('OPTION');
             optionCreateNewPosition.setAttribute('value', 'addPosition');
+            optionCreateNewPosition.setAttribute('id', '3');
             optionCreateNewPosition.innerHTML = 'Добавить новую должность';
             chooseAction.appendChild(optionCreateNewPosition);
         }
@@ -197,6 +228,7 @@ function addPosition(){
         let optionCreateNewCustomer = document.getElementById('4');
         if(optionCreateNewCustomer === null){
             let optionCreateNewCustomer = document.createElement('OPTION');
+            optionCreateNewCustomer.setAttribute('id', '4');
             optionCreateNewCustomer.setAttribute('value', 'addEmployee');
             optionCreateNewCustomer.innerHTML = 'Добавить нового сотрудника';
             chooseAction.appendChild(optionCreateNewCustomer);
@@ -308,6 +340,7 @@ function addEmployee(){
                 if(optionCreateNewCustomer === null){
                     let optionCreateDeliteCustomer = document.createElement('OPTION');
                     optionCreateDeliteCustomer.setAttribute('value', 'dissmissEmployee');
+                    optionCreateDeliteCustomer.setAttribute('id', '5');
                     optionCreateDeliteCustomer.innerHTML = 'Уволить сотрудника';
                     chooseAction.appendChild(optionCreateDeliteCustomer);
                 }
@@ -315,6 +348,7 @@ function addEmployee(){
                 if(optionEditCustomer === null){
                     let optionEditCustomer = document.createElement('OPTION');
                     optionEditCustomer.setAttribute('value', 'editEmployee');
+                    optionEditCustomer.setAttribute('id', '6');
                     optionEditCustomer.innerHTML = 'Редактировать сотрудника';
                     chooseAction.appendChild(optionEditCustomer);
                 }
@@ -332,75 +366,6 @@ function addEmployee(){
         return choosePosition;
     })
 }
-
-let formAdd = document.getElementById('formAdd');
-let chooseDepartment = document.createElement('SELECT');
-let optionInput = document.createElement('OPTION');
-optionInput.innerHTML = 'Выбрать отдел';
-chooseDepartment.appendChild(optionInput);
-for(let element of restaurant){
-    let optionInput = document.createElement('OPTION');
-    optionInput.innerHTML = element.title;
-    chooseDepartment.appendChild(optionInput);
-}
-formAdd.appendChild(chooseDepartment);
-chooseDepartment.addEventListener('change', function (){
-    let choosePosition = document.createElement('SELECT');
-    let optionInputPosition = document.createElement('OPTION');
-    optionInputPosition.innerHTML = 'Выбрать должность';
-    optionInput.innerHTML = 'Выбрать отдел';
-    choosePosition.appendChild(optionInputPosition);
-    for(let element of restaurant){
-        if(element.title === chooseDepartment.value){
-            for(let item of element.arrayPositions){
-                let optionInputPosition = document.createElement('OPTION');
-                optionInputPosition.innerHTML = item.title;
-                choosePosition.appendChild(optionInputPosition);
-            }
-        }
-    }
-    formAdd.appendChild(choosePosition);
-    choosePosition.addEventListener('change', function () {
-        let inputEployeeId = document.createElement('INPUT');
-        inputEployeeId.setAttribute('id', 'inputEployeeId');
-        inputEployeeId.setAttribute('placeholder', 'ID');
-        inputEployeeId.className = 'input';
-        formAdd.appendChild(inputEployeeId);
-        let inputDismissDate = document.createElement('INPUT');
-        inputDismissDate.setAttribute('placeholder', 'Дата увольнения');
-        inputDismissDate.setAttribute('type', 'date');
-        inputDismissDate.className = 'input';
-        formAdd.appendChild(inputDismissDate);
-        let buttonForm = document.createElement('BUTTON');
-        buttonForm.className = 'button';
-        buttonForm.innerHTML = 'Уволить';
-        formAdd.appendChild(buttonForm);
-        buttonForm.addEventListener('click', function(){
-            for(let item of restaurant){
-                if(item.title === chooseDepartment.value){
-                    for(let element of item.arrayPositions){
-                        if(element.title === choosePosition.value){
-                            for(let el of element.arrayEmployee){
-                                if(el.employeeId === inputEployeeId.value){
-                                    el.dismissalDate = inputDismissDate.value;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            let divDepartment = document.getElementById(inputEployeeId.value);
-            divDepartment.remove();
-            chooseDepartment.remove();
-            choosePosition.remove();
-            inputEployeeId.remove();
-            inputDismissDate.remove();
-            buttonForm.remove();
-            chooseAction.value = 'Выберите действие';
-        })
-
-    })
-})
 
 function dissmissEmployee(){
     let formAdd = document.getElementById('formAdd');
@@ -595,68 +560,20 @@ function editEmployee(){
     })
 }
 
-
-
-let chooseAction = document.querySelector('select');
-chooseAction.addEventListener('change', function (event){
-    let action = event.target.value;
-    window[action]();
-})
-
-
-
-/*
-
-
-
-    }
-    } else if(chooseAction.value === 'Добавить нового сотрудника'){
-
-    } else if(chooseAction.value === 'Уволить сотрудника'){
-
-    } else if(chooseAction.value === 'Редактировать сотрудника'){
-
-let workSpase = document.getElementById('workSpace');
-let selectСalculations = document.createElement('SELECT')
-selectСalculations.className = 'input';
-workSpase.appendChild(selectСalculations);
-let version = document.createElement('OPTION');
-version.innerHTML = 'Выбрать рассчет';
-selectСalculations.appendChild(version);
-let sumAllSalary = document.createElement('OPTION');
-sumAllSalary.innerHTML = 'Сумма всех зарплат по отделу';
-selectСalculations.appendChild(sumAllSalary);
-let avarageSalary = document.createElement('OPTION');
-avarageSalary.innerHTML = 'Средняя зарплата по отделу';
-selectСalculations.appendChild(avarageSalary);
-let minSalary = document.createElement('OPTION');
-minSalary.innerHTML = 'Минимальная зарплата по отделу';
-selectСalculations.appendChild(minSalary);
-let maxSalary = document.createElement('OPTION');
-maxSalary.innerHTML = 'Максимальная зарплата по отделу';
-selectСalculations.appendChild(maxSalary);
-let amountDimiss = document.createElement('OPTION');
-amountDimiss.innerHTML = 'Количество уволенных';
-selectСalculations.appendChild(amountDimiss);
-let amountWhithoutHead = document.createElement('OPTION');
-amountWhithoutHead.innerHTML = 'Отделы без хеда';
-selectСalculations.appendChild(amountWhithoutHead);
-selectСalculations.addEventListener('change', function (){
+function getSumAllSalaries(){
     let selectDepart = document.createElement('SELECT');
-    selectDepart.className = 'input';
+    selectDepart.className = 'select';
+    let workSpase = document.getElementById('workSpace');
     workSpase.appendChild(selectDepart);
     let versionDepart = document.createElement('OPTION');
     versionDepart.innerHTML = 'Выбрать отдел';
     selectDepart.appendChild(versionDepart);
-    console.log(restaurant);
     for(let item of restaurant){
-        console.log(item);
         let chooseDepartment = document.createElement('OPTION');
         chooseDepartment.innerHTML = item.title;
         selectDepart.appendChild(chooseDepartment);
     }
     selectDepart.addEventListener('change', function (){
-        if(selectСalculations.value === 'Сумма всех зарплат по отделу'){
             let sum = 0;
             for(let i = 0; i < restaurant.length; i++){
                 if(restaurant[i].title === selectDepart.value){
@@ -666,101 +583,246 @@ selectСalculations.addEventListener('change', function (){
                 }
             }
             let answer = document.createElement('DIV');
-            answer.className = 'input';
+            answer.className = 'divAnswer';
             answer.innerHTML = sum;
             workSpase.appendChild(answer);
-        } else if(selectСalculations.value === 'Средняя зарплата по отделу'){
-            let sum = 0;
-            let amountPositions = 0;
-            for(let i = 0; i < restaurant.length; i++){
-                if(restaurant[i].title === selectDepart.value){
-                    amountPositions = restaurant[i].arrayPositions.length;
-                    for(let j = 0; j < amountPositions; j++){
-                        sum += restaurant[i].arrayPositions[j].salaryAmount();
-                    }
-                }
-            }
-            let answer = document.createElement('DIV');
-            answer.className = 'input';
-            answer.innerHTML = sum/amountPositions;
-            workSpase.appendChild(answer);
+            let button = document.createElement('DIV');
+            button.className = 'buttonOk';
+            button.innerHTML = 'OK';
+            workSpase.appendChild(button);
+            button.addEventListener('click', function (){
+                selectDepart.remove();
+                answer.remove();
+                button.remove();
+                let select = document.getElementById('choose');
+                select.value = 'Выбрать рассчет';
+            })
+    })
+    return sum;
+}
 
-
-        }  else if(selectСalculations.value === 'Минимальная зарплата по отделу'){
-            let arraySalary = [];
-            let minSalary = 0;
-            for(let i = 0; i < restaurant.length; i++){
-                if(restaurant[i].title === selectDepart.value){
-                    for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
-                        arraySalary.push(restaurant[i].arrayPositions[j].salaryAmount())
-                        arraySalary.sort();
-                        minSalary = arraySalary[0];
-                    }
+function getAvarageSalary(){
+    let selectDepart = document.createElement('SELECT');
+    selectDepart.className = 'select';
+    let workSpase = document.getElementById('workSpace');
+    workSpase.appendChild(selectDepart);
+    let versionDepart = document.createElement('OPTION');
+    versionDepart.innerHTML = 'Выбрать отдел';
+    selectDepart.appendChild(versionDepart);
+    for(let item of restaurant){
+        let chooseDepartment = document.createElement('OPTION');
+        chooseDepartment.innerHTML = item.title;
+        selectDepart.appendChild(chooseDepartment);
+    }
+    selectDepart.addEventListener('change', function (){
+        let sum = 0;
+        let amountPositions = 0;
+        for(let i = 0; i < restaurant.length; i++){
+            if(restaurant[i].title === selectDepart.value){
+                amountPositions = restaurant[i].arrayPositions.length;
+                for(let j = 0; j < amountPositions; j++){
+                    sum += restaurant[i].arrayPositions[j].salaryAmount();
                 }
             }
-            let answer = document.createElement('DIV');
-            answer.className = 'input';
-            answer.innerHTML = minSalary;
-            workSpase.appendChild(answer);
-
-        } else if(selectСalculations.value === 'Максимальная зарплата по отделу'){
-            let arraySalary = [];
-            let maxSalary = 0;
-            for(let i = 0; i < restaurant.length; i++){
-                if(restaurant[i].title === selectDepart.value){
-                    for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
-                        arraySalary.push(restaurant[i].arrayPositions[j].salaryAmount())
-                        arraySalary.sort();
-                        maxSalary = arraySalary[arraySalary.length - 1];
-                    }
-                }
-            }
-            let answer = document.createElement('DIV');
-            answer.className = 'input';
-            answer.innerHTML = maxSalary;
-            workSpase.appendChild(answer);
-        } else if(selectСalculations.value === 'Количество уволенных') {
-            let currentArr = [];
-            let counter = 0;
-            for(let i = 0; i < restaurant.length; i++){
-                if(restaurant[i].title === selectDepart.value){
-                    for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
-                        currentArr = restaurant[i].arrayPositions[j].getArrayEmployee();
-                        for(let k = 0; k < currentArr.length; k++){
-                            if(currentArr[k].dismissalDate !== ""){
-                                counter++;
-                            }
-                        }
-                    }
-                }
-            }
-            let answer = document.createElement('DIV');
-            answer.className = 'input';
-            answer.innerHTML = counter;
-            workSpase.appendChild(answer);
-        } else if(selectСalculations.value === 'Отделы без хеда') {
-            let arrayPosition = [];
-            let arrEmployee = [];
-            let arrayDepartmentWithoutHead = [];
-            for(let i = 0; i < restaurant.length; i++){
-                arrayPosition = restaurant[i].getArrayPositions();
-                for(let j = 0; j < arrayPosition.length; j++){
-                    arrEmployee = arrayPosition[j].getArrayEmployee();
-                    if(arrayPosition[j].head){
-                        for(let k = 0; k < arrEmployee.length; k++){
-                            if(arrEmployee[k].dismiss() !== "" || arrEmployee.length === 0){
-                                arrayDepartmentWithoutHead.push(restaurant[i].title);
-                            }
-                        }
-                    }
-                }
-            }
-            let answer = document.createElement('DIV');
-            answer.className = 'input';
-            answer.innerHTML = arrayDepartmentWithoutHead.join(', ');
-            workSpase.appendChild(answer);
         }
+        let answer = document.createElement('DIV');
+        answer.className = 'divAnswer';
+        answer.innerHTML = sum/amountPositions;
+        workSpase.appendChild(answer);
+        let button = document.createElement('DIV');
+        button.className = 'buttonOk';
+        button.innerHTML = 'OK';
+        workSpase.appendChild(button);
+        button.addEventListener('click', function (){
+            selectDepart.remove();
+            answer.remove();
+            button.remove();
+            let select = document.getElementById('choose');
+            select.value = 'Выбрать рассчет';
+        })
 
     })
+    return sum/amountPositions;
+}
 
-})*/
+function getMinSalary(){
+    let selectDepart = document.createElement('SELECT');
+    selectDepart.className = 'select';
+    let workSpase = document.getElementById('workSpace');
+    workSpase.appendChild(selectDepart);
+    let versionDepart = document.createElement('OPTION');
+    versionDepart.innerHTML = 'Выбрать отдел';
+    selectDepart.appendChild(versionDepart);
+    for(let item of restaurant){
+        let chooseDepartment = document.createElement('OPTION');
+        chooseDepartment.innerHTML = item.title;
+        selectDepart.appendChild(chooseDepartment);
+    }
+    selectDepart.addEventListener('change', function (){
+        let arraySalary = [];
+        let minSalary = 0;
+        for(let i = 0; i < restaurant.length; i++){
+            if(restaurant[i].title === selectDepart.value){
+                for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
+                    arraySalary.push(restaurant[i].arrayPositions[j].salaryAmount())
+                    arraySalary.sort();
+                    minSalary = arraySalary[0];
+                }
+            }
+        }
+        let answer = document.createElement('DIV');
+        answer.className = 'divAnswer';
+        answer.innerHTML = minSalary;
+        workSpase.appendChild(answer);
+        let button = document.createElement('DIV');
+        button.className = 'buttonOk';
+        button.innerHTML = 'OK';
+        workSpase.appendChild(button);
+        button.addEventListener('click', function (){
+            selectDepart.remove();
+            answer.remove();
+            button.remove();
+            let select = document.getElementById('choose');
+            select.value = 'Выбрать рассчет';
+        })
+
+    })
+    return minSalary;
+}
+
+function getMaxSalary(){
+    let selectDepart = document.createElement('SELECT');
+    selectDepart.className = 'select';
+    let workSpase = document.getElementById('workSpace');
+    workSpase.appendChild(selectDepart);
+    let versionDepart = document.createElement('OPTION');
+    versionDepart.innerHTML = 'Выбрать отдел';
+    selectDepart.appendChild(versionDepart);
+    for(let item of restaurant){
+        let chooseDepartment = document.createElement('OPTION');
+        chooseDepartment.innerHTML = item.title;
+        selectDepart.appendChild(chooseDepartment);
+    }
+    selectDepart.addEventListener('change', function (){
+        let arraySalary = [];
+        let maxSalary = 0;
+        for(let i = 0; i < restaurant.length; i++){
+            if(restaurant[i].title === selectDepart.value){
+                for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
+                    arraySalary.push(restaurant[i].arrayPositions[j].salaryAmount())
+                    arraySalary.sort();
+                    maxSalary = arraySalary[arraySalary.length - 1];
+                }
+            }
+        }
+        let answer = document.createElement('DIV');
+        answer.className = 'divAnswer';
+        answer.innerHTML = maxSalary;
+        workSpase.appendChild(answer);
+        let button = document.createElement('DIV');
+        button.className = 'buttonOk';
+        button.innerHTML = 'OK';
+        workSpase.appendChild(button);
+        button.addEventListener('click', function (){
+            selectDepart.remove();
+            answer.remove();
+            button.remove();
+            let select = document.getElementById('choose');
+            select.value = 'Выбрать рассчет';
+        })
+
+    })
+    return maxSalary;
+}
+
+function getAmountDismiss(){
+    let selectDepart = document.createElement('SELECT');
+    selectDepart.className = 'select';
+    let workSpase = document.getElementById('workSpace');
+    workSpase.appendChild(selectDepart);
+    let versionDepart = document.createElement('OPTION');
+    versionDepart.innerHTML = 'Выбрать отдел';
+    selectDepart.appendChild(versionDepart);
+    for(let item of restaurant){
+        let chooseDepartment = document.createElement('OPTION');
+        chooseDepartment.innerHTML = item.title;
+        selectDepart.appendChild(chooseDepartment);
+    }
+    selectDepart.addEventListener('change', function (){
+        let currentArr = [];
+        let counter = 0;
+        for(let i = 0; i < restaurant.length; i++){
+            if(restaurant[i].title === selectDepart.value){
+                for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
+                    currentArr = restaurant[i].arrayPositions[j].getArrayEmployee();
+                    for(let k = 0; k < currentArr.length; k++){
+                        if(currentArr[k].dismissalDate !== ""){
+                            counter++;
+                        }
+                    }
+                }
+            }
+        }
+        let answer = document.createElement('DIV');
+        answer.className = 'divAnswer';
+        answer.innerHTML = counter;
+        workSpase.appendChild(answer);
+        let button = document.createElement('DIV');
+        button.className = 'buttonOk';
+        button.innerHTML = 'OK';
+        workSpase.appendChild(button);
+        button.addEventListener('click', function (){
+            selectDepart.remove();
+            answer.remove();
+            button.remove();
+            let select = document.getElementById('choose');
+            select.value = 'Выбрать рассчет';
+        })
+
+    })
+    return counter;
+}
+
+function getDepartmentsWithoutHead(){
+    let arrayDepartmentWithoutHead = [];
+    let result;
+    for(let i = 0; i < restaurant.length; i++){
+        for(let j = 0; j < restaurant[i].arrayPositions.length; j++){
+            if(restaurant[i].arrayPositions[j].head === "да"){
+                    if(restaurant[i].arrayPositions[j].arrayEmployee.dismissalDate !== "" || restaurant[i].arrayPositions[j].arrayEmployee[k].length === '0'){
+                        arrayDepartmentWithoutHead.push(restaurant[i].title);
+                        result = arrayDepartmentWithoutHead.join(', ');
+                    }
+
+            }
+        }
+    }
+    let answer = document.createElement('DIV');
+    answer.className = 'divAnswer';
+    answer.innerHTML = result;
+    let workSpase = document.getElementById('workSpace');
+    workSpase.appendChild(answer);
+    let button = document.createElement('DIV');
+    button.className = 'buttonOk';
+    button.innerHTML = 'OK';
+    workSpase.appendChild(button);
+    button.addEventListener('click', function (){
+        answer.remove();
+        button.remove();
+        let select = document.getElementById('choose');
+        select.value = 'Выбрать рассчет';
+    })
+    return arrayDepartmentWithoutHead;
+}
+
+let chooseAction = document.querySelector('select');
+chooseAction.addEventListener('change', function (event){
+    let action = event.target.value;
+    window[action]();
+})
+
+let chooseCalc = document.getElementById('choose');
+chooseCalc.addEventListener('change', function (event){
+    let act = event.target.value;
+    window[act]();
+})

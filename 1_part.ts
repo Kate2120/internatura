@@ -1,0 +1,53 @@
+function anagram(word1: string, word2: string) {
+    let countWord1: number = 0;
+    let countWord2: number = 0;
+    if (word1.length === word2.length){
+        for (let i: number = 0; i < word1.length; i++) {
+            for (let j: number = 0; j < word1.length; j++) {
+                if (word1[i] === word2[j]) {
+                    countWord1++;
+                }
+            }
+        }
+        for (let i: number = 0; i < word1.length; i++) {
+            for (let j: number = 0; j < word1.length; j++) {
+                if (word1[i] === word1[j]) {
+                    countWord2++;
+                }
+            }
+        }
+        if (countWord1 === countWord2) {
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+
+
+function anagram(word1: string, word2: string, i: number, j: number, countWord1: number, countWord2: number): boolean {
+    countWord1 = countWord1 || 0;
+    countWord2 = countWord2 || 0;
+    if (word1.length !== word2.length){
+        return false;
+    }
+    if( i < word1.length) {
+        if(j < word1.length) {
+            if (word1[i] === word2[j]) {
+                countWord1++;
+                if (word1[i] === word1[j]) {
+                    countWord2++;
+                }
+            } else if (word1[i] === word1[j]) {
+                countWord2++;
+            }
+            return anagram(word1, word2,i,j + 1, countWord1, countWord2);
+        }
+        return anagram(word1, word2,i + 1,0, countWord1, countWord2);
+
+    }
+    if (countWord1 !== countWord2) {
+        return false;
+    }
+    return true;
+}

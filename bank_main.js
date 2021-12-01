@@ -121,23 +121,31 @@ class Bank {
                 for (let i = 0; i < item.bills.length; i++) {
                     if(item.bills[i].type === 'credit'){
                         for(let element of data){
-                            if(element.ccy === currency){
+                            if(element.ccy === "USD"){
                                 rate = element.buy;
                             }
                         }
-                        sum += item.bills[i].amount / rate;
+                        sum += (item.bills[i].limit - item.bills[i].amount) / rate;
                     }
                 }
             }
-            let divWorkSpace = document.getElementById('workSpace');
-            let formAdd = document.createElement('FORM');
-            divWorkSpace.appendChild(formAdd);
-            let result = document.createElement('DIV');
-            result.className = 'result';
-            result.innerHTML = sum;
-            formAdd.appendChild(result);
-
         }
+        let divWorkSpace = document.getElementById('workSpace');
+        let formAdd = document.createElement('FORM');
+        divWorkSpace.appendChild(formAdd);
+        let result = document.createElement('DIV');
+        result.className = 'result';
+        result.innerHTML = sum;
+        formAdd.appendChild(result);
+        let ok = document.createElement('DIV');
+        ok.className = 'button';
+        ok.innerHTML = 'OK';
+        formAdd.appendChild(ok);
+        ok.addEventListener('click', function (){
+            formAdd.remove();
+            let chooseAction = document.getElementById('chooseAction');
+            chooseAction.value = 'Выберите действие';
+        })
 
     }
 

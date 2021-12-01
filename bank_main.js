@@ -407,15 +407,13 @@ function editClient(){
         button.className = 'button';
         button.innerHTML = 'Подтвердить';
         formAdd.appendChild(button);
-        inputName.addEventListener('click', function(){
-            inputName.value = '';
-        })
-        inputSurname.addEventListener('click', function(){
-            inputSurname.value = '';
+        let inputs = document.querySelectorAll('.input');
+        inputs.forEach(function(input){
+            input.addEventListener('click', function(event){
+                input.value = '';
+            })
         })
         button.addEventListener('click', function(){
-
-            let inputs = document.querySelectorAll('.input');
             inputs.forEach(function(input){
                 if(input.value === ""){
                     alert('Введите ' + input.placeholder);
@@ -660,7 +658,7 @@ function getAmountDebtClients(){
     let inputInactive = document.createElement('INPUT');
     inputInactive.setAttribute('name', 'activity');
     inputInactive.setAttribute('value', 'false');
-        inputInactive.setAttribute('type', 'radio');
+    inputInactive.setAttribute('type', 'radio');
     inputInactive.className = 'checkbox';
     labelInactive.innerHTML = 'Не активный';
     labelInactive.appendChild(inputInactive);
@@ -727,7 +725,7 @@ function getSumDebtClientsByActivity(){
         check.addEventListener('click', function (event){
             let active = event.target.value;
             myBank.countSumDebtor(active);
-             ok.addEventListener('click', function (){
+            ok.addEventListener('click', function (){
                 formAdd.remove();
                 result.remove();
                 ok.remove();

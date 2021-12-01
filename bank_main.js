@@ -145,7 +145,7 @@ class Bank {
             formAdd.remove();
             let chooseAction = document.getElementById('chooseAction');
             chooseAction.value = 'Выберите действие';
-        })
+        });
 
     }
 
@@ -186,7 +186,7 @@ class Bank {
                 ok.remove();
                 let chooseAction = document.getElementById('chooseAction');
                 chooseAction.value = 'Выберите действие';
-            })
+            });
             return sum;
         }
 
@@ -215,7 +215,7 @@ class Bank {
             ok.remove();
             let chooseAction = document.getElementById('chooseAction');
             chooseAction.value = 'Выберите действие';
-        })
+        });
         return counter;
     }
 
@@ -243,16 +243,13 @@ class Bank {
             ok.remove();
             let chooseAction = document.getElementById('chooseAction');
             chooseAction.value = 'Выберите действие';
-        })
+        });
         return sum;
     }
 
 }
 
 let myBank = new Bank();
-
-
-
 
 function addClient(){
     let clientInfo = {};
@@ -279,7 +276,7 @@ function addClient(){
             } else if(!input.value.match(/[A-zА-яЁё]/)){
                 alert(input.placeholder + ' должен содержать только буквы')
             }
-        })
+        });
 
         clientInfo.name = inputName.value;
         clientInfo.surname = inputSurname.value;
@@ -367,7 +364,7 @@ function addClient(){
             chooseAction.appendChild(sumDebtClients);
         }
 
-    })
+    });
     return clientInfo;
 }
 
@@ -411,8 +408,8 @@ function editClient(){
         inputs.forEach(function(input){
             input.addEventListener('click', function(event){
                 input.value = '';
-            })
-        })
+            });
+        });
         button.addEventListener('click', function(){
             inputs.forEach(function(input){
                 if(input.value === ""){
@@ -434,8 +431,8 @@ function editClient(){
             button.remove();
             let chooseAction = document.getElementById('chooseAction');
             chooseAction.value = 'Выберите действие';
-        })
-    })
+        });
+    });
 
 }
 
@@ -501,10 +498,10 @@ function addStatusActivity(){
                     button.remove();
                     let chooseAction = document.getElementById('chooseAction');
                     chooseAction.value = 'Выберите действие';
-                })
+                });
             }
         }
-    })
+    });
 }
 
 function addAccount(){
@@ -603,9 +600,9 @@ function addAccount(){
                 let chooseAction = document.getElementById('chooseAction');
                 chooseAction.value = 'Выберите действие';
 
-            })
-        })
-    })
+            });
+        });
+    });
 
 }
 
@@ -630,7 +627,7 @@ function getAllSumMoney(){
         myBank.getCurrencyToCallback(myBank.allBankBudget);
 
 
-    })
+    });
 
 }
 
@@ -682,9 +679,9 @@ function getAmountDebtClients(){
                 ok.remove();
                 let chooseAction = document.getElementById('chooseAction');
                 chooseAction.value = 'Выберите действие';
-            })
-        })
-    })
+            });
+        });
+    });
 }
 
 function getSumDebtClientsByActivity(){
@@ -731,9 +728,9 @@ function getSumDebtClientsByActivity(){
                 ok.remove();
                 let chooseAction = document.getElementById('chooseAction');
                 chooseAction.value = 'Выберите действие';
-            })
-        })
-    })
+            });
+        });
+    });
 }
 
 let selects = document.querySelectorAll('.select');
@@ -741,5 +738,5 @@ selects.forEach(function(select){
     select.addEventListener('change', function(event){
         let act = event.target.value;
         window[act]();
-    })
-})
+    });
+});

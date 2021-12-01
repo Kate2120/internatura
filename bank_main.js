@@ -417,7 +417,7 @@ function editClient(){
                 } else if(!input.value.match(/[A-zА-яЁё]/)){
                     alert(input.placeholder + ' должен содержать только буквы')
                 }
-            })
+            });
             name.innerHTML = 'Имя: ' + inputName.value;
             surname.innerHTML = 'Фамилия: ' + inputSurname.value;
             for(let item of myBank.clients){

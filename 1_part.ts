@@ -106,3 +106,33 @@ let memoisedAnangram = (function() {
         return false;
 
     }})();
+
+interface Result {
+    [index: string]: number,
+}
+
+function  countDigit(num: number) {
+    let arr: number[] = [];
+    let obj: Result = {};
+    for(; num > 0;) {
+        arr.push(num % 10);
+        let currenntNum = (num/10).toString();
+        num = parseInt(currenntNum);
+    }
+    for(let i = 0; i <= arr.length && arr.length > 0;) {
+        let counter = 1;
+        for(let j = i + 1; j <= arr.length; j++) {
+            if(arr[i] === arr[j]) {
+                counter++;
+                obj[arr[i]] = counter;
+            }
+        }
+        obj[arr[i]] = counter;
+        arr = arr.filter(function(item) {
+            return item !== arr[i];
+        });
+    }
+    return obj;
+};
+
+

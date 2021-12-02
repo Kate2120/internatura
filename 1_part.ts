@@ -57,18 +57,15 @@ interface Memo {
     result?: boolean,
 }
 let memoisedAnangram = (function() {
-    let memo: Memo = {
-        words: [],
-    };
-    
-    let counter = 0;
+    let memo: Memo = {};
+    let counter: number = 0;
     return function anagram(word1: string, word2: string, i: number, j: number, countWord1: number, countWord2: number): boolean | undefined {
         countWord1 = countWord1 || 0;
         countWord2 = countWord2 || 0;
         i = i || 0;
         j = j || 0;
         let arr = [word1, word2];
-        
+
         for(let key in memo.words){
             for(let i = 0; i < arr.length; i++){
                 if(key === arr[i]){
@@ -79,35 +76,33 @@ let memoisedAnangram = (function() {
                 return memo.result;
             }
         }
-        
+
         if(word1.length === word2.length){
-           
-        
-                if( i < word1.length) {
-                    if(j < word1.length) {
-                        if (word1[i] === word2[j]) {
-                            countWord1++;
-                            if (word1[i] === word1[j]) {
-                                countWord2++;
-                            }
-                        } else if (word1[i] === word1[j]) {
+            if( i < word1.length) {
+                if(j < word1.length) {
+                    if (word1[i] === word2[j]) {
+                        countWord1++;
+                        if (word1[i] === word1[j]) {
                             countWord2++;
                         }
-                        return anagram(word1, word2,i,j + 1, countWord1, countWord2);
+                    } else if (word1[i] === word1[j]) {
+                        countWord2++;
                     }
-                    return anagram(word1, word2,i + 1,0, countWord1, countWord2);
+                    return anagram(word1, word2,i,j + 1, countWord1, countWord2);
                 }
-                if (countWord1 !== countWord2) {
-                    memo.words = arr;
-                    memo.result = false;
-                    return false;
-                }
+                return anagram(word1, word2,i + 1,0, countWord1, countWord2);
+            }
+            if (countWord1 !== countWord2) {
                 memo.words = arr;
-                memo.result = true;
-                return true;
-                }
-                 memo.words = arr;
-                 memo.result = false;
-                 return false;
+                memo.result = false;
+                return false;
+            }
+            memo.words = arr;
+            memo.result = true;
+            return true;
+        }
+        memo.words = arr;
+        memo.result = false;
+        return false;
 
-            }})();
+    }})();

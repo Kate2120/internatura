@@ -1239,3 +1239,25 @@ function binaryTranslation(a: number, arr: number[]): string {
     return arr.join('');
 }
 
+interface Memo {
+    index?: number,
+    result?: string,
+}
+let memoisedBinaryTranslation = (function() {
+    let memo: Memo = {};
+    return function binaryTranslation(a: number, arr: number[]): string {
+         if(memo.index !== undefined && memo.result !== undefined){
+        if(a in memo) {
+            return memo.result;
+        }
+        }
+        arr = arr || [];
+        if(a >= 1) {
+            arr.unshift(a % 2);
+            let current = (a/2).toString();
+            return binaryTranslation(parseInt(current), arr);
+        }
+        memo.index = a;
+        memo.result = arr.join('');
+        return arr.join('');
+    }})();

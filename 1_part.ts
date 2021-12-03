@@ -343,3 +343,46 @@ function countWords (arg: string, arr: string[], obj: Result, i: number, j: numb
     }
     return obj;
 }
+
+interface Result {
+    [index: string]: number,
+}
+interface Memo {
+    [index: string]: Result,
+}
+
+let memoisedCountWords = (function() {
+    let memo: Memo = {};
+    return function countWords (arg: string, arr: string[], obj: Result, i: number, j: number, counter: number): Result {
+        if(arg in memo) {
+            return memo[arg];
+        }
+        arr = arr || [];
+        obj = obj || {};
+        i = i || 0;
+        j = j || 0;
+        counter = counter || 0;
+        if(arr.length === 0) {
+            arr = arg.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
+                return item !== "";
+            });
+            arr = arr.filter(function(item) {
+                return item !== "";
+            });
+        }
+        if(i < arr.length) {
+            if(j < arr.length) {
+                if(arr[i] === arr[j]){
+                    counter++;
+                    return countWords(arg, arr, obj, i, j + 1, counter);
+                }
+                return countWords(arg, arr, obj, i, j + 1, counter);
+            }
+            if(typeof obj[arr[i]] === "undefined"){
+                obj[arr[i]] = counter;
+            }
+            return countWords(arg, arr, obj, i + 1, i+1, 0);
+        }
+        memo[arg] = obj;
+        return obj;
+    }})();

@@ -1287,3 +1287,30 @@ function decimalConversion(num: number, i: number, j: number, sum: number): numb
     }
     return sum;
 }
+
+interface Memo {
+    index?: number,
+    result?: number,
+}
+let memoisedDecimalConversion = (function() {
+    let memo: Memo = {};
+    return function decimalConversion(num: number, i: number, j: number, sum: number): number {
+        if(memo.index !== undefined && memo.result !== undefined){
+        if(memo.index === num) {
+            return memo.result;
+        }
+        }
+        i = i || 1;
+        j = j || 0;
+        sum = sum || 0;
+        let current = num.toString();
+        if(i <= current.length && j < current.length) {
+            if(parseInt(current) == 1) {
+                sum += Math.pow(2, current.length - i)
+            }
+            return decimalConversion (num, i + 1, j + 1, sum)
+        }
+        memo.index = num;
+        memo.result = sum;
+        return sum;
+    }})();

@@ -1396,3 +1396,38 @@ function sumUpToMax(min: number, max: number, divider: number, sum: number): num
     }
     return sum;
 }
+
+
+interface Memo {
+    index?: number[],
+    result?: number,
+}
+let memoisedSumUpToMax = (function() {
+    let memo: Memo = {};
+    return function sumUpToMax(min: number, max: number, divider: number, sum: number): number {
+        let arr: number[] = [min, max];
+        if(memo.index !== undefined && memo.result !== undefined){
+           let counter: number = 0;
+        for(let item of memo.index){
+            for(let element of arr){
+                if(item === element){
+                    counter++;
+                }
+                if(counter === memo.index.length){
+                    return memo.result;
+                }
+            }
+        }
+        }
+        sum = sum || 0;
+        divider = divider || 3;
+        if(min <= max) {
+            if(min % divider === 0) {
+                sum +=min;
+            }
+            return sumUpToMax(min + 1, max, divider, sum);
+        }
+        memo.index = arr;
+        memo.result = sum;
+        return sum;
+    }})();

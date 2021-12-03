@@ -1450,3 +1450,35 @@ function sumUptoMax(min: number, max: number): number {
     }
     return sum;
 }
+
+
+interface Memo {
+    index?: number[],
+    result?: number,
+}
+let memoisedSumUptoMax = (function (){
+    let memo: Memo = {};
+    return function sumUptoMax(min: number, max: number): number {
+        let arr = [min,max];
+        if(memo.index !== undefined && memo.result !== undefined){
+           let counter: number = 0;
+        for(let item of memo.index){
+            for(let element of arr){
+                if(item === element){
+                    counter++;
+                }
+                if(counter === memo.index.length){
+                    return memo.result;
+                }
+            }
+        }
+        }
+        let sum: number = 0;
+        if(min <= max) {
+            sum = min + sumUptoMax(min + 1, max);
+        }
+        
+        memo.index = arr;
+        memo.result = sum;
+        return sum;
+    }})();

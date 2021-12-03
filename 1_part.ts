@@ -1710,3 +1710,44 @@ function matrixTranspose(arr: number[][]) {
     }
     return arrSt;
 }
+
+
+interface Memo {
+    index?: number[][],
+    result?: number[][],
+}
+let memoisedMatrixTranspose = (function() {
+    let memo: Memo = {};
+    return function matrixTranspose(arr: number[][], j: number, i: number, arrSt: number[][]): number[][] {
+  if(memo.index !== undefined && memo.result !== undefined){
+           let counter: number = 0;
+        for(let item of memo.index){
+            for(let element of arr){
+                if(item === element){
+                    counter++;
+                }
+                if(counter === memo.index.length){
+                    return memo.result;
+                }
+            }
+        }
+        }
+        arrSt = arrSt || [];
+        j = j || 0;
+        i = i || 0;
+        if(i < arr.length)  {
+            if(j < arr[0].length) {
+                arrSt.push([]);
+                arrSt[j].push(arr[i][j]);
+                return matrixTranspose(arr, j+1, i, arrSt);
+            }
+            return matrixTranspose(arr, 0, i +1, arrSt);
+        }
+        memo.index = arr;
+        memo.result = arrSt.filter(function (el) {
+            return el.length !== 0;
+        });
+        return arrSt.filter(function (el) {
+            return el.length !== 0;
+        });
+    }})();

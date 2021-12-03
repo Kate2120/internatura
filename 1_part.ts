@@ -1520,7 +1520,7 @@ function average(arr: (number[] | number)[], sum: number, count: number, i: numb
         if(Array.isArray(current)) {
             if(j < current.length) {
                 count++;
-                sum += current[j];
+                sum += parseInt(current[j]);
                 return average(arr, sum, count, i, j + 1)
             }
         }
@@ -1532,3 +1532,49 @@ function average(arr: (number[] | number)[], sum: number, count: number, i: numb
     }
     return sum/count;
 }
+
+
+interface Memo {
+    index?: number[],
+    result?: number,
+}
+let memoisedAverage = (function() {
+    let memo: Memo = {};
+    return function average(arr: number[], sum: number, count: number, i: number, j: number): number {
+        if(memo.index !== undefined && memo.result !== undefined){
+           let counter: number = 0;
+        for(let item of memo.index){
+            for(let element of arr){
+                if(item === element){
+                    counter++;
+                }
+                if(counter === memo.index.length){
+                    return memo.result;
+                }
+            }
+        }
+        }
+        
+        sum = sum || 0;
+        count = count || 0;
+        i = i || 0;
+        j = j || 0;
+        if(i < arr.length) {
+            let current = arr[i];
+            if(Array.isArray(current)) {
+                if(j < current.length) {
+                    count++;
+                    sum += parseInt(current[j]);
+                    return average(arr, sum, count, i, j + 1)
+                }
+            }
+            if(typeof current === "number") {
+                count++;
+                sum += current;
+                return average(arr, sum, count, i + 1, 0)
+            }
+        }
+        memo.index = arr;
+        memo.result = sum;
+        return sum/count;
+    }})();

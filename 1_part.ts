@@ -1219,3 +1219,12 @@ function decimalConversion (num: number, i: number, sum: number, j: number): num
     }
     return sum;
 }
+
+function binaryTranslation(a: number): string {
+    let arr: number[] = [];
+    for (;a >= 1;) {
+        arr.unshift (a % 2);
+        let current = (a/2).toString();
+        a = parseInt(current);
+    } return arr.join('')
+}

@@ -1997,3 +1997,11 @@ function factorial(n: number): number {
     } 
     return c;
 }
+
+function factorial(n: number, result: number): number {
+    result = result || 1;
+    if(n > 0) {
+        result = n * factorial(n -1, 1);
+    }
+    return result;
+}

@@ -1314,3 +1314,15 @@ let memoisedDecimalConversion = (function() {
         memo.result = sum;
         return sum;
     }})();
+
+function sum(min: number, max: number): number {
+    let sum: number = 0;
+    let d: number;
+    for(let i: number = 0; i < max - (min - 1); i++) {
+        d = min + i;
+        if(d > 0) {
+            sum +=d;
+        }
+    }
+    return sum;
+}

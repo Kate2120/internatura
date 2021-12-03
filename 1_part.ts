@@ -685,3 +685,45 @@ function sumMultipleThree (arr: (Array<number> | number)[], i: number, sum: numb
     }
     return sum;
 }
+
+interface Memo {
+    array?: (Array<number> | number)[]
+    result?: number,
+}
+let memoisedSumPositiveOdd = (function() {
+    let memo: Memo = {};
+    return function sumPositiveOdd (arr: (number| number[])[], i: number, sum: number): number {
+        if(memo.array !== undefined && memo.result !== undefined) {
+            let counter: number = 0;
+            for (let item of arr) {
+                for (let element of memo.array) {
+                    if (item === element) {
+                        counter++;
+                    }
+                    if (counter === arr.length) {
+                        return memo.result;
+                    }
+                }
+            }
+        }
+        sum = sum || 0;
+        i = i || 0;
+        if(i < arr.length ) {
+            let current = arr[i];
+            if(Array.isArray(current)) {
+                for(let item of current) {
+                    if(item% 2 !== 0 && item > 0){
+                        sum += item;
+                    }
+                } i++;
+            } else{
+            if(current % 2!== 0 && arr[i] > 0) {
+                sum += current;
+            }
+            }
+            return sumPositiveOdd(arr, i + 1, sum);
+        }
+        memo.array = arr;
+        memo.result = sum;
+        return sum;
+    }})();

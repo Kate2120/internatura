@@ -1602,3 +1602,23 @@ function sumMultipleTwo(arr: number[]): number {
     } return sum/count;
 }
 
+
+function averageOdd(arr: number[], count: number, sum: number): number {
+    sum = sum || 0;
+    count = count || 0;
+    for(let item of arr) {
+        if(Array.isArray(item)) {
+            for(let el of item){
+                if(el % 2 === 0) {
+                    count++;
+                    sum += el;
+                }
+            }
+        }
+        else if(typeof item === "number" && item % 2 === 0) {
+            count++;
+            sum += item;
+        }
+    }
+    return sum/count;
+}

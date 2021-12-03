@@ -1272,3 +1272,18 @@ function decimalConversion(num: number): number {
     }
     return sum;
 }
+
+function decimalConversion(num: number, i: number, j: number, sum: number): number {
+    i = i || 1;
+    j = j || 0;
+    sum = sum || 0;
+    let current = num.toString();
+    if(i <= current.length && j < current.length) {
+        let digit = parseInt(current[j]);
+        if(digit == 1) {
+            sum += Math.pow(2, current.length - i)
+        }
+        return decimalConversion (num, i + 1, j + 1, sum)
+    }
+    return sum;
+}

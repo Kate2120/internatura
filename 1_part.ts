@@ -1697,3 +1697,16 @@ let memoisedAverageOdd = (function() {
         memo.result = sum/count;
         return sum/count;
     }})();
+
+function matrixTranspose(arr: number[][]) {
+    let arrSt: number[][] = [];
+    for(let i: number = 0; i < arr[i].length; i++) {
+        arrSt.push([]);
+    }
+    for(let a = 0; a < arr.length; a++) {
+        for(let j = 0; j < arr[j].length; j++) {
+            arrSt[j].push(arr[a][j]);
+        }
+    }
+    return arrSt;
+}

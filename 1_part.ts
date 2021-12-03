@@ -405,4 +405,39 @@ function fibonacci(n: number, arr: number[], i: number): number[] {
     return arr;
 }
 
-
+interface Memo {
+    [index: string]: number[],
+}
+let memoisedFibonacci = (function() {
+    let memo: Memo = {};
+    return function fibonacci(N: number, i: number, arr: number[], count: number): number[] {
+        count = count || 0;
+        arr = arr || [];
+        i = i || 0;
+        let key = N.toString();
+        if(key in memo) {
+            return memo.key;
+        } else if(Object.keys(memo).length > 0 && i < N && count ===0) {
+            arr = memo[Object.keys(memo).length - 1];
+            arr.push(memo[Object.keys(memo).length - 1][Object.keys(memo).length - 2] + memo[Object.keys(memo).length - 1][Object.keys(memo).length - 1]);
+            memo[i] = arr.slice();
+            count++;
+            i = arr.length -1;
+            return fibonacci(N, i + 1, arr, count);
+        } else if(count === 1 && i < N) {
+            arr.push(arr[i-2] + arr[i-1]);
+            memo[i] = arr.slice();
+            return fibonacci(N, i + 1, arr, count);
+        } else if(i === 0 && Object.keys(memo).length === 0) {
+            arr.push(i);
+            memo[i] = arr.slice();
+            i++;
+            arr.push(i);
+            memo[i] = arr.slice();
+            arr.push(arr[i-1] + arr[i]);
+            i++;
+            memo[i] = arr.slice();
+            return fibonacci(N, i+1, arr, 0);
+        }
+        return arr;
+    }})();

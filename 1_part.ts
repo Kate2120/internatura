@@ -1492,3 +1492,20 @@ function sumAll(arr: number[]): number {
         count++;
     } return sum/count;
 }
+
+function average(arr: number[]): number {
+    let sum: number = 0;
+    let count: number = 0;
+    for(let item of arr) {
+        if(Array.isArray(item)) {
+            for(let element of item){
+                count++;
+                sum += element;
+            }
+        } else if(typeof item === "number") {
+            count++;
+            sum += item;
+        }
+    } 
+    return sum/count;
+}

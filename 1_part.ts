@@ -1944,3 +1944,45 @@ function matrixCleanZero(matrix: number[][], i: number ,j: number, count: number
     }
     return matrix;
 }
+
+interface Memo {
+    index?: number[][],
+    result?: number[][],
+}
+let memoisedMatrixCleanZero = (function() {
+    let memo: Memo = {};
+    return function matrixCleanZero(matrix: number[][], i: number ,j: number, count: number): number[][] {
+        if(memo.index !== undefined && memo.result !== undefined){
+           let counter: number = 0;
+        for(let item of memo.index){
+            for(let element of matrix){
+                if(item === element){
+                    counter++;
+                }
+                if(counter === memo.index.length){
+                    return memo.result;
+                }
+            }
+        }
+        }
+        i = i || 0;
+        j = j || 0;
+        count = count || 0;
+        if(i < matrix.length) {
+            if(j < matrix[i].length) {
+                if(matrix[i][j] === 0) {
+                    count++;
+                    matrix[i].splice(j,1);
+                    return matrixCleanZero (matrix, i+1, j, count);
+                } else if(count > 0) {
+                    matrix[i].splice(j,1);
+                    return matrixCleanZero(matrix, i+1, j, count);
+                }
+                return matrixCleanZero(matrix, 0,j+1, count);
+            }
+        }
+        memo.index = matrix;
+        memo.result = matrix;
+        return matrix;
+    }})();
+

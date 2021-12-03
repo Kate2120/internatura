@@ -135,4 +135,32 @@ function  countDigit(num: number) {
     return obj;
 };
 
+interface Result {
+    [index: string]: number,
+}
+function countDigit(num: number, arr: number[], obj: Result, i: number) {
+    arr = arr || [];
+    obj = obj || {};
+    i = i || 0;
+    for (; num > 0;) {
+        arr.push(num % 10);
+        let currentNumberToString = (num/10).toString();
+        num = parseInt(currentNumberToString);
+    }
+    if (i <= arr.length && arr.length > 0 ) {
+        let counter = 1;
+        for (let j = i + 1; j <= arr.length; j++) {
+            if (arr[i] === arr[j]) {
+                counter++;
+                obj[arr[i]] = counter;
+            }
+        }
+        obj[arr[i]] = counter;
+        arr = arr.filter(function(item) {
+            return item !== arr[i];
+        });
+        countDigit(num, arr, obj, i);
+    }
+    return obj;
+}
 

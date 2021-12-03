@@ -547,3 +547,25 @@ function sumMultipleThree(arr: number[]) {
     }
     return sum;
 }
+
+function sumMultipleThree(arr: (Array<number> | number)[]): number {
+    let sum: number = 0;
+    let sum2: number = 0;
+    for(let item of arr) {
+        if(Array.isArray(item)) {
+            for(let i: number = 0; i < item.length; i++){
+                if(item[i] % 3 === 0) {
+                    sum2 += item[i];
+                }
+            }
+            item = sum2;
+            sum2 = 0;
+            console.log(item);
+        }
+        if (item % 3 === 0) {
+            sum += item;
+        }
+    }
+    return sum;
+}
+

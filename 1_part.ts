@@ -1873,3 +1873,41 @@ function matrixCleanZero(matrix: number[][], i: number, j: number): number[][] {
     }
     return matrix;
 }
+
+
+interface Memo {
+    index?: number[][],
+    result?: number[][],
+}
+let memoisedMatrixCleanZero = (function() {
+    let memo: Memo = {};
+    return function matrixCleanZero (matrix: number[][], i: number, j: number): number[][] {
+if(memo.index !== undefined && memo.result !== undefined){
+           let counter: number = 0;
+        for(let item of memo.index){
+            for(let element of matrix){
+                if(item === element){
+                    counter++;
+                }
+                if(counter === memo.index.length){
+                    return memo.result;
+                }
+            }
+        }
+        }
+        i = i || 0;
+        j = j || 0;
+        if (i < matrix.length) {
+            if (j < matrix[i].length) {
+                if (matrix[i][j] === 0) {
+                    matrix.splice(i,1);
+                } 
+                return matrixCleanZero (matrix, i,j+1);
+
+            } 
+            return matrixCleanZero (matrix, i+1,0);
+        }
+        memo.index = matrix
+        memo.result = matrix;
+        return matrix;
+    }})();

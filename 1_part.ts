@@ -1,4 +1,4 @@
-function anagram(word1: string, word2: string) {
+function anagram(word1: string, word2: string): boolean {
     let countWord1: number = 0;
     let countWord2: number = 0;
     if (word1.length === word2.length){
@@ -111,7 +111,7 @@ interface Result {
     [index: string]: number,
 }
 
-function  countDigit(num: number) {
+function  countDigit(num: number): Result {
     let arr: number[] = [];
     let obj: Result = {};
     for(; num > 0;) {
@@ -138,7 +138,7 @@ function  countDigit(num: number) {
 interface Result {
     [index: string]: number,
 }
-function countDigit(num: number, arr: number[], obj: Result, i: number) {
+function countDigit(num: number, arr: number[], obj: Result, i: number): Result {
     arr = arr || [];
     obj = obj || {};
     i = i || 0;
@@ -208,3 +208,23 @@ let memoizedDigit = (function() {
         memo.key = obj;
         return obj;
     }})();
+
+function uniqueWords(sentence: string): number {
+    sentence = sentence.toLowerCase();
+    let arr: string[] = sentence.split(/[^а-яА-ЯёЁ]+/gui);
+    arr = arr.filter(function(item) {
+        return item !== "";
+    });
+    for(let i: number = 0; i < arr.length - 1; i++) {
+        for(let j: number = i + 1; j < arr.length; j++ ) {
+            let a: string = arr[i];
+            let b: string = arr[j];
+            if(a === b) {
+                arr = arr.filter(function(item) {
+                    return item !== a;
+                });
+            }
+        }
+    }
+    return arr.length;
+}

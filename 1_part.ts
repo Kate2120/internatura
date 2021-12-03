@@ -386,3 +386,11 @@ let memoisedCountWords = (function() {
         memo[arg] = obj;
         return obj;
     }})();
+
+function fibonacci(n: number, arr: number[]): number[] {
+    arr = [0,1];
+    for(let i: number = 0; i < n - 2; i++){
+        arr.push (arr[i] + arr[i+1]);
+    }
+    return arr;
+}

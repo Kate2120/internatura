@@ -286,3 +286,27 @@ let memoisedCountWords = (function(){
 
     }})();
 
+interface Result {
+    [index: string]: number,
+}
+function uniqueWords(sentence: string): Result {
+    sentence = sentence.toLowerCase()
+    let arr: string[] = sentence.split(/[^а-яА-ЯёЁ]+/gui);
+    arr = arr.filter(function(item) {
+        return item !== "";
+    });
+    let obj: Result = {};
+    for(let i: number = 0; i < arr.length; ) {
+        let counter: number = 1;
+        for(let j: number = i + 1; j <= arr.length; j++ ) {
+            if(arr[i] === arr[j]) {
+                counter++;
+            } else if (j === arr.length) {
+                obj [arr[i]] = counter;
+                arr = arr.filter(function(item) {
+                    return item !== arr[i];});
+            }
+        }
+    }
+    return obj;
+}

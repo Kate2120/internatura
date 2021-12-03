@@ -1575,7 +1575,7 @@ let memoisedAverage = (function() {
             }
         }
         memo.index = arr;
-        memo.result = sum;
+        memo.result = sum/count;
         return sum/count;
     }})();
 
@@ -1648,3 +1648,52 @@ function averageOdd(arr: number[], count: number, sum: number, i: number, j: num
     }
     return sum/count;
 }
+
+
+interface Memo {
+    index?: number[],
+    result?: number,
+}
+let memoisedAverageOdd = (function() {
+    let memo: Memo = {};
+    return function averageOdd(arr: number[], count: number, sum: number, i: number, j: number): number {
+        if(memo.index !== undefined && memo.result !== undefined){
+           let counter: number = 0;
+        for(let item of memo.index){
+            for(let element of arr){
+                if(item === element){
+                    counter++;
+                }
+                if(counter === memo.index.length){
+                    return memo.result;
+                }
+            }
+        }
+        }
+        sum = sum || 0;
+        count = count || 0;
+        i = i || 0;
+        j = j || 0;
+        if(i < arr.length) {
+            let current = arr[i];
+            if(Array.isArray(current)) {
+
+                if(j < current.length){
+
+                    if(parseInt(current[j]) % 2 === 0 && parseInt(current[j]) > 0) {
+                        count++;
+                        sum += parseInt(current[j]);
+                        return averageOdd(arr, count, sum, i, j + 1);
+                    }
+                }
+            } else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
+                count++;
+                sum += arr[i];
+                return averageOdd(arr, count, sum, i + 1, 0);
+            }
+            return averageOdd(arr, count, sum, i + 1, 0);
+        }
+        memo.index = arr;
+        memo.result = sum/count;
+        return sum/count;
+    }})();

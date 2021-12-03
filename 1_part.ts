@@ -1066,3 +1066,37 @@ function countNative(arr: number[]): number {
         }
         return count;
 }
+
+function countPrimeNumbers(arr: (number[] | number)[]): number {
+    let count: number = 0;
+    let count2: number = 0;
+    let count3: number = 0;
+    for(let item of arr) {
+        let current = item;
+        if(Array.isArray(current)) {
+            for(let el of current) {
+                for(let i = 1; i < el; i++) {
+                    if(el % i !== 0 ) {
+                        count++;
+                        if(count === el - 2) {
+                            count2++;
+                            count = 0;
+                        }
+                    }
+                }
+                count = 0;
+            }
+        } else{
+        for(let j = 1; j < item; j++) {
+            if(current % j !== 0) {
+                count++;
+                if(count === current - 2) {
+                    count3++;
+                    count = 0;
+                }
+            }
+            }
+        } count = 0;
+    }
+    return count2 + count3;
+}

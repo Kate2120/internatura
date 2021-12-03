@@ -2005,3 +2005,20 @@ function factorial(n: number, result: number): number {
     }
     return result;
 }
+
+interface Memo{
+    [index: string]: number,
+}
+let memoisedFactorial = (function() {
+    let memo: Memo = {};
+    return function factorial(n: number, result: number): number {
+        if(n in memo) {
+            return memo[n];
+        }
+        result = result || 1;
+        if(n > 0) {
+            result = n * factorial(n -1, 1);
+        }
+        memo[n] = result;
+        return result;
+    }})();

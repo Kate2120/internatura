@@ -1326,3 +1326,14 @@ function sum(min: number, max: number): number {
     }
     return sum;
 }
+
+function sumUpToMax(min: number, max: number, sum: number): number {
+    sum = sum || 0;
+    if(min <= max) {
+        if(min > 0) {
+            sum +=min;
+        }
+        return sumUpToMax(min + 1, max, sum);
+    }
+    return sum;
+}

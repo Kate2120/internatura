@@ -570,3 +570,24 @@ function sumMultipleThree(arr: (Array<number> | number)[]): number {
     return sum;
 }
 
+function sumMultipleThree (arr: (Array<number> | number)[], i: number, sum: number): number {
+    sum = sum || 0;
+    i = i || 0;
+    if(i < arr.length ) {
+        let current = arr[i];
+        if(Array.isArray(current)) {
+            for(let item of current) {
+                if(item%3 === 0){
+                    sum += item;
+                }
+            }
+            i++;
+        } else {
+        if(current % 3 === 0) {
+            sum += current;
+        }
+        }
+        return sumMultipleThree(arr, i + 1, sum);
+    }
+    return sum;
+}

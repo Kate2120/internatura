@@ -164,3 +164,47 @@ function countDigit(num: number, arr: number[], obj: Result, i: number) {
     return obj;
 }
 
+
+interface Result {
+    [index: string]: number,
+}
+interface Memo {
+    [key: string]: Result,
+}
+let memoizedDigit = (function() {
+    let memo: Memo = {};
+
+    return  function countDigit(num: number, arr: number[], obj: Result) {
+        let key: string = num.toString();
+        if (key in memo) {
+            return obj;
+        }
+        arr = arr || [];
+        obj = obj || {};
+        if(arr.length === 0){
+        for (; num > 0;) {
+            arr.push(num % 10);
+            let currentNumToString = (num/10).toString();
+            num = parseInt(currentNumToString);
+
+        }
+        }
+        let i = 0;
+        if (i <= arr.length && arr.length > 0 ) {
+            let counter: number = 1;
+            for (let j = i + 1; j <= arr.length; j++) {
+                if (arr[i] === arr[j]) {
+                    counter++;
+                    obj[arr[i]] = counter;
+                }
+            }
+            obj[arr[i]] = counter;
+            arr = arr.filter(function(item) {
+                return item !== arr[i];
+            });
+
+            countDigit(num, arr,obj);
+        }
+        memo.key = obj;
+        return obj;
+    }})();

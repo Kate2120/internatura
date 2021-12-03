@@ -394,3 +394,15 @@ function fibonacci(n: number, arr: number[]): number[] {
     }
     return arr;
 }
+
+function fibonacci(n: number, arr: number[], i: number): number[] {
+    arr = arr || [0,1];
+    i = i || 0;
+    if(i < n - 2){
+        arr.push (arr[i] + arr[i+1]);
+        fibonacci(n, arr, i + 1)
+    }
+    return arr;
+}
+
+

@@ -755,3 +755,25 @@ function countZerro(arr: (number| number[])[]): number {
     }
     return count1 + count2;
 }
+
+function countZerro(arr: (number| number[])[], i: number, count: number): number {
+    count = count || 0;
+    i = i || 0;
+    if(i < arr.length ) {
+        let current = arr[i];
+        if(Array.isArray(current)) {
+            for(let item of current) {
+                if(item === 0){
+                    count++;
+                }
+            }
+            i++;
+        } else{
+        if(current === 0) {
+            count++;
+        }
+        }
+        return countZerro(arr, i + 1, count);
+    }
+    return count;
+}

@@ -1247,7 +1247,7 @@ let memoisedBinaryTranslation = (function() {
     let memo: Memo = {};
     return function binaryTranslation(a: number, arr: number[]): string {
          if(memo.index !== undefined && memo.result !== undefined){
-        if(a in memo) {
+        if(memo.index === a) {
             return memo.result;
         }
         }

@@ -1769,3 +1769,20 @@ function matrixTranspose(arr: number[][], j: number, i: number, arrSt: number[][
         return el.length !== 0;
     });
 }
+
+function sumMatrix(...matrix: number[][][]) {
+    let matrixSum: number[][] = [];
+    let sum: number = 0;
+    for(let i = 0; i < matrix[0].length; i++){
+        matrixSum.push([]);
+        for(let j = 0; j < matrix[0][0].length; j++) {
+            for(let e = 0; e < matrix.length; e++) {
+                sum += matrix[e][i][j];
+            }
+            matrixSum[i].push(sum);
+            sum = 0;
+        }
+    }
+    return matrixSum;
+}
+

@@ -1786,3 +1786,21 @@ function sumMatrix(...matrix: number[][][]) {
     return matrixSum;
 }
 
+function sumMatrices(matr1: number[][], matr2: number[][], i: number, j: number, arrSumMatrices: number[][], sum: number): number[][] {
+    arrSumMatrices = arrSumMatrices || [];
+    sum = sum || 0;
+    i = i || 0;
+    j = j || 0;
+    if(i < matr1.length) {
+        if(j < matr1[j].length){
+            if(j === 0) {
+                arrSumMatrices.push([]);
+            }
+            sum = matr1[i][j] + matr2[i][j];
+            arrSumMatrices[i].push(sum);
+            return sumMatrices(matr1, matr2, i,j+1, arrSumMatrices, sum);
+        }
+        return sumMatrices(matr1,matr2, i+1,0, arrSumMatrices, sum);
+    }
+    return arrSumMatrices;
+}

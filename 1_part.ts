@@ -727,3 +727,13 @@ let memoisedSumPositiveOdd = (function() {
         memo.result = sum;
         return sum;
     }})();
+
+function countZerro (arr: number[]) {
+    let count: number = 0;
+    for(let item of arr) {
+        if(item === 0) {
+            count++;
+        }
+    }
+    return count;
+}

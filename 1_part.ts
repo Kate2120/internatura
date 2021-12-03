@@ -1924,3 +1924,23 @@ function matrixCleanZero(matrix: number[][]): number[][] {
     }
     return matrix;
 }
+
+function matrixCleanZero(matrix: number[][], i: number ,j: number, count: number): number[][] {
+    i = i || 0;
+    j = j || 0;
+    count = count || 0;
+    if(i < matrix.length) {
+        if(j < matrix[i].length) {
+            if(matrix[i][j] === 0) {
+                count++;
+                matrix[i].splice(j,1);
+                return matrixCleanZero (matrix, i+1, j, count);
+            } else if(count > 0) {
+                matrix[i].splice(j,1);
+                return matrixCleanZero(matrix, i+1, j, count);
+            }
+            return matrixCleanZero(matrix, 0,j+1, count);
+        }
+    }
+    return matrix;
+}

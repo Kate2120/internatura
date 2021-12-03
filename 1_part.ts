@@ -514,9 +514,8 @@ let memoisedSumMultipleTwo = (function() {
         i = i || 0;
         sum = sum || 0;
         if(i < arr.length) {
-            let current = arr[i];
-            if(Array.isArray(current)) {
-                for(let item of current) {
+             if(Array.isArray(arr[i])) {
+                for(let item of arr[i]) {
                     if(!Array.isArray(item)) {
                     if(item%2 === 0){
                         sum += item;
@@ -525,8 +524,8 @@ let memoisedSumMultipleTwo = (function() {
                 }
                 return sumMultipleTwo(arr, i + 1, sum);
             } else {
-                if(current % 2 === 0) {
-                    sum += current;
+                if(arr[i] % 2 === 0) {
+                    sum += arr[i];
                 }
                 }
                 
@@ -574,17 +573,16 @@ function sumMultipleThree (arr: (Array<number> | number)[], i: number, sum: numb
     sum = sum || 0;
     i = i || 0;
     if(i < arr.length ) {
-        let current = arr[i];
-        if(Array.isArray(current)) {
-            for(let item of current) {
+        if(Array.isArray(arr[i])) {
+            for(let item of arr[i]) {
                 if(item%3 === 0){
                     sum += item;
                 }
             }
             i++;
         } else {
-        if(current % 3 === 0) {
-            sum += current;
+        if(arr[i] % 3 === 0) {
+            sum += arr[i];
         }
         }
         return sumMultipleThree(arr, i + 1, sum);
@@ -615,17 +613,16 @@ let memoisedSumMultipleTree = (function() {
         sum = sum || 0;
         i = i || 0;
         if(i < arr.length ) {
-            let current = arr[i];
-            if(Array.isArray(current)) {
-                for(let item of current) {
+            if(Array.isArray(arr[i])) {
+                for(let item of arr[i]) {
                     if(item%3 === 0){
                         sum += item;
                     }
                 }
                 i++;
             } else{
-            if(current % 3 === 0) {
-                sum += current;
+            if(arr[i] % 3 === 0) {
+                sum += arr[i];
             }
             }
             return sumMultipleThree(arr, i + 1, sum);
@@ -643,4 +640,23 @@ function sumPositiveOdd(arr: number[]): number {
         }
     }
     return sum;
+}
+
+function sumPositiveOdd(arr: (Array<number> | number)[]): number {
+    let sum: number = 0;
+    let sum2: number = 0;
+    for(let item of arr) {
+        if(Array.isArray(item)) {
+            for(let i = 0; i < item.length; i++){
+                if(item[i] % 2 !== 0 && item[i] >= 0) {
+                    sum2 += item[i];
+                }
+            }
+        } else{
+        if(item % 2 !== 0 && item >= 0) {
+            sum += item;
+        }
+        }
+    }
+    return sum + sum2;
 }

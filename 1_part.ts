@@ -1509,3 +1509,26 @@ function average(arr: number[]): number {
     } 
     return sum/count;
 }
+
+function average(arr: (number[] | number)[], sum: number, count: number, i: number, j: number): number {
+    sum = sum || 0;
+    count = count || 0;
+    i = i || 0;
+    j = j || 0;
+    if(i < arr.length) {
+        let current = arr[i];
+        if(Array.isArray(current)) {
+            if(j < current.length) {
+                count++;
+                sum += current[j];
+                return average(arr, sum, count, i, j + 1)
+            }
+        }
+        if(typeof current === "number") {
+            count++;
+            sum += current;
+            return average(arr, sum, count, i + 1, 0)
+        }
+    }
+    return sum/count;
+}

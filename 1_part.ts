@@ -872,3 +872,46 @@ function countNegative (arr: (number[]| number)[], i: number, count: number): nu
     }
     return count;
 }
+
+interface Memo {
+    array?: (Array<number> | number)[]
+    result?: number,
+}
+let memoisedCountNegative = (function() {
+    let memo: Memo = {};
+    return function countNegative (arr: (number[] | number)[], i: number, count: number): number {
+        if(memo.array !== undefined && memo.result !== undefined) {
+            let counter: number = 0;
+            for (let item of arr) {
+                for (let element of memo.array) {
+                    if (item === element) {
+                        counter++;
+                    }
+                    if (counter === arr.length) {
+                        return memo.result;
+                    }
+                }
+            }
+        }
+        count = count || 0;
+        i = i || 0;
+        if(i < arr.length ) {
+            let current = arr[i];
+            if(Array.isArray(current)) {
+                for(let item of current) {
+                    if(item < 0){
+                        count++;
+                    }
+                }
+                i++;
+            } else{
+            if(current < 0) {
+                count++;
+            }
+            }
+            return countNegative(arr, i + 1, count);
+        }
+        memo.array = arr;
+        memo.result = count;
+        return count;
+    }})();

@@ -1371,3 +1371,15 @@ let memoisedSumUpToMax = (function() {
         memo.result = sum;
         return sum;
     }})();
+
+
+function sumUpToMax(min: number, max: number): number {
+    let sum: number = 0;
+    let d: number;
+    for(let i: number = 0; i < max - 1; i++) {
+        d = min + i;
+        if(d%3 === 0) {
+            sum +=d;
+        }
+    } return sum;
+}

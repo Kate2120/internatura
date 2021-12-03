@@ -1578,3 +1578,15 @@ let memoisedAverage = (function() {
         memo.result = sum;
         return sum/count;
     }})();
+
+
+function sumMultipleTwo (arr: number[]): number {
+    let sum: number = 0;
+    let count: number = 0;
+    for (let item of arr) {
+        if (item % 2 === 0) {
+            sum += item;
+            count++;
+        }
+    } return sum/count;
+}

@@ -1100,3 +1100,39 @@ function countPrimeNumbers(arr: (number[] | number)[]): number {
     }
     return count2 + count3;
 }
+
+function simpleDigit (arr: (number[] | number)[], i: number, sum: number, count: number): number {
+    count = count || 0;
+    sum = sum || 0;
+    i = i || 0;
+    if(i < arr.length) {
+        let current = arr[i];
+        if(Array.isArray(current)) {
+            for(let item of current) {
+                for(let j: number = 1; j < item; j++) {
+                    if(item % j === 0 && item > 0) {
+                        count++;
+                    }
+                }
+                if(count === 1) {
+                    sum += count;
+                    count = 0;
+                }
+            }
+        } else{
+        for(let j: number = 1; j < current; j++) {
+
+            if(current % j === 0 && current > 0) {
+                count++;
+            }
+        }
+        if(count === 1) {
+            sum +=count;
+            count = 0;
+        }
+        }
+        count = 0;
+        return simpleDigit (arr, i + 1, sum, count);
+    }
+    return sum;
+}

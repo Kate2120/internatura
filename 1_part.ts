@@ -1622,3 +1622,29 @@ function averageOdd(arr: number[], count: number, sum: number): number {
     }
     return sum/count;
 }
+
+
+function averageOdd(arr: number[], count: number, sum: number, i: number, j: number): number {
+    sum = sum || 0;
+    count = count || 0;
+    i = i || 0;
+    j = j || 0;
+    if(i < arr.length) {
+        let current = arr[i];
+        if(Array.isArray(current)) {
+            if(j < current.length){
+                if(parseInt(current[j]) % 2 === 0 && parseInt(current[j]) > 0) {
+                    count++;
+                    sum += parseInt(current[j]);
+                    return averageOdd(arr, count, sum, i, j + 1);
+                }
+            }
+        }  else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
+            count++;
+            sum += arr[i];
+            return averageOdd(arr, count, sum, i + 1, 0);
+        }
+        return averageOdd(arr, count, sum, i + 1, 0);
+    }
+    return sum/count;
+}

@@ -1136,3 +1136,60 @@ function simpleDigit (arr: (number[] | number)[], i: number, sum: number, count:
     }
     return sum;
 }
+
+interface Memo {
+    array?: (Array<number> | number)[]
+    result?: number,
+}
+let memoisedSimpleDigit = (function() {
+    let memo: Memo = {};
+    return function simpleDigit (arr: (number[] | number)[], i: number, sum: number, count: number): number {
+        if(memo.array !== undefined && memo.result !== undefined) {
+            let counter: number = 0;
+            for (let item of arr) {
+                for (let element of memo.array) {
+                    if (item === element) {
+                        counter++;
+                    }
+                    if (counter === arr.length) {
+                        return memo.result;
+                    }
+                }
+            }
+        }
+        count = count || 0;
+        sum = sum || 0;
+        i = i || 0;
+        if(i < arr.length) {
+            let current = arr[i];
+            if(Array.isArray(current)) {
+                for(let item of current) {
+                    for(let j: number = 1; j < item; j++) {
+                        if(item % j === 0 && item > 0) {
+                            count++;
+                        }
+                    }
+                    if(count === 1) {
+                        sum += count;
+                        count = 0;
+                    }
+                }
+            } else{
+            for(let j: number = 1; j < current; j++) {
+
+                if(current % j === 0 && current > 0) {
+                    count++;
+                }
+            }
+            if(count === 1) {
+                sum +=count;
+                count = 0;
+            }
+            }
+            count = 0;
+            return simpleDigit (arr, i + 1, sum, count);
+        }
+        memo.array = arr;
+        memo.result = sum;
+        return sum;
+    }})();

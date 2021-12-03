@@ -1857,3 +1857,19 @@ function matrixCleanZero(matrix: number[][]): number[][] {
     }
     return matrix;
 }
+
+
+function matrixCleanZero(matrix: number[][], i: number, j: number): number[][] {
+    i = i || 0;
+    j = j || 0;
+    if (i < matrix.length) {
+        if (j < matrix[i].length) {
+            if (matrix[i][j] === 0) {
+                matrix.splice(i,1);
+            } 
+            return matrixCleanZero (matrix, i,j+1);
+        } 
+        return matrixCleanZero (matrix, i+1,0);
+    }
+    return matrix;
+}

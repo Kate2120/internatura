@@ -1052,3 +1052,17 @@ function countPrimeNumbers(arr: number[]): number {
     }
     return count2 + count3;
 }
+
+function countNative(arr: number[]): number {
+    let count: number = 0;
+    label:
+        for(let item of arr) {
+            for(let i = 2; i < item - 1; i++) {
+                if(item % i === 0) {
+                    continue label;
+                }
+            }
+            count++;
+        }
+        return count;
+}

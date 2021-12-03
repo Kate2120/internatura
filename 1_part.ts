@@ -538,4 +538,12 @@ let memoisedSumMultipleTwo = (function() {
         return sum;
     }})();
 
-
+function sumMultipleThree(arr: number[]) {
+    let sum: number = 0;
+    for(let item of arr) {
+        if(item % 3 === 0) {
+            sum += item;
+        }
+    }
+    return sum;
+}

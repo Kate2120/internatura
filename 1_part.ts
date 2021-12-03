@@ -1005,3 +1005,17 @@ let memoisedCountPositive = (function() {
         memo.result = count;
         return count;
     }})();
+
+function countNative(arr: number[]): number {
+    let count: number = 0;
+    label:
+        for(let item of arr) {
+            for(let i: number = 2; i < item - 1; i++) {
+                if(item % i === 0) {
+                    continue label;
+                }
+            }
+            count++;
+        }
+        return count;
+}

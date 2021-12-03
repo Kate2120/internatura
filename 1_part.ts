@@ -514,9 +514,9 @@ let memoisedSumMultipleTwo = (function() {
         i = i || 0;
         sum = sum || 0;
         if(i < arr.length) {
-            const a = arr[i]
-            if(Array.isArray(a)) {
-                for(let item of a) {
+            let current = arr[i];
+            if(Array.isArray(current)) {
+                for(let item of current) {
                     if(!Array.isArray(item)) {
                     if(item%2 === 0){
                         sum += item;
@@ -525,8 +525,8 @@ let memoisedSumMultipleTwo = (function() {
                 }
                 return sumMultipleTwo(arr, i + 1, sum);
             } else {
-                if(a % 2 === 0) {
-                    sum += a;
+                if(current % 2 === 0) {
+                    sum += current;
                 }
                 }
                 
@@ -537,6 +537,7 @@ let memoisedSumMultipleTwo = (function() {
         memo.result = sum;
         return sum;
     }})();
+
 
 function sumMultipleThree(arr: number[]) {
     let sum: number = 0;

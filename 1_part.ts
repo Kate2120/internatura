@@ -471,3 +471,22 @@ function sumMultipleTwo(arr: number[]): number {
     }
     return sum;
 }
+
+function sumMultipleTwo(arr: number[], i: number, sum: number): number {
+    i = i || 0;
+    sum = sum || 0;
+    if(i < arr.length ) {
+        if(Array.isArray(arr[i])) {
+            for(let item of arr[i]) {
+                if(item%2 === 0){
+                    sum += item;
+                }
+            }
+            return sumMultipleTwo(arr, i + 1, sum);
+        } else if(arr[i] % 2 === 0) {
+            sum += arr[i];
+        }
+        return sumMultipleTwo(arr, i + 1, sum);
+    }
+    return sum;
+}

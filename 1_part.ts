@@ -1986,3 +1986,14 @@ let memoisedMatrixCleanZero = (function() {
         return matrix;
     }})();
 
+function factorial(n: number): number {
+    let a: number = 1;
+    let b: number = 2;
+    let c: number = 0;
+    for(let i: number = 2; i <= n; i++ ) {
+        c = a * b;
+        a = c;
+        b = b + 1;
+    } 
+    return c;
+}

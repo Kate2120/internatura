@@ -1261,3 +1261,14 @@ let memoisedBinaryTranslation = (function() {
         memo.result = arr.join('');
         return arr.join('');
     }})();
+
+function decimalConversion(num: number): number {
+    let sum: number = 0;
+    let current = num.toString();
+    for(let i = 0; i < current.length; i++) {
+        if(parseInt(current[i]) === 1) {
+            sum += Math.pow(2, current.length - i - 1);
+        }
+    }
+    return sum;
+}

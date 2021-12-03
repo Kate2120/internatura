@@ -1751,3 +1751,21 @@ let memoisedMatrixTranspose = (function() {
             return el.length !== 0;
         });
     }})();
+
+
+function matrixTranspose(arr: number[][], j: number, i: number, arrSt: number[][]): number[][] {
+    arrSt = arrSt || [];
+    j = j || 0;
+    i = i || 0;
+    if(i < arr.length)  {
+        if(j < arr[0].length) {
+            arrSt.push([]);
+            arrSt[j].push(arr[i][j]);
+            return matrixTranspose(arr, j+1, i, arrSt);
+        }
+        return matrixTranspose(arr, 0, i +1, arrSt);
+    }
+    return arrSt.filter(function (el) {
+        return el.length !== 0;
+    });
+}

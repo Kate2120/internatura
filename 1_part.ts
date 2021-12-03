@@ -490,3 +490,52 @@ function sumMultipleTwo(arr: number[], i: number, sum: number): number {
     }
     return sum;
 }
+
+interface Memo {
+    array?: (Array<number> | number)[]
+    result?: number,
+}
+let memoisedSumMultipleTwo = (function() {
+    let memo: Memo = {};
+    return function sumMultipleTwo(arr: (number| number[])[], i: number, sum: number): number {
+        if(memo.array !== undefined && memo.result !== undefined){
+            let counter: number = 0;
+        for(let item of arr){
+            for(let element of memo.array){
+                if(item === element){
+                    counter++;
+                }
+                if(counter === arr.length){
+                    return memo.result;
+                }
+            }
+        }
+        }
+        i = i || 0;
+        sum = sum || 0;
+        if(i < arr.length) {
+            const a = arr[i]
+            if(Array.isArray(a)) {
+                for(let item of a) {
+                    if(!Array.isArray(item)) {
+                    if(item%2 === 0){
+                        sum += item;
+                    }
+                  }
+                }
+                return sumMultipleTwo(arr, i + 1, sum);
+            } else {
+                if(a % 2 === 0) {
+                    sum += a;
+                }
+                }
+                
+        
+            return sumMultipleTwo(arr, i + 1, sum);
+        }
+        memo.array = arr;
+        memo.result = sum;
+        return sum;
+    }})();
+
+

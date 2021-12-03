@@ -1911,3 +1911,16 @@ if(memo.index !== undefined && memo.result !== undefined){
         memo.result = matrix;
         return matrix;
     }})();
+
+function matrixCleanZero(matrix: number[][]): number[][] {
+    for(let i: number = 0; i < matrix.length; i++) {
+        for(let j: number = 0; j < matrix[i].length; j++) {
+            if (matrix[i][j] === 0) {
+                for(let i = 0; i < matrix.length; i++) {
+                    matrix[i].splice(j,1);
+                }
+            }
+        }
+    }
+    return matrix;
+}

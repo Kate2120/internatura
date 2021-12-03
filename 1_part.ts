@@ -451,3 +451,23 @@ function sumMultipleTwo(arr: number[]): number {
     }
     return sum;
 }
+
+function sumMultipleTwo(arr: number[]): number {
+    let sum: number = 0;
+    let sum2: number = 0;
+    for(let item of arr) {
+        if(Array.isArray(item)) {
+            for(let i = 0; i < item.length; i++){
+                if(item[i] % 2 === 0) {
+                    sum2 += item[i];
+                }
+            }
+            item = sum2;
+            sum2 = 0;
+        }
+        if(item % 2 === 0) {
+            sum += item;
+        }
+    }
+    return sum;
+}

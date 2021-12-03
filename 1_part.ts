@@ -1482,3 +1482,13 @@ let memoisedSumUptoMax = (function (){
         memo.result = sum;
         return sum;
     }})();
+
+
+function sumAll(arr: number[]): number {
+    let sum: number = 0;
+    let count: number = 0;
+    for(let item of arr) {
+        sum += item;
+        count++;
+    } return sum/count;
+}

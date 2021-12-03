@@ -1441,3 +1441,12 @@ function sumUptoMax(min: number, max: number): number {
     }
     return sum;
 }
+
+
+function sumUptoMax(min: number, max: number): number {
+    let sum: number = 0;
+    if(min <= max) {
+        sum = min + sumUptoMax(min + 1,max);
+    }
+    return sum;
+}

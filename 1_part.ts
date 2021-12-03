@@ -228,3 +228,25 @@ function uniqueWords(sentence: string): number {
     }
     return arr.length;
 }
+
+function countUniqueWords(arg: string, arr: string[]): number {
+    arr = arr || [];
+    if(arr.length === 0) {
+        arg = arg.toLowerCase();
+        arr = arg.split(/[^а-яА-ЯёЁ]+/gui);
+        arr = arr.filter(function(item) {
+            return item !== "";
+        });
+    }
+    for(let i: number = 0; i < arr.length; i++) {
+        for(let j: number = i + 1; j < arr.length; j++ ) {
+            if(arr[i] === arr[j]) {
+                arr = arr.filter(function(item) {
+                    return item !== arr[i];
+                });
+                return countUniqueWords(arg, arr);
+            }
+        }
+    }
+    return arr.length;
+}

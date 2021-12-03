@@ -2012,13 +2012,32 @@ interface Memo{
 let memoisedFactorial = (function() {
     let memo: Memo = {};
     return function factorial(n: number, result: number): number {
-        if(n in memo) {
-            return memo[n];
+        let current = n.toString();
+        if(current in memo) {
+            return memo[current];
         }
         result = result || 1;
         if(n > 0) {
             result = n * factorial(n -1, 1);
         }
-        memo[n] = result;
+        memo[current] = result;
+        return result;
+    }})();
+
+interface Memo{
+    [index: string]: number,
+}
+let memoisedFactorial = (function() {
+    let memo: Memo = {};
+    return function factorial(n: number, result: number): number {
+        let current = n.toString();
+        if(current in memo) {
+            return memo[current];
+        }
+        result = result || 1;
+        if(n > 0) {
+            result = n * factorial(n -1, 1);
+        }
+        memo[current] = result;
         return result;
     }})();

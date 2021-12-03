@@ -925,3 +925,21 @@ function countPositive(arr: number[]): number {
     }
     return count;
 }
+
+function countPositive(arr: (number[] | number)[]): number {
+    let count1: number = 0;
+    let count2: number = 0;
+    for(let item of arr) {
+        if(Array.isArray(item)) {
+            for(let i = 0; i < item.length; i++){
+                if(item[i] > 0) {
+                    count1++;
+                }
+            }
+        }
+        if (item > 0) {
+            count2++;
+        }
+    }
+    return count1 + count2;
+}

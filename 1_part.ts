@@ -1228,3 +1228,14 @@ function binaryTranslation(a: number): string {
         a = parseInt(current);
     } return arr.join('')
 }
+
+function binaryTranslation(a: number, arr: number[]): string {
+    arr = arr || [];
+    if(a >= 1) {
+        arr.unshift(a % 2);
+        let current = (a/2).toString();
+        return binaryTranslation(parseInt(current), arr);
+    }
+    return arr.join('');
+}
+

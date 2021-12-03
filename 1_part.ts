@@ -1845,3 +1845,15 @@ let memoisedSumMatrices = (function() {
         memo.result = arrSumMatrices;
         return arrSumMatrices;
     }})();
+
+
+function matrixCleanZero(matrix: number[][]): number[][] {
+    for(let i: number = 0; i < matrix.length; i++) {
+        for(let j: number = 0; j < matrix[i].length; j++) {
+            if(matrix[i][j] === 0) {
+                matrix.splice(i,1);
+            }
+        }
+    }
+    return matrix;
+}

@@ -1,10 +1,10 @@
-interface Func {
+interface Metod {
     [index : string]: any;
 }
 interface Context {
     [index : symbol]: any;
 }
-let custom: Func = Function;
+let custom: Metod = Function;
 custom.prototype.customBind = function (context: Context){
     let key = Symbol();
     context[key] = this;
@@ -16,13 +16,13 @@ custom.prototype.customBind = function (context: Context){
 
 }
 
-interface Func {
+interface Metod {
     [index : string]: any;
 }
 interface Context {
     [index : symbol]: any;
 }
-let custom: Func = Function;
+let custom: Metod = Function;
 custom.prototype.customCall = function (context: Context){
     let key: symbol = Symbol();
     context[key] = this;
@@ -34,10 +34,10 @@ custom.prototype.customCall = function (context: Context){
 
 }
 
-interface Arr {
+interface MetodArray {
     [index: string]: any;
 }
-let custom: Arr = Array;
+let custom: MetodArray = Array;
 custom.prototype.customMap = function(func: any): Array<any> {
     let newArray: Array<any> = [];
     for(let i = 0; i < this.length; i++){
@@ -48,10 +48,10 @@ custom.prototype.customMap = function(func: any): Array<any> {
 };
 
 
-interface Arr {
+interface MetodArray {
     [index: string]: any;
 }
-let custom: Arr = Array;
+let custom: MetodArray = Array;
 custom.prototype.customFilter = function(func: any): Array<any>{
     let newArray: Array<any> = [];
     for(let i: number = 0; i < this.length; i++){
@@ -65,10 +65,10 @@ custom.prototype.customFilter = function(func: any): Array<any>{
 };
 
 
-interface Arr {
+interface MetodArray {
     [index: string]: any;
 }
-let custom: Arr = Array;
+let custom: MetodArray = Array;
 custom.prototype.customReduce = function(func: any): any{
     let result: any;
     for(let i: number = 0; i < this.length; i++){
@@ -78,10 +78,10 @@ custom.prototype.customReduce = function(func: any): any{
 };
 
 
-interface Arr {
+interface MetodArray {
     [index: string]: any;
 }
-let custom: Arr = Array;
+let custom: MetodArray = Array;
 custom.prototype.customForEach = function(func: any): any{
     let result: any;
     for(let i: number = 0; i < this.length; i++){
@@ -90,22 +90,22 @@ custom.prototype.customForEach = function(func: any): any{
     return result;
 };
 
-interface Result{
+interface NextReturn{
     value: any,
     done: boolean,
 }
-let func: Next; 
-interface Obj {
+
+interface ObjectIterable {
     prev: number,
     next: number,
     upTo: number,
-    [Symbol.iterator](): Next,
+    [Symbol.iterator](): MetodNext,
 }
-interface Next {
-    next(): Result,
+interface MetodNext {
+    next(): NextReturn,
 }
-
-let obj: Obj = {
+let func: Next; 
+let obj: ObjectIterable = {
     prev: 0,
     next: 1,
     upTo: 10,

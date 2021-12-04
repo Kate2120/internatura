@@ -51,7 +51,7 @@ class Node {
         return node;
     }
 
-    minNode(node: Obj | any): any {
+    minNode(node: Nodes | any): any {
 
         if (node.left === null){
             return node;

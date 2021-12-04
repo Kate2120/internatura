@@ -352,38 +352,38 @@ interface Memo {
 
 let memoisedCountWords = (function() {
     let memo: Memo = {};
-    return function countWords (arg: string, arr: string[], obj: CountedWords, i: number, j: number, counter: number): CountedWords {
-        if(arg in memo) {
-            return memo[arg];
+    return function countWords (sentece: string, arrayWordsFromSentence: string[], countedWords: CountedWords, i: number, j: number, counter: number): CountedWords {
+        if(sentece in memo) {
+            return memo[sentece];
         }
-        arr = arr || [];
-        obj = obj || {};
+        arrayWordsFromSentence = arrayWordsFromSentence || [];
+        countedWords = countedWords || {};
         i = i || 0;
         j = j || 0;
         counter = counter || 0;
-        if(arr.length === 0) {
-            arr = arg.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
+        if(arrayWordsFromSentence.length === 0) {
+            arrayWordsFromSentence = sentece.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
                 return item !== "";
             });
-            arr = arr.filter(function(item) {
+            arrayWordsFromSentence = arrayWordsFromSentence.filter(function(item) {
                 return item !== "";
             });
         }
-        if(i < arr.length) {
-            if(j < arr.length) {
-                if(arr[i] === arr[j]){
+        if(i < arrayWordsFromSentence.length) {
+            if(j < arrayWordsFromSentence.length) {
+                if(arrayWordsFromSentence[i] === arrayWordsFromSentence[j]){
                     counter++;
-                    return countWords(arg, arr, obj, i, j + 1, counter);
+                    return countWords(sentece, arrayWordsFromSentence, countedWords, i, j + 1, counter);
                 }
-                return countWords(arg, arr, obj, i, j + 1, counter);
+                return countWords(sentece, arrayWordsFromSentence, countedWords, i, j + 1, counter);
             }
-            if(typeof obj[arr[i]] === "undefined"){
-                obj[arr[i]] = counter;
+            if(typeof countedWords[arrayWordsFromSentence[i]] === "undefined"){
+                countedWords[arrayWordsFromSentence[i]] = counter;
             }
-            return countWords(arg, arr, obj, i + 1, i+1, 0);
+            return countWords(sentece, arrayWordsFromSentence, countedWords, i + 1, i+1, 0);
         }
-        memo[arg] = obj;
-        return obj;
+        memo[sentece] = countedWords;
+        return countedWords;
     }})();
 
 function fibonacci(limit: number, arr: number[]): number[] {

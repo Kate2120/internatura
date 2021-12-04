@@ -64,11 +64,11 @@ let memoisedAnangram = (function() {
         countWord2 = countWord2 || 0;
         i = i || 0;
         j = j || 0;
-        let arr = [word1, word2];
+        let arrayWords = [word1, word2];
 
         for(let key in memo.words){
-            for(let i = 0; i < arr.length; i++){
-                if(key === arr[i]){
+            for(let i = 0; i < arrayWords.length; i++){
+                if(key === arrayWords[i]){
                     counter++;
                 }
             }
@@ -111,57 +111,57 @@ interface CountedDigit {
     [index: string]: number,
 }
 
-function  countDigit(num: number): CountedDigit {
-    let arr: number[] = [];
-    let obj: Result = {};
-    for(; num > 0;) {
-        arr.push(num % 10);
-        let currenntNum = (num/10).toString();
-        num = parseInt(currenntNum);
+function  countDigit(variableNumber: number): CountedDigit {
+    let arrayDigit: number[] = [];
+    let countedDigit: CountedDigit = {};
+    for(; variableNumber > 0;) {
+        arrayDigit.push(variableNumber % 10);
+        let currenntNum = (variableNumber/10).toString();
+        variableNumber = parseInt(currenntNum);
     }
-    for(let i = 0; i <= arr.length && arr.length > 0;) {
+    for(let i = 0; i <= arrayDigit.length && arrayDigit.length > 0;) {
         let counter = 1;
-        for(let j = i + 1; j <= arr.length; j++) {
-            if(arr[i] === arr[j]) {
+        for(let j = i + 1; j <= arrayDigit.length; j++) {
+            if(arrayDigit[i] === arrayDigit[j]) {
                 counter++;
-                obj[arr[i]] = counter;
+                countedDigit[arrayDigit[i]] = counter;
             }
         }
-        obj[arr[i]] = counter;
-        arr = arr.filter(function(item) {
-            return item !== arr[i];
+        countedDigit[arrayDigit[i]] = counter;
+        arrayDigit = arrayDigit.filter(function(item) {
+            return item !== arrayDigit[i];
         });
     }
-    return obj;
+    return countedDigit;
 };
 
 interface CountedDigit {
     [index: string]: number,
 }
-function countDigit(num: number, arr: number[], obj: CountedDigit, i: number): CountedDigit {
-    arr = arr || [];
-    obj = obj || {};
+function countDigit(variableNumber: number, arrayDigit: number[], countedDigit: CountedDigit, i: number): CountedDigit {
+    arrayDigit = arrayDigit || [];
+    countedDigit = countedDigit || {};
     i = i || 0;
-    for (; num > 0;) {
-        arr.push(num % 10);
-        let currentNumberToString = (num/10).toString();
-        num = parseInt(currentNumberToString);
+    for (; variableNumber > 0;) {
+        arrayDigit.push(variableNumber % 10);
+        let currentNumberToString = (variableNumber/10).toString();
+        nvariableNumber = parseInt(currentNumberToString);
     }
-    if (i <= arr.length && arr.length > 0 ) {
+    if (i <= arrayDigit.length && arrayDigit.length > 0 ) {
         let counter = 1;
-        for (let j = i + 1; j <= arr.length; j++) {
-            if (arr[i] === arr[j]) {
+        for (let j = i + 1; j <= arrayDigit.length; j++) {
+            if (arrayDigit[i] === arrayDigit[j]) {
                 counter++;
-                obj[arr[i]] = counter;
+                countedDigit[arrayDigit[i]] = counter;
             }
         }
-        obj[arr[i]] = counter;
-        arr = arr.filter(function(item) {
-            return item !== arr[i];
+        countedDigit[arrayDigit[i]] = counter;
+        arrayDigit = arrayDigit.filter(function(item) {
+            return item !== arrayDigit[i];
         });
-        countDigit(num, arr, obj, i);
+        countDigit(variableNumber, arrayDigit, countedDigit, i);
     }
-    return obj;
+    return countedDigit;
 }
 
 
@@ -174,45 +174,45 @@ interface Memo {
 let memoizedDigit = (function() {
     let memo: Memo = {};
 
-    return  function countDigit(num: number, arr: number[], obj: CountedDigit) {
-        let key: string = num.toString();
+    return  function countDigit(variableNumber: number, arrayCoutedDigit: number[], countedDigit: CountedDigit) {
+        let key: string = variableNumber.toString();
         if (key in memo) {
-            return obj;
+            return countedDigit;
         }
-        arr = arr || [];
-        obj = obj || {};
-        if(arr.length === 0){
-        for (; num > 0;) {
-            arr.push(num % 10);
-            let currentNumToString = (num/10).toString();
-            num = parseInt(currentNumToString);
+        arrayCoutedDigit = arrayCoutedDigit || [];
+        countedDigit = countedDigit || {};
+        if(arrayCoutedDigit.length === 0){
+        for (; variableNumber > 0;) {
+            arrayCoutedDigit.push(variableNumber % 10);
+            let currentNumToString = (variableNumber/10).toString();
+            variableNumber = parseInt(currentNumToString);
 
         }
         }
-        let i = 0;
-        if (i <= arr.length && arr.length > 0 ) {
+        let i: number = 0;
+        if (i <= arrayCoutedDigit.length && arrayCoutedDigit.length > 0 ) {
             let counter: number = 1;
-            for (let j = i + 1; j <= arr.length; j++) {
-                if (arr[i] === arr[j]) {
+            for (let j = i + 1; j <= arrayCoutedDigit.length; j++) {
+                if (arrayCoutedDigit[i] === arrayCoutedDigit[j]) {
                     counter++;
-                    obj[arr[i]] = counter;
+                    countedDigit[arrayCoutedDigit[i]] = counter;
                 }
             }
-            obj[arr[i]] = counter;
-            arr = arr.filter(function(item) {
-                return item !== arr[i];
+            countedDigit[arrayCoutedDigit[i]] = counter;
+            arrayCoutedDigit = arrayCoutedDigit.filter(function(item) {
+                return item !== arrayCoutedDigit[i];
             });
 
-            countDigit(num, arr,obj);
+            countDigit(variableNumber, arrayCoutedDigit, countedDigit);
         }
-        memo.key = obj;
-        return obj;
+        memo.key = countedDigit;
+        return countedDigit;
     }})();
 
 function uniqueWords(sentence: string): number {
     sentence = sentence.toLowerCase();
-    let arr: string[] = sentence.split(/[^а-яА-ЯёЁ]+/gui);
-    arr = arr.filter(function(item) {
+    let arrayCountedWords: string[] = sentence.split(/[^а-яА-ЯёЁ]+/gui);
+    arrayCountedWords = arrayCountedWords.filter(function(item) {
         return item !== "";
     });
     for(let i: number = 0; i < arr.length - 1; i++) {
@@ -220,35 +220,35 @@ function uniqueWords(sentence: string): number {
             let a: string = arr[i];
             let b: string = arr[j];
             if(a === b) {
-                arr = arr.filter(function(item) {
+                arrayCountedWords = arrayCountedWords.filter(function(item) {
                     return item !== a;
                 });
             }
         }
     }
-    return arr.length;
+    return arrayCountedWords.length;
 }
 
-function countUniqueWords(arg: string, arr: string[]): number {
-    arr = arr || [];
-    if(arr.length === 0) {
-        arg = arg.toLowerCase();
-        arr = arg.split(/[^а-яА-ЯёЁ]+/gui);
-        arr = arr.filter(function(item) {
+function countUniqueWords(sentence: string, arrayUniqueWords: string[]): number {
+    arrayUniqueWords = arrayUniqueWords || [];
+    if(arrayUniqueWords.length === 0) {
+        sentence = sentence.toLowerCase();
+        arrayUniqueWords = sentence.split(/[^а-яА-ЯёЁ]+/gui);
+        arrayUniqueWords = arrayUniqueWords.filter(function(item) {
             return item !== "";
         });
     }
-    for(let i: number = 0; i < arr.length; i++) {
-        for(let j: number = i + 1; j < arr.length; j++ ) {
-            if(arr[i] === arr[j]) {
-                arr = arr.filter(function(item) {
-                    return item !== arr[i];
+    for(let i: number = 0; i < arrayUniqueWords.length; i++) {
+        for(let j: number = i + 1; j < arrayUniqueWords.length; j++ ) {
+            if(arrayUniqueWords[i] === arrayUniqueWords[j]) {
+                arrayUniqueWords = arrayUniqueWords.filter(function(item) {
+                    return item !== arrayUniqueWords[i];
                 });
-                return countUniqueWords(arg, arr);
+                return countUniqueWords(sentence, arrayUniqueWords);
             }
         }
     }
-    return arr.length;
+    return arrayUniqueWords.length;
 }
 
 
@@ -258,31 +258,30 @@ interface Memo {
 
 let memoisedCountWords = (function(){
     let memo: Memo = {};
-    return function countUniqueWords(arg: string, arr: string[]): number {
+    return function countUniqueWords(sentence: string, arrayWordsFromSentence: string[]): number {
         if(arg in memo){
-            return memo[arg];
+            return memo[sentence];
         }
-        arr = arr || [];
-        if(arr.length === 0) {
-            arg = arg.toLowerCase();
-            console.log(arg);
-            arr = arg.split(/[^а-яА-ЯёЁ]+/gui);
-            arr = arr.filter(function(item) {
+        arrayWordsFromSentence = arrayWordsFromSentence || [];
+        if(arrayWordsFromSentence.length === 0) {
+            sentence = sentence.toLowerCase();
+            arrayWordsFromSentence = sentence.split(/[^а-яА-ЯёЁ]+/gui);
+            arrayWordsFromSentence = arrayWordsFromSentence.filter(function(item) {
                 return item !== "";
             });
         }
-        for(let i: number = 0; i < arr.length; i++) {
-            for(let j: number = i + 1; j < arr.length; j++ ) {
-                if(arr[i] === arr[j]) {
-                    arr = arr.filter(function(item) {
-                        return item !== arr[i];
+        for(let i: number = 0; i < arrayWordsFromSentence.length; i++) {
+            for(let j: number = i + 1; j < arrayWordsFromSentence.length; j++ ) {
+                if(arrayWordsFromSentence[i] === arrayWordsFromSentence[j]) {
+                    arrayWordsFromSentence = arrayWordsFromSentence.filter(function(item) {
+                        return item !== arrayWordsFromSentence[i];
                     });
-                    return countUniqueWords(arg, arr);
+                    return countUniqueWords(sentence, arrayWordsFromSentence);
                 }
             }
         }
-        memo[arg] = arr.length;
-        return arr.length;
+        memo[sentence] = arrayWordsFromSentence.length;
+        return arrayWordsFromSentence.length;
 
     }})();
 
@@ -291,57 +290,57 @@ interface CountedUniqueWords {
 }
 function uniqueWords(sentence: string): CountedUniqueWords {
     sentence = sentence.toLowerCase()
-    let arr: string[] = sentence.split(/[^а-яА-ЯёЁ]+/gui);
-    arr = arr.filter(function(item) {
+    let arrayUniqueWords: string[] = sentence.split(/[^а-яА-ЯёЁ]+/gui);
+    arrayUniqueWords = arrayUniqueWords.filter(function(item) {
         return item !== "";
     });
-    let obj: CountedUniqueWords = {};
-    for(let i: number = 0; i < arr.length; ) {
+    let countedUniqueWords: CountedUniqueWords = {};
+    for(let i: number = 0; i < arrayUniqueWords.length; ) {
         let counter: number = 1;
-        for(let j: number = i + 1; j <= arr.length; j++ ) {
-            if(arr[i] === arr[j]) {
+        for(let j: number = i + 1; j <= arrayUniqueWords.length; j++ ) {
+            if(arrayUniqueWords[i] === arrayUniqueWords[j]) {
                 counter++;
-            } else if (j === arr.length) {
-                obj [arr[i]] = counter;
-                arr = arr.filter(function(item) {
-                    return item !== arr[i];});
+            } else if (j === arrayUniqueWords.length) {
+                countedUniqueWords [arrayUniqueWords[i]] = counter;
+                arrayUniqueWords = arrayUniqueWords.filter(function(item) {
+                    return item !== arrayUniqueWords[i];});
             }
         }
     }
-    return obj;
+    return countedUniqueWords;
 }
 
 interface CountedWords {
     [index: string]: number,
 }
-function countWords (arg: string, arr: string[], obj: CountedWords, i: number, j: number, counter: number): CountedWords {
-    arr = arr || [];
-    obj = obj || {};
+function countWords (sentence: string, arrayWordsFromSEntence: string[], countedWords: CountedWords, i: number, j: number, counter: number): CountedWords {
+    arrayWordsFromSEntence = arrayWordsFromSEntence || [];
+    countedWords = countedWords || {};
     i = i || 0;
     j = j || 0;
     counter = counter || 0;
-    if(arr.length === 0) {
-        arr = arg.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
+    if(arrayWordsFromSEntence.length === 0) {
+        arrayWordsFromSEntence = sentence.toLowerCase().split((/[^а-яА-ЯёЁ]+/gui)).filter(function(item) {
             return item !== "";
         });
-        arr = arr.filter(function(item) {
+        arrayWordsFromSEntence = arrayWordsFromSEntence.filter(function(item) {
             return item !== "";
         });
     }
-    if(i < arr.length) {
-        if(j < arr.length) {
-            if(arr[i] === arr[j]){
+    if(i < arrayWordsFromSEntence.length) {
+        if(j < arrayWordsFromSEntence.length) {
+            if(arrayWordsFromSEntence[i] === arrayWordsFromSEntence[j]){
                 counter++;
-                return countWords(arg, arr, obj, i, j + 1, counter);
+                return countWords(sentence, arrayWordsFromSEntence, countedWords, i, j + 1, counter);
             }
-            return countWords(arg, arr, obj, i, j + 1, counter);
+            return countWords(sentence, arrayWordsFromSEntence, countedWords, i, j + 1, counter);
         }
-        if(typeof obj[arr[i]] === "undefined"){
-            obj[arr[i]] = counter;
+        if(typeof countedWords[arrayWordsFromSEntence[i]] === "undefined"){
+            countedWords[arrayWordsFromSEntence[i]] = counter;
         }
-        return countWords(arg, arr, obj, i + 1, i+1, 0);
+        return countWords(sentence, arrayWordsFromSEntence, countedWords, i + 1, i+1, 0);
     }
-    return obj;
+    return countedWords;
 }
 
 interface CountedWords {

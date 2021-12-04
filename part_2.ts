@@ -63,3 +63,16 @@ custom.prototype.customFilter = function(func: any): Array<any>{
     }
     return newArray;
 };
+
+
+interface Arr {
+    [index: string]: any;
+}
+let custom: Arr = Array;
+custom.prototype.customReduce = function(func: any): any{
+    let result: any;
+    for(let i: number = 0; i < this.length; i++){
+        result += func(this[i]);
+    }
+    return result;
+};

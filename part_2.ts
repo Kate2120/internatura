@@ -46,3 +46,20 @@ custom.prototype.customMap = function(func: any): Array<any> {
     }
     return newArray;
 };
+
+
+interface Arr {
+    [index: string]: any;
+}
+let custom: Arr = Array;
+custom.prototype.customFilter = function(func: any): Array<any>{
+    let newArray: Array<any> = [];
+    for(let i: number = 0; i < this.length; i++){
+        let result: boolean = func(this[i]);
+        if(result === true){
+            newArray.push(this[i])
+        };
+
+    }
+    return newArray;
+};

@@ -386,22 +386,22 @@ let memoisedCountWords = (function() {
         return countedWords;
     }})();
 
-function fibonacci(limit: number, arr: number[]): number[] {
-    arr = [0,1];
+function fibonacci(limit: number, arrayDigitFibonacci: number[]): number[] {
+    arrayDigitFibonacci = [0,1];
     for(let i: number = 0; i < limit - 2; i++){
-        arr.push (arr[i] + arr[i+1]);
+        arrayDigitFibonacci.push (arrayDigitFibonacci[i] + arrayDigitFibonacci[i+1]);
     }
-    return arr;
+    return arrayDigitFibonacci;
 }
 
-function fibonacci(limit: number, arr: number[], i: number): number[] {
-    arr = arr || [0,1];
+function fibonacci(limit: number, arrayDigitFibonacci: number[], i: number): number[] {
+    arrayDigitFibonacci = arrayDigitFibonacci || [0,1];
     i = i || 0;
-    if(i < n - 2){
-        arr.push (arr[i] + arr[i+1]);
-        fibonacci(limit, arr, i + 1)
+    if(i < limit - 2){
+        arrayDigitFibonacci.push (arrayDigitFibonacci[i] + arrayDigitFibonacci[i+1]);
+        fibonacci(limit, arrayDigitFibonacci, i + 1)
     }
-    return arr;
+    return arrayDigitFibonacci;
 }
 
 interface Memo {
@@ -409,36 +409,36 @@ interface Memo {
 }
 let memoisedFibonacci = (function() {
     let memo: Memo = {};
-    return function fibonacci(limit: number, i: number, arr: number[], count: number): number[] {
+    return function fibonacci(limit: number, i: number, arrayDigitFibonacci: number[], count: number): number[] {
         count = count || 0;
-        arr = arr || [];
+        arrayDigitFibonacci = arrayDigitFibonacci || [];
         i = i || 0;
         let key = limit.toString();
         if(key in memo) {
             return memo.key;
         } else if(Object.keys(memo).length > 0 && i < limit && count ===0) {
-            arr = memo[Object.keys(memo).length - 1];
-            arr.push(memo[Object.keys(memo).length - 1][Object.keys(memo).length - 2] + memo[Object.keys(memo).length - 1][Object.keys(memo).length - 1]);
-            memo[i] = arr.slice();
+            arrayDigitFibonacci = memo[Object.keys(memo).length - 1];
+            arrayDigitFibonacci.push(memo[Object.keys(memo).length - 1][Object.keys(memo).length - 2] + memo[Object.keys(memo).length - 1][Object.keys(memo).length - 1]);
+            memo[i] = arrayDigitFibonacci.slice();
             count++;
-            i = arr.length -1;
-            return fibonacci(limit, i + 1, arr, count);
+            i = arrayDigitFibonacci.length -1;
+            return fibonacci(limit, i + 1, arrayDigitFibonacci, count);
         } else if(count === 1 && i < limit) {
-            arr.push(arr[i-2] + arr[i-1]);
-            memo[i] = arr.slice();
-            return fibonacci(limit, i + 1, arr, count);
+            arrayDigitFibonacci.push(arrayDigitFibonacci[i-2] + arrayDigitFibonacci[i-1]);
+            memo[i] = arrayDigitFibonacci.slice();
+            return fibonacci(limit, i + 1, arrayDigitFibonacci, count);
         } else if(i === 0 && Object.keys(memo).length === 0) {
-            arr.push(i);
-            memo[i] = arr.slice();
+            arrayDigitFibonacci.push(i);
+            memo[i] = arrayDigitFibonacci.slice();
             i++;
             arr.push(i);
-            memo[i] = arr.slice();
-            arr.push(arr[i-1] + arr[i]);
+            memo[i] = arrayDigitFibonacci.slice();
+            arrayDigitFibonacci.push(arrayDigitFibonacci[i-1] + arrayDigitFibonacci[i]);
             i++;
-            memo[i] = arr.slice();
-            return fibonacci(limit, i+1, arr, 0);
+            memo[i] = arrayDigitFibonacci.slice();
+            return fibonacci(limit, i+1, arrayDigitFibonacci, 0);
         }
-        return arr;
+        return arrayDigitFibonacci;
     }})();
 
 function sumMultipleTwo(arr: number[]): number {
@@ -451,10 +451,10 @@ function sumMultipleTwo(arr: number[]): number {
     return sum;
 }
 
-function sumMultipleTwo(arr: number[]): number {
+function sumMultipleTwo(arrayDigit: number[]): number {
     let sum: number = 0;
     let sum2: number = 0;
-    for(let item of arr) {
+    for(let item of arrayDigit) {
         if(Array.isArray(item)) {
             for(let i = 0; i < item.length; i++){
                 if(item[i] % 2 === 0) {
@@ -471,21 +471,21 @@ function sumMultipleTwo(arr: number[]): number {
     return sum;
 }
 
-function sumMultipleTwo(arr: number[], i: number, sum: number): number {
+function sumMultipleTwo(arrayDigit: number[], i: number, sum: number): number {
     i = i || 0;
     sum = sum || 0;
-    if(i < arr.length ) {
-        if(Array.isArray(arr[i])) {
-            for(let item of arr[i]) {
+    if(i < arrayDigit.length ) {
+        if(Array.isArray(arrayDigit[i])) {
+            for(let item of arrayDigit[i]) {
                 if(item%2 === 0){
                     sum += item;
                 }
             }
-            return sumMultipleTwo(arr, i + 1, sum);
-        } else if(arr[i] % 2 === 0) {
-            sum += arr[i];
+            return sumMultipleTwo(arrayDigit, i + 1, sum);
+        } else if(arrayDigit[i] % 2 === 0) {
+            sum += arrayDigit[i];
         }
-        return sumMultipleTwo(arr, i + 1, sum);
+        return sumMultipleTwo(arrayDigit, i + 1, sum);
     }
     return sum;
 }
@@ -496,15 +496,15 @@ interface Memo {
 }
 let memoisedSumMultipleTwo = (function() {
     let memo: Memo = {};
-    return function sumMultipleTwo(arr: (number| number[])[], i: number, sum: number): number {
+    return function sumMultipleTwo(arrayDigit: (number| number[])[], i: number, sum: number): number {
         if(memo.array !== undefined && memo.result !== undefined){
             let counter: number = 0;
-        for(let item of arr){
+        for(let item of arrayDigit){
             for(let element of memo.array){
                 if(item === element){
                     counter++;
                 }
-                if(counter === arr.length){
+                if(counter === arrayDigit.length){
                     return memo.result;
                 }
             }
@@ -512,8 +512,8 @@ let memoisedSumMultipleTwo = (function() {
         }
         i = i || 0;
         sum = sum || 0;
-        if(i < arr.length) {
-            let current = arr[i];
+        if(i < arrayDigit.length) {
+            let current = arrayDigit[i];
              if(Array.isArray(current)) {
                 for(let item of current) {
                     if(!Array.isArray(item)) {
@@ -522,7 +522,7 @@ let memoisedSumMultipleTwo = (function() {
                     }
                   }
                 }
-                return sumMultipleTwo(arr, i + 1, sum);
+                return sumMultipleTwo(arrayDigit, i + 1, sum);
             } else {
                 if(current % 2 === 0) {
                     sum += current;
@@ -530,17 +530,17 @@ let memoisedSumMultipleTwo = (function() {
                 }
                 
         
-            return sumMultipleTwo(arr, i + 1, sum);
+            return sumMultipleTwo(arrayDigit, i + 1, sum);
         }
-        memo.array = arr;
+        memo.array = arrayDigit;
         memo.result = sum;
         return sum;
     }})();
 
 
-function sumMultipleThree(arr: number[]) {
+function sumMultipleThree(arrayDigit: number[]) {
     let sum: number = 0;
-    for(let item of arr) {
+    for(let item of arrayDigit) {
         if(item % 3 === 0) {
             sum += item;
         }
@@ -548,32 +548,31 @@ function sumMultipleThree(arr: number[]) {
     return sum;
 }
 
-function sumMultipleThree(arr: (Array<number> | number)[]): number {
-    let sum: number = 0;
-    let sum2: number = 0;
-    for(let item of arr) {
+function sumMultipleThree(arrayDigit: (Array<number> | number)[]): number {
+    let sumArray: number = 0;
+    let sumSubarray: number = 0;
+    for(let item of arrayDigit) {
         if(Array.isArray(item)) {
             for(let i: number = 0; i < item.length; i++){
                 if(item[i] % 3 === 0) {
-                    sum2 += item[i];
+                    sumSubarray += item[i];
                 }
             }
-            item = sum2;
-            sum2 = 0;
-            console.log(item);
+            item = sumSubarray;
+            sumSubarray = 0;
         }
         if (item % 3 === 0) {
-            sum += item;
+            sumArray += item;
         }
     }
-    return sum;
+    return sumArray;
 }
 
-function sumMultipleThree (arr: (Array<number> | number)[], i: number, sum: number): number {
+function sumMultipleThree (arrayDigit: (Array<number> | number)[], i: number, sum: number): number {
     sum = sum || 0;
     i = i || 0;
-    if(i < arr.length ) {
-        let current = arr[i];
+    if(i < arrayDigit.length ) {
+        let current = arrayDigit[i];
         if(Array.isArray(current)) {
             for(let item of current) {
                 if(item%3 === 0){
@@ -597,7 +596,7 @@ interface Memo {
 }
 let memoisedSumMultipleTree = (function() {
     let memo: Memo = {};
-    return function sumMultipleThree (arr: (number| number[])[], i: number, sum: number): number {
+    return function sumMultipleThree (arrayDigit: (number| number[])[], i: number, sum: number): number {
         if(memo.array !== undefined && memo.result !== undefined) {
             let counter: number = 0;
             for (let item of arr) {
@@ -605,7 +604,7 @@ let memoisedSumMultipleTree = (function() {
                     if (item === element) {
                         counter++;
                     }
-                    if (counter === arr.length) {
+                    if (counter === arrayDigit.length) {
                         return memo.result;
                     }
                 }
@@ -613,8 +612,8 @@ let memoisedSumMultipleTree = (function() {
         }
         sum = sum || 0;
         i = i || 0;
-        if(i < arr.length ) {
-            let current = arr[i];
+        if(i < arrayDigit.length ) {
+            let current = arrayDigit[i];
             if(Array.isArray(current)) {
                 for(let item of current) {
                     if(item%3 === 0){
@@ -627,16 +626,16 @@ let memoisedSumMultipleTree = (function() {
                 sum += current;
             }
             }
-            return sumMultipleThree(arr, i + 1, sum);
+            return sumMultipleThree(arrayDigit, i + 1, sum);
         }
-        memo.array = arr;
+        memo.array = arrayDigit;
         memo.result = sum;
         return sum;
     }})();
 
-function sumPositiveOdd(arr: number[]): number {
+function sumPositiveOdd(arrayDigit: number[]): number {
     let sum: number = 0;
-    for(let item of arr) {
+    for(let item of arrayDigit) {
         if(item % 2 !== 0 && item >= 0) {
             sum += item;
         }
@@ -644,30 +643,30 @@ function sumPositiveOdd(arr: number[]): number {
     return sum;
 }
 
-function sumPositiveOdd(arr: (Array<number> | number)[]): number {
-    let sum: number = 0;
-    let sum2: number = 0;
-    for(let item of arr) {
+function sumPositiveOdd(arrayDigit: (Array<number> | number)[]): number {
+    let sumArray: number = 0;
+    let sumSubarray: number = 0;
+    for(let item of arrayDigit) {
         if(Array.isArray(item)) {
             for(let i = 0; i < item.length; i++){
                 if(item[i] % 2 !== 0 && item[i] >= 0) {
-                    sum2 += item[i];
+                    sumSubarray += item[i];
                 }
             }
         } else{
         if(item % 2 !== 0 && item >= 0) {
-            sum += item;
+            sumArray += item;
         }
         }
     }
-    return sum + sum2;
+    return sumArray + sumSubarray;
 }
 
-function sumMultipleThree (arr: (Array<number> | number)[], i: number, sum: number): number {
+function sumMultipleThree (arrayDigit: (Array<number> | number)[], i: number, sum: number): number {
     sum = sum || 0;
     i = i || 0;
-    if(i < arr.length ) {
-        let current = arr[i];
+    if(i < arrayDigit.length ) {
+        let current = arrayDigit[i];
         if(Array.isArray(current)) {
             for(let item of current) {
                 if(item%3 === 0){
@@ -680,7 +679,7 @@ function sumMultipleThree (arr: (Array<number> | number)[], i: number, sum: numb
             sum += current;
         }
         }
-        return sumMultipleThree(arr, i + 1, sum);
+        return sumMultipleThree(arrayDigit, i + 1, sum);
     }
     return sum;
 }
@@ -691,15 +690,15 @@ interface Memo {
 }
 let memoisedSumPositiveOdd = (function() {
     let memo: Memo = {};
-    return function sumPositiveOdd (arr: (number| number[])[], i: number, sum: number): number {
+    return function sumPositiveOdd (arrayDigit: (number| number[])[], i: number, sum: number): number {
         if(memo.array !== undefined && memo.result !== undefined) {
             let counter: number = 0;
-            for (let item of arr) {
+            for (let item of arrayDigit) {
                 for (let element of memo.array) {
                     if (item === element) {
                         counter++;
                     }
-                    if (counter === arr.length) {
+                    if (counter === arrayDigit.length) {
                         return memo.result;
                     }
                 }
@@ -707,8 +706,8 @@ let memoisedSumPositiveOdd = (function() {
         }
         sum = sum || 0;
         i = i || 0;
-        if(i < arr.length ) {
-            let current = arr[i];
+        if(i < arrayDigit.length ) {
+            let current = arrayDigit[i];
             if(Array.isArray(current)) {
                 for(let item of current) {
                     if(item% 2 !== 0 && item > 0){
@@ -716,20 +715,20 @@ let memoisedSumPositiveOdd = (function() {
                     }
                 } i++;
             } else{
-            if(current % 2!== 0 && arr[i] > 0) {
+            if(current % 2!== 0 && arrayDigit[i] > 0) {
                 sum += current;
             }
             }
-            return sumPositiveOdd(arr, i + 1, sum);
+            return sumPositiveOdd(arrayDigit, i + 1, sum);
         }
-        memo.array = arr;
+        memo.array = arrayDigit;
         memo.result = sum;
         return sum;
     }})();
 
-function countZerro (arr: number[]) {
+function countZerro (arrayDigit: number[]) {
     let count: number = 0;
-    for(let item of arr) {
+    for(let item of arrayDigit) {
         if(item === 0) {
             count++;
         }
@@ -737,10 +736,10 @@ function countZerro (arr: number[]) {
     return count;
 }
 
-function countZerro(arr: (number| number[])[]): number {
+function countZerro(arrayDigit: (number| number[])[]): number {
     let count1: number = 0;
     let count2: number = 0;
-    for(let item of arr) {
+    for(let item of arrayDigit) {
         if(Array.isArray(item)) {
             for(let i: number = 0; i < item.length; i++){
                 if(item[i] === 0) {
@@ -755,11 +754,11 @@ function countZerro(arr: (number| number[])[]): number {
     return count1 + count2;
 }
 
-function countZerro(arr: (number| number[])[], i: number, count: number): number {
+function countZerro(arrayDigit: (number| number[])[], i: number, count: number): number {
     count = count || 0;
     i = i || 0;
-    if(i < arr.length ) {
-        let current = arr[i];
+    if(i < arrayDigit.length ) {
+        let current = arrayDigit[i];
         if(Array.isArray(current)) {
             for(let item of current) {
                 if(item === 0){
@@ -772,7 +771,7 @@ function countZerro(arr: (number| number[])[], i: number, count: number): number
             count++;
         }
         }
-        return countZerro(arr, i + 1, count);
+        return countZerro(arrayDigit, i + 1, count);
     }
     return count;
 }
@@ -784,15 +783,15 @@ interface Memo {
 }
 let memoisedCountZerro = (function() {
     let memo: Memo = {};
-    return function countZerro (arr: (number| number[])[], i: number, count: number): number {
+    return function countZerro (arrayDigit: (number| number[])[], i: number, count: number): number {
         if(memo.array !== undefined && memo.result !== undefined) {
             let counter: number = 0;
-            for (let item of arr) {
+            for (let item of arrayDigit) {
                 for (let element of memo.array) {
                     if (item === element) {
                         counter++;
                     }
-                    if (counter === arr.length) {
+                    if (counter === arrayDigit.length) {
                         return memo.result;
                     }
                 }
@@ -800,8 +799,8 @@ let memoisedCountZerro = (function() {
         }
         count = count || 0;
         i = i || 0;
-        if(i < arr.length ) {
-            let current  = arr[i];
+        if(i < arrayDigit.length ) {
+            let current  = arrayDigit[i];
             if(Array.isArray(current)) {
                 for(let item of current) {
                     if(item === 0){
@@ -814,16 +813,16 @@ let memoisedCountZerro = (function() {
                
                } count++;
             }
-            return countZerro(arr, i + 1, count);
+            return countZerro(arrayDigit, i + 1, count);
         }
-        memo.array = arr;
+        memo.array = arrayDigit;
         memo.result = count;
         return count;
     }})();
 
-function countNegative(arr: number[]): number {
+function countNegative(arrayDigit: number[]): number {
     let count: number = 0;
-    for(let item of arr) {
+    for(let item of arrayDigit) {
         if(item < 0) {
             count++;
         }
@@ -831,30 +830,30 @@ function countNegative(arr: number[]): number {
     return count;
 }
 
-function countNegative(arr: (number[] | number)[]): number {
-    let count1: number = 0;
-    let count2: number = 0;
-    for(let item of arr) {
+function countNegative(arrayDigit: (number[] | number)[]): number {
+    let countArray: number = 0;
+    let countSubArray: number = 0;
+    for(let item of arrayDigit) {
         if(Array.isArray(item)) {
             for(let i = 0; i < item.length; i++){
                 if(item[i] < 0) {
-                    count1++;
+                    countSubArray++;
                 }
             }
         }
         if (item < 0) {
-            count2++;
+            countArray++;
         }
     }
-    return count1 + count2;
+    return countArray + countSubArray;
 }
 
 
-function countNegative (arr: (number[]| number)[], i: number, count: number): number {
+function countNegative (arrayDigit: (number[]| number)[], i: number, count: number): number {
     count = count || 0;
     i = i || 0;
-    if(i < arr.length ) {
-        let current = arr[i];
+    if(i < arrayDigit.length ) {
+        let current = arrayDigit[i];
         if(Array.isArray(current)) {
             for(let item of current) {
                 if(item < 0){
@@ -867,7 +866,7 @@ function countNegative (arr: (number[]| number)[], i: number, count: number): nu
             count++;
         }
         }
-        return countNegative(arr, i + 1, count);
+        return countNegative(arrayDigit, i + 1, count);
     }
     return count;
 }
@@ -878,15 +877,15 @@ interface Memo {
 }
 let memoisedCountNegative = (function() {
     let memo: Memo = {};
-    return function countNegative (arr: (number[] | number)[], i: number, count: number): number {
+    return function countNegative (arrayDigit: (number[] | number)[], i: number, count: number): number {
         if(memo.array !== undefined && memo.result !== undefined) {
             let counter: number = 0;
-            for (let item of arr) {
+            for (let item of arrayDigit) {
                 for (let element of memo.array) {
                     if (item === element) {
                         counter++;
                     }
-                    if (counter === arr.length) {
+                    if (counter === arrayDigit.length) {
                         return memo.result;
                     }
                 }
@@ -894,8 +893,8 @@ let memoisedCountNegative = (function() {
         }
         count = count || 0;
         i = i || 0;
-        if(i < arr.length ) {
-            let current = arr[i];
+        if(i < arrayDigit.length ) {
+            let current = arrayDigit[i];
             if(Array.isArray(current)) {
                 for(let item of current) {
                     if(item < 0){
@@ -908,16 +907,16 @@ let memoisedCountNegative = (function() {
                 count++;
             }
             }
-            return countNegative(arr, i + 1, count);
+            return countNegative(arrayDigit, i + 1, count);
         }
-        memo.array = arr;
+        memo.array = arrayDigit;
         memo.result = count;
         return count;
     }})();
 
-function countPositive(arr: number[]): number {
+function countPositive(arrayDigit: number[]): number {
     let count: number = 0;
-    for(let item of arr) {
+    for(let item of arrayDigit) {
         if(item > 0) {
             count++;
         }
@@ -925,29 +924,29 @@ function countPositive(arr: number[]): number {
     return count;
 }
 
-function countPositive(arr: (number[] | number)[]): number {
-    let count1: number = 0;
-    let count2: number = 0;
-    for(let item of arr) {
+function countPositive(arrayDigit: (number[] | number)[]): number {
+    let countArray: number = 0;
+    let countSubArray: number = 0;
+    for(let item of arrayDigit) {
         if(Array.isArray(item)) {
             for(let i = 0; i < item.length; i++){
                 if(item[i] > 0) {
-                    count1++;
+                    countArray++;
                 }
             }
         }
         if (item > 0) {
-            count2++;
+            countSubArray++;
         }
     }
-    return count1 + count2;
+    return countArray + countSubArray;
 }
 
-function countPositive(arr: (number[] | number)[], i: number, count: number): number {
+function countPositive(arrayDigit: (number[] | number)[], i: number, count: number): number {
     count = count || 0;
     i = i || 0;
-    if(i < arr.length ) {
-        let current = arr[i];
+    if(i < arrayDigit.length ) {
+        let current = arrayDigit[i];
         if(Array.isArray(current)) {
             for(let item of current) {
                 if(item > 0){
@@ -958,7 +957,7 @@ function countPositive(arr: (number[] | number)[], i: number, count: number): nu
         if(current > 0) {
             count++;
         }
-        return countPositive(arr, i + 1, count);
+        return countPositive(arrayDigit, i + 1, count);
     }
     return count;
 }
@@ -969,15 +968,15 @@ interface Memo {
 }
 let memoisedCountPositive = (function() {
     let memo: Memo = {};
-    return function countPositive(arr: (number[] | number)[], i: number, count: number): number {
+    return function countPositive(arrayDigit: (number[] | number)[], i: number, count: number): number {
         if(memo.array !== undefined && memo.result !== undefined) {
             let counter: number = 0;
-            for (let item of arr) {
+            for (let item of arrayDigit) {
                 for (let element of memo.array) {
                     if (item === element) {
                         counter++;
                     }
-                    if (counter === arr.length) {
+                    if (counter === arrayDigit.length) {
                         return memo.result;
                     }
                 }
@@ -985,8 +984,8 @@ let memoisedCountPositive = (function() {
         }
         count = count || 0;
         i = i || 0;
-        if(i < arr.length ) {
-            let current = arr[i];
+        if(i < arrayDigit.length ) {
+            let current = arrayDigit[i];
             if(Array.isArray(current)) {
                 for(let item of current) {
                     if(item > 0){
@@ -998,17 +997,17 @@ let memoisedCountPositive = (function() {
                 count++;
             }
             }
-            return countPositive(arr, i + 1, count);
+            return countPositive(arrayDigit, i + 1, count);
         }
-        memo.array = arr;
+        memo.array = arrayDigit;
         memo.result = count;
         return count;
     }})();
 
-function countNative(arr: number[]): number {
+function countNative(arrayDigit: number[]): number {
     let count: number = 0;
     label:
-        for(let item of arr) {
+        for(let item of arrayDigit) {
             for(let i: number = 2; i < item - 1; i++) {
                 if(item % i === 0) {
                     continue label;
@@ -1019,19 +1018,19 @@ function countNative(arr: number[]): number {
         return count;
 }
 
-function countPrimeNumbers(arr: number[]): number {
-    let count: number = 0;
-    let count2: number = 0;
-    let count3: number = 0;
+function countPrimeNumbers(arrayDigit: number[]): number {
+    let currentCount: number = 0;
+    let countSubArray: number = 0;
+    let countArray: number = 0;
     for(let item of arr) {
         if(Array.isArray(item)) {
             for(let el of item) {
                 for(let i: number = 1; i < el; i++) {
                     if(el % i !== 0 ) {
-                        count++;
+                        currentCount++;
                         if(count === el - 2) {
-                            count2++;
-                            count = 0;
+                            countSubArray++;
+                            currentCount = 0;
                         }
                     }
                 }
@@ -1040,22 +1039,22 @@ function countPrimeNumbers(arr: number[]): number {
         }
         for (let j: number = 1; j < item; j++) {
             if (item % j !== 0) {
-                count++;
-                if (count === item - 2) {
-                    count3++;
-                    count = 0;
+                currentCount++;
+                if (currentCount === item - 2) {
+                    countArray++;
+                    currentCount = 0;
                 }
             }
         }
-        count = 0;
+        currentCount = 0;
     }
-    return count2 + count3;
+    return countSubArray + countArray;
 }
 
-function countNative(arr: number[]): number {
+function countNative(arrayDigit: number[]): number {
     let count: number = 0;
     label:
-        for(let item of arr) {
+        for(let item of arrayDigit) {
             for(let i = 2; i < item - 1; i++) {
                 if(item % i === 0) {
                     continue label;
@@ -1066,19 +1065,19 @@ function countNative(arr: number[]): number {
         return count;
 }
 
-function countPrimeNumbers(arr: (number[] | number)[]): number {
-    let count: number = 0;
-    let count2: number = 0;
-    let count3: number = 0;
-    for(let item of arr) {
+function countPrimeNumbers(arrayDigit: (number[] | number)[]): number {
+    let currentCount: number = 0;
+    let countSubArray: number = 0;
+    let countArray: number = 0;
+    for(let item of arrayDigit) {
         let current = item;
         if(Array.isArray(current)) {
             for(let el of current) {
                 for(let i = 1; i < el; i++) {
                     if(el % i !== 0 ) {
-                        count++;
-                        if(count === el - 2) {
-                            count2++;
+                        currentCount++;
+                        if(currentCount === el - 2) {
+                            countSubArray++;
                             count = 0;
                         }
                     }
@@ -1088,24 +1087,24 @@ function countPrimeNumbers(arr: (number[] | number)[]): number {
         } else{
         for(let j = 1; j < item; j++) {
             if(current % j !== 0) {
-                count++;
-                if(count === current - 2) {
-                    count3++;
-                    count = 0;
+                currentCount++;
+                if(currentCount === current - 2) {
+                    countArray++;
+                    currentCount = 0;
                 }
             }
             }
-        } count = 0;
+        } currentCount = 0;
     }
-    return count2 + count3;
+    return countSubArray + countArray;
 }
 
-function simpleDigit (arr: (number[] | number)[], i: number, sum: number, count: number): number {
+function simpleDigit (arrayDigit: (number[] | number)[], i: number, sum: number, count: number): number {
     count = count || 0;
     sum = sum || 0;
     i = i || 0;
-    if(i < arr.length) {
-        let current = arr[i];
+    if(i < arrayDigit.length) {
+        let current = arrayDigit[i];
         if(Array.isArray(current)) {
             for(let item of current) {
                 for(let j: number = 1; j < item; j++) {
@@ -1131,7 +1130,7 @@ function simpleDigit (arr: (number[] | number)[], i: number, sum: number, count:
         }
         }
         count = 0;
-        return simpleDigit (arr, i + 1, sum, count);
+        return simpleDigit (arrayDigit, i + 1, sum, count);
     }
     return sum;
 }
@@ -1142,15 +1141,15 @@ interface Memo {
 }
 let memoisedSimpleDigit = (function() {
     let memo: Memo = {};
-    return function simpleDigit (arr: (number[] | number)[], i: number, sum: number, count: number): number {
+    return function simpleDigit (arrayDigit: (number[] | number)[], i: number, sum: number, count: number): number {
         if(memo.array !== undefined && memo.result !== undefined) {
             let counter: number = 0;
-            for (let item of arr) {
+            for (let item of arrayDigit) {
                 for (let element of memo.array) {
                     if (item === element) {
                         counter++;
                     }
-                    if (counter === arr.length) {
+                    if (counter === arrayDigit.length) {
                         return memo.result;
                     }
                 }
@@ -1160,7 +1159,7 @@ let memoisedSimpleDigit = (function() {
         sum = sum || 0;
         i = i || 0;
         if(i < arr.length) {
-            let current = arr[i];
+            let current = arrayDigit[i];
             if(Array.isArray(current)) {
                 for(let item of current) {
                     for(let j: number = 1; j < item; j++) {
@@ -1186,56 +1185,56 @@ let memoisedSimpleDigit = (function() {
             }
             }
             count = 0;
-            return simpleDigit (arr, i + 1, sum, count);
+            return simpleDigit (arrayDigit, i + 1, sum, count);
         }
-        memo.array = arr;
+        memo.array = arrayDigit;
         memo.result = sum;
         return sum;
     }})();
 
-function decimalConversion(num: number): number {
+function decimalConversion(incomingNumber: number): number {
     let sum: number = 0;
-    let current = num.toString();
-    for(let i: number = 0; i < current.length; i++) {
-        if(parseInt(current[i]) === 1) {
-            sum += Math.pow(2, current.length - i - 1);
+    let currentNumber = incomingNumber.toString();
+    for(let i: number = 0; i < currentNumber.length; i++) {
+        if(parseInt(currentNumber[i]) === 1) {
+            sum += Math.pow(2, currentNumber.length - i - 1);
         }
     }
     return sum;
 }
 
-function decimalConversion (num: number, i: number, sum: number, j: number): number {
+function decimalConversion (incomingNumber: number, i: number, sum: number, j: number): number {
     sum = sum || 0;
     i = i || 0;
     j = j || 0;
-    let current = num.toString();
-    if(i <= current.length && j < current.length) {
-        let digit = parseInt(current[j]);
+    let currentNumber = incomingNumber.toString();
+    if(i <= current.length && j < currentNumber.length) {
+        let digit = parseInt(currentNumber[j]);
         if(digit === 1) {
-            sum += Math.pow(2, current.length - i)
+            sum += Math.pow(2, currentNumber.length - i)
         }
-        return decimalConversion (num, i + 1, sum, j + 1)
+        return decimalConversion (incomingNumber, i + 1, sum, j + 1)
     }
     return sum;
 }
 
-function binaryTranslation(a: number): string {
-    let arr: number[] = [];
-    for (;a >= 1;) {
-        arr.unshift (a % 2);
-        let current = (a/2).toString();
-        a = parseInt(current);
+function binaryTranslation(incomingNumber: number): string {
+    let arrayNumbersofIncomingNumber: number[] = [];
+    for (;incomingNumber >= 1;) {
+        arrayNumbersofIncomingNumber.unshift (incomingNumber % 2);
+        let currentIncomingNumberToString = (incomingNumber/2).toString();
+        incomingNumber = parseInt(currentIncomingNumberToString);
     } return arr.join('')
 }
 
-function binaryTranslation(a: number, arr: number[]): string {
-    arr = arr || [];
-    if(a >= 1) {
-        arr.unshift(a % 2);
-        let current = (a/2).toString();
-        return binaryTranslation(parseInt(current), arr);
+function binaryTranslation(incomingNumber: number, arrayNumbersofIncomingNumber: number[]): string {
+    arrayNumbersofIncomingNumber = arrayNumbersofIncomingNumber || [];
+    if(incomingNumber >= 1) {
+        arrayNumbersofIncomingNumber.unshift(a % 2);
+        let incomingNumberToString = (incomingNumber/2).toString();
+        return binaryTranslation(parseInt(incomingNumberToString), arrayNumbersofIncomingNumber);
     }
-    return arr.join('');
+    return arrayNumbersofIncomingNumber.join('');
 }
 
 interface Memo {
@@ -1244,45 +1243,45 @@ interface Memo {
 }
 let memoisedBinaryTranslation = (function() {
     let memo: Memo = {};
-    return function binaryTranslation(a: number, arr: number[]): string {
+    return function binaryTranslation(incomingNumber: number, arrayNumbersofIncomingNumber: number[]): string {
          if(memo.index !== undefined && memo.result !== undefined){
-        if(memo.index === a) {
+        if(memo.index === incomingNumber) {
             return memo.result;
         }
         }
-        arr = arr || [];
-        if(a >= 1) {
-            arr.unshift(a % 2);
-            let current = (a/2).toString();
-            return binaryTranslation(parseInt(current), arr);
+        arrayNumbersofIncomingNumber = arrayNumbersofIncomingNumber || [];
+        if(incomingNumber >= 1) {
+            arrayNumbersofIncomingNumber.unshift(incomingNumber % 2);
+            let incomingNumberToString = (incomingNumber/2).toString();
+            return binaryTranslation(parseInt(incomingNumberToString), arrayNumbersofIncomingNumber);
         }
-        memo.index = a;
-        memo.result = arr.join('');
-        return arr.join('');
+        memo.index = incomingNumber;
+        memo.result = arrayNumbersofIncomingNumber.join('');
+        return arrayNumbersofIncomingNumber.join('');
     }})();
 
-function decimalConversion(num: number): number {
+function decimalConversion(incomingNumber: number): number {
     let sum: number = 0;
-    let current = num.toString();
-    for(let i = 0; i < current.length; i++) {
-        if(parseInt(current[i]) === 1) {
-            sum += Math.pow(2, current.length - i - 1);
+    let incomingNumberToString = incomingNumber.toString();
+    for(let i = 0; i < incomingNumberToString.length; i++) {
+        if(parseInt(incomingNumberToString[i]) === 1) {
+            sum += Math.pow(2, incomingNumberToString.length - i - 1);
         }
     }
     return sum;
 }
 
-function decimalConversion(num: number, i: number, j: number, sum: number): number {
+function decimalConversion(incomingNumber: number, i: number, j: number, sum: number): number {
     i = i || 1;
     j = j || 0;
     sum = sum || 0;
-    let current = num.toString();
-    if(i <= current.length && j < current.length) {
-        let digit = parseInt(current[j]);
+    let incomingNumberToString = incomingNumber.toString();
+    if(i <= incomingNumberToString.length && j < incomingNumberToString.length) {
+        let digit = parseInt(incomingNumberToString[j]);
         if(digit == 1) {
-            sum += Math.pow(2, current.length - i)
+            sum += Math.pow(2, incomingNumberToString.length - i)
         }
-        return decimalConversion (num, i + 1, j + 1, sum)
+        return decimalConversion (incomingNumber, i + 1, j + 1, sum)
     }
     return sum;
 }
@@ -1293,46 +1292,46 @@ interface Memo {
 }
 let memoisedDecimalConversion = (function() {
     let memo: Memo = {};
-    return function decimalConversion(num: number, i: number, j: number, sum: number): number {
+    return function decimalConversion(incomingNumber: number, i: number, j: number, sum: number): number {
         if(memo.index !== undefined && memo.result !== undefined){
-        if(memo.index === num) {
+        if(memo.index === incomingNumber) {
             return memo.result;
         }
         }
         i = i || 1;
         j = j || 0;
         sum = sum || 0;
-        let current = num.toString();
-        if(i <= current.length && j < current.length) {
-            if(parseInt(current) == 1) {
-                sum += Math.pow(2, current.length - i)
+        let incomingNumberToString = incomingNumber.toString();
+        if(i <= incomingNumberToString.length && j < incomingNumberToString.length) {
+            if(parseInt(incomingNumberToString) == 1) {
+                sum += Math.pow(2, incomingNumberToString.length - i)
             }
-            return decimalConversion (num, i + 1, j + 1, sum)
+            return decimalConversion (incomingNumber, i + 1, j + 1, sum)
         }
-        memo.index = num;
+        memo.index = incomingNumber;
         memo.result = sum;
         return sum;
     }})();
 
-function sum(min: number, max: number): number {
+function sum(minLimit: number, maxLimit: number): number {
     let sum: number = 0;
-    let d: number;
-    for(let i: number = 0; i < max - (min - 1); i++) {
-        d = min + i;
-        if(d > 0) {
-            sum +=d;
+    let currentResult: number;
+    for(let i: number = 0; i < maxLimit - (minLimit - 1); i++) {
+        currentResult = minLimit + i;
+        if(currentResult > 0) {
+            sum += currentResult;
         }
     }
     return sum;
 }
 
-function sumUpToMax(min: number, max: number, sum: number): number {
+function sumUpToMax(minLimit: number, maxLimit: number, sum: number): number {
     sum = sum || 0;
-    if(min <= max) {
-        if(min > 0) {
-            sum +=min;
+    if(minLimit <= maxLimit) {
+        if(minLimit > 0) {
+            sum += minLimit;
         }
-        return sumUpToMax(min + 1, max, sum);
+        return sumUpToMax(minLimit + 1, maxLimit, sum);
     }
     return sum;
 }
@@ -1344,12 +1343,12 @@ interface Memo {
 }
 let memoisedSumUpToMax = (function() {
     let memo: Memo = {};
-    return function sumUpToMax(min: number, max: number, sum: number): number {
-        let arr: number[] = [min,max];
+    return function sumUpToMax(minLimit: number, maxLimit: number, sum: number): number {
+        let arrayLimits: number[] = [minLimit,maxLimit];
        if(memo.index !== undefined && memo.result !== undefined){
            let counter: number = 0;
         for(let item of memo.index){
-            for(let element of arr){
+            for(let element of arrayLimits){
                 if(item === element){
                     counter++;
                 }
@@ -1360,38 +1359,38 @@ let memoisedSumUpToMax = (function() {
         }
         }
         sum = sum || 0;
-        if(min <= max) {
-            if(min > 0) {
-                sum +=min;
+        if(minLimit <= maxLimit) {
+            if(minLimit > 0) {
+                sum += minLimit;
             }
-            return sumUpToMax(min + 1, max, sum);
+            return sumUpToMax(minLimit + 1, maxLimit, sum);
         }
-        memo.index = arr;
+        memo.index = arrayLimits;
         memo.result = sum;
         return sum;
     }})();
 
 
-function sumUpToMax(min: number, max: number): number {
+function sumUpToMax(minLimit: number, maxLimit: number): number {
     let sum: number = 0;
-    let d: number;
-    for(let i: number = 0; i < max - 1; i++) {
-        d = min + i;
-        if(d%3 === 0) {
-            sum +=d;
+    let currentResult: number;
+    for(let i: number = 0; i < maxLimit - 1; i++) {
+        currentResult = minLimit + i;
+        if(currentResult%3 === 0) {
+            sum += currentResult;
         }
     } return sum;
 }
 
 
-function sumUpToMax(min: number, max: number, divider: number, sum: number): number {
+function sumUpToMax(minLimit: number, maxLimit: number, divider: number, sum: number): number {
     sum = sum || 0;
     divider = divider || 3;
-    if(min <= max) {
-        if(min % divider === 0) {
-            sum +=min;
+    if(minLimit <= maxLimit) {
+        if(minLimit % divider === 0) {
+            sum +=minLimit;
         }
-        return sumUpToMax(min + 1, max, divider, sum);
+        return sumUpToMax(minLimit + 1, maxLimit, divider, sum);
     }
     return sum;
 }
@@ -1403,12 +1402,12 @@ interface Memo {
 }
 let memoisedSumUpToMax = (function() {
     let memo: Memo = {};
-    return function sumUpToMax(min: number, max: number, divider: number, sum: number): number {
-        let arr: number[] = [min, max];
+    return function sumUpToMax(minLimit: number, maxLimit: number, divider: number, sum: number): number {
+        let arrayLimits: number[] = [minLimit, maxLimit];
         if(memo.index !== undefined && memo.result !== undefined){
            let counter: number = 0;
         for(let item of memo.index){
-            for(let element of arr){
+            for(let element of arrayLimits){
                 if(item === element){
                     counter++;
                 }
@@ -1420,32 +1419,32 @@ let memoisedSumUpToMax = (function() {
         }
         sum = sum || 0;
         divider = divider || 3;
-        if(min <= max) {
-            if(min % divider === 0) {
-                sum +=min;
+        if(minLimit <= maxLimit) {
+            if(minLimit % divider === 0) {
+                sum += minLimit;
             }
-            return sumUpToMax(min + 1, max, divider, sum);
+            return sumUpToMax(minLimit + 1, maxLimit, divider, sum);
         }
-        memo.index = arr;
+        memo.index = arrayLimits;
         memo.result = sum;
         return sum;
     }})();
 
-function sumUptoMax(min: number, max: number): number {
+function sumUptoMax(minLimit: number, maxLimit: number): number {
     let sum: number = 0;
-    let c: number = min;
-    for(let i: number = 1; i < max - (min-1); i++) {
-        sum = c + (min + i);
-        c = sum;
+    let currentResult: number = minLimit;
+    for(let i: number = 1; i < maxLimit - (minLimit - 1); i++) {
+        sum = currentResult + (minLimit + i);
+        currentResult = sum;
     }
     return sum;
 }
 
 
-function sumUptoMax(min: number, max: number): number {
+function sumUptoMax(minLimit: number, maxLimit: number): number {
     let sum: number = 0;
-    if(min <= max) {
-        sum = min + sumUptoMax(min + 1,max);
+    if(minLimit <= maxLimit) {
+        sum = minLimit + sumUptoMax(minLimit + 1, maxLimit);
     }
     return sum;
 }
@@ -1457,12 +1456,12 @@ interface Memo {
 }
 let memoisedSumUptoMax = (function (){
     let memo: Memo = {};
-    return function sumUptoMax(min: number, max: number): number {
-        let arr = [min,max];
+    return function sumUptoMax(minLimit: number, maxLimit: number): number {
+        let arrLimits = [minLimit,maxLimit];
         if(memo.index !== undefined && memo.result !== undefined){
            let counter: number = 0;
         for(let item of memo.index){
-            for(let element of arr){
+            for(let element of arrLimits){
                 if(item === element){
                     counter++;
                 }
@@ -1473,11 +1472,11 @@ let memoisedSumUptoMax = (function (){
         }
         }
         let sum: number = 0;
-        if(min <= max) {
-            sum = min + sumUptoMax(min + 1, max);
+        if(minLimit <= maxLimit) {
+            sum = minLimit + sumUptoMax(minLimit + 1, maxLimit);
         }
         
-        memo.index = arr;
+        memo.index = arrLimits;
         memo.result = sum;
         return sum;
     }})();

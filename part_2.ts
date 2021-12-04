@@ -33,3 +33,16 @@ custom.prototype.customCall = function (context: Context){
     })();
 
 }
+
+interface Arr {
+    [index: string]: any;
+}
+let custom: Arr = Array;
+custom.prototype.customMap = function(func: any): Array<any> {
+    let newArray: Array<any> = [];
+    for(let i = 0; i < this.length; i++){
+        let result = func(this[i]);
+        newArray.push(result);
+    }
+    return newArray;
+};

@@ -60,15 +60,12 @@ class Node {
     }
 
     delite(value: number | null, node: Obj | any): any {
-
         node = node || this;
         if(node.value === value){
-
             if(node.right === null && node.left === null){
                 node = null;
                 return node;
             }
-
             if(node.right === null){
                 node = node.left;
                 return node;
@@ -80,7 +77,6 @@ class Node {
             node.value = newNode.value;
             node.right = this.delite(newNode.value, node.right,);
             return node;
-
         }
         if(value !== null){
             if(value < node.value) {
@@ -91,6 +87,44 @@ class Node {
             return node;
         }
     }
-
-
 }
+
+interface MetodArray {
+    [index: string]: any;
+}
+let custom: MetodArray = Array;
+custom.prototype.customSort = function sort(func: any) {
+    let value: number;
+    for(let j = 0; j < this.length; j++) {
+        let counter: number = 0;
+        for (let i = 0; i < this.length - 1; i++) {
+            if (func(this[i], this[i + 1])) {
+                value = this[i];
+                this[i] = this[i + 1];
+                this[i + 1] = value;
+                counter++;
+            }
+        }
+        if(counter === 0){
+            break;
+        }
+    }
+    return this;
+}
+
+interface MetodArray {
+    [index: string]: any;
+}
+let custom: MetodArray = Array;
+custom.prototype.customSort = function sort(func: any) {
+     for (let i: number = 1; i < this.length; i++) {
+    let currentValue: number = this[i];
+        let j: number = i;
+        while (j > 0 && func(this[j - 1], currentValue)) {
+            this[j] = this[j - 1];
+            j--;
+        }
+        this[j] = currentValue;
+    }
+    return this;
+ }

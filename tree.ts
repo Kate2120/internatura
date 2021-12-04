@@ -1,13 +1,13 @@
-interface Obj{
+interface Nodes{
     value: number | null;
-    left: null | Obj;
-    right: null | Obj;
+    left: null | Nodes;
+    right: null | Nodes;
 }
 
 class Node {
     value: number | null;
-    left: null | Obj;
-    right: null | Obj;
+    left: null | Nodes;
+    right: null | Nodes;
 
     constructor() {
         this.value = null;
@@ -15,7 +15,7 @@ class Node {
         this.right = null;
     }
 
-    add(value: number | null, node: Obj | any): any {
+    add(value: number | null, node: Nodes | any): any {
         node = node || this;
 
         if(node.value === null){
@@ -36,7 +36,7 @@ class Node {
         }
         return this.add(value, node.right);
     }
-    search(value: number | null, node: Obj | any): any {
+    search(value: number | null, node: Nodes | any): any {
         node = node || this;
         if(node.value !== null && value !== null){
             if(value < node.value) {
@@ -59,7 +59,7 @@ class Node {
         return this.minNode(node.left);
     }
 
-    delite(value: number | null, node: Obj | any): any {
+    delite(value: number | null, node: Nodes | any): any {
         node = node || this;
         if(node.value === value){
             if(node.right === null && node.left === null){

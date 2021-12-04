@@ -347,7 +347,7 @@ interface CountedWords {
     [index: string]: number,
 }
 interface Memo {
-    [index: string]: Result,
+    [index: string]: CountedWords,
 }
 
 let memoisedCountWords = (function() {
@@ -404,7 +404,8 @@ function fibonacci(limit: number, arrayDigitFibonacci: number[], i: number): num
     return arrayDigitFibonacci;
 }
 
-interface Memo {
+
+Memo {
     [index: string]: number[],
 }
 let memoisedFibonacci = (function() {

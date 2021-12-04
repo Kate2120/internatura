@@ -89,3 +89,47 @@ custom.prototype.customForEach = function(func: any): any{
     }
     return result;
 };
+
+interface Result{
+    value: any,
+    done: boolean,
+}
+let func: Next; 
+interface Obj {
+    prev: number,
+    next: number,
+    upTo: number,
+    [Symbol.iterator](): Next,
+}
+interface Next {
+    next(): Result,
+}
+
+let obj: Obj = {
+    prev: 0,
+    next: 1,
+    upTo: 10,
+    [Symbol.iterator](){
+        let counter: number = 0;
+        let sum: number = 0;
+        return {
+            next: ():Result  => {
+                if(counter < this.upTo-2){
+                    sum = this.prev + this.next;
+                    this.prev = this.next;
+                    this.next = sum;
+                    counter++;
+                    return {
+                        value: sum,
+                        done: false
+                    }
+                }
+                return {
+                    value: undefined,
+                    done: true,
+                }
+            }
+        }
+    },
+
+}

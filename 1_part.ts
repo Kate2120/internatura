@@ -1482,19 +1482,19 @@ let memoisedSumUptoMax = (function (){
     }})();
 
 
-function sumAll(arr: number[]): number {
+function sumAll(arrayNumbers: number[]): number {
     let sum: number = 0;
     let count: number = 0;
-    for(let item of arr) {
+    for(let item of arrayNumbers) {
         sum += item;
         count++;
     } return sum/count;
 }
 
-function average(arr: number[]): number {
+function average(arrayNumbers: number[]): number {
     let sum: number = 0;
     let count: number = 0;
-    for(let item of arr) {
+    for(let item of arrayNumbers) {
         if(Array.isArray(item)) {
             for(let element of item){
                 count++;
@@ -1508,24 +1508,24 @@ function average(arr: number[]): number {
     return sum/count;
 }
 
-function average(arr: (number[] | number)[], sum: number, count: number, i: number, j: number): number {
+function average(arrayNumbers: (number[] | number)[], sum: number, count: number, i: number, j: number): number {
     sum = sum || 0;
     count = count || 0;
     i = i || 0;
     j = j || 0;
-    if(i < arr.length) {
-        let current = arr[i];
+    if(i < arrayNumbers.length) {
+        let current = arrayNumbers[i];
         if(Array.isArray(current)) {
             if(j < current.length) {
                 count++;
                 sum += parseInt(current[j]);
-                return average(arr, sum, count, i, j + 1)
+                return average(arrayNumbers, sum, count, i, j + 1)
             }
         }
         if(typeof current === "number") {
             count++;
             sum += current;
-            return average(arr, sum, count, i + 1, 0)
+            return average(arrayNumbers, sum, count, i + 1, 0)
         }
     }
     return sum/count;
@@ -1538,11 +1538,11 @@ interface Memo {
 }
 let memoisedAverage = (function() {
     let memo: Memo = {};
-    return function average(arr: number[], sum: number, count: number, i: number, j: number): number {
+    return function average(arrayNumbers: number[], sum: number, count: number, i: number, j: number): number {
         if(memo.index !== undefined && memo.result !== undefined){
            let counter: number = 0;
         for(let item of memo.index){
-            for(let element of arr){
+            for(let element of arrayNumbers){
                 if(item === element){
                     counter++;
                 }
@@ -1557,31 +1557,31 @@ let memoisedAverage = (function() {
         count = count || 0;
         i = i || 0;
         j = j || 0;
-        if(i < arr.length) {
-            let current = arr[i];
-            if(Array.isArray(current)) {
-                if(j < current.length) {
+        if(i < arrayNumbers.length) {
+            let currentItemArray = arrayNumbers[i];
+            if(Array.isArray(currentItemArray)) {
+                if(j < currentItemArray.length) {
                     count++;
-                    sum += parseInt(current[j]);
-                    return average(arr, sum, count, i, j + 1)
+                    sum += parseInt(currentItemArray[j]);
+                    return average(arrayNumbers, sum, count, i, j + 1)
                 }
             }
-            if(typeof current === "number") {
+            if(typeof currentItemArray === "number") {
                 count++;
-                sum += current;
-                return average(arr, sum, count, i + 1, 0)
+                sum += currentItemArray;
+                return average(arrayNumbers, sum, count, i + 1, 0)
             }
         }
-        memo.index = arr;
+        memo.index = arrayNumbers;
         memo.result = sum/count;
         return sum/count;
     }})();
 
 
-function sumMultipleTwo (arr: number[]): number {
+function sumMultipleTwo (arrayNumbers: number[]): number {
     let sum: number = 0;
     let count: number = 0;
-    for (let item of arr) {
+    for (let item of arrayNumbers) {
         if (item % 2 === 0) {
             sum += item;
             count++;
@@ -1589,10 +1589,10 @@ function sumMultipleTwo (arr: number[]): number {
     } return sum/count;
 }
 
-function sumMultipleTwo(arr: number[]): number {
+function sumMultipleTwo(arrayNumbers: number[]): number {
     let sum: number = 0;
     let count: number = 0;
-    for(let item of arr) {
+    for(let item of arrayNumbers) {
         if(item % 2 !== 0) {
             sum += item;
             count++;
@@ -1601,15 +1601,15 @@ function sumMultipleTwo(arr: number[]): number {
 }
 
 
-function averageOdd(arr: number[], count: number, sum: number): number {
+function averageOdd(arrayNumbers: number[], count: number, sum: number): number {
     sum = sum || 0;
     count = count || 0;
-    for(let item of arr) {
+    for(let item of arrayNumbers) {
         if(Array.isArray(item)) {
-            for(let el of item){
+            for(let element of item){
                 if(el % 2 === 0) {
                     count++;
-                    sum += el;
+                    sum += element;
                 }
             }
         }
@@ -1622,27 +1622,27 @@ function averageOdd(arr: number[], count: number, sum: number): number {
 }
 
 
-function averageOdd(arr: number[], count: number, sum: number, i: number, j: number): number {
+function averageOdd(arrayNumbers: number[], count: number, sum: number, i: number, j: number): number {
     sum = sum || 0;
     count = count || 0;
     i = i || 0;
     j = j || 0;
-    if(i < arr.length) {
-        let current = arr[i];
-        if(Array.isArray(current)) {
-            if(j < current.length){
-                if(parseInt(current[j]) % 2 === 0 && parseInt(current[j]) > 0) {
+    if(i < arrayNumbers.length) {
+        let currentItemArray = arrayNumbers[i];
+        if(Array.isArray(currentItemArray)) {
+            if(j < currentItemArray.length){
+                if(parseInt(currentItemArray[j]) % 2 === 0 && parseInt(currentItemArray[j]) > 0) {
                     count++;
-                    sum += parseInt(current[j]);
-                    return averageOdd(arr, count, sum, i, j + 1);
+                    sum += parseInt(currentItemArray[j]);
+                    return averageOdd(arrayNumbers, count, sum, i, j + 1);
                 }
             }
-        }  else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
+        }  else if(!(Array.isArray(arrayNumbers[i])) && arrayNumbers[i] % 2 === 0 && arrayNumbers[i] > 0) {
             count++;
-            sum += arr[i];
-            return averageOdd(arr, count, sum, i + 1, 0);
+            sum += arrayNumbers[i];
+            return averageOdd(arrayNumbers, count, sum, i + 1, 0);
         }
-        return averageOdd(arr, count, sum, i + 1, 0);
+        return averageOdd(arrayNumbers, count, sum, i + 1, 0);
     }
     return sum/count;
 }
@@ -1654,11 +1654,11 @@ interface Memo {
 }
 let memoisedAverageOdd = (function() {
     let memo: Memo = {};
-    return function averageOdd(arr: number[], count: number, sum: number, i: number, j: number): number {
+    return function averageOdd(arrayNumbers: number[], count: number, sum: number, i: number, j: number): number {
         if(memo.index !== undefined && memo.result !== undefined){
            let counter: number = 0;
         for(let item of memo.index){
-            for(let element of arr){
+            for(let element of arrayNumbers){
                 if(item === element){
                     counter++;
                 }
@@ -1672,41 +1672,41 @@ let memoisedAverageOdd = (function() {
         count = count || 0;
         i = i || 0;
         j = j || 0;
-        if(i < arr.length) {
-            let current = arr[i];
-            if(Array.isArray(current)) {
+        if(i < arrayNumbers.length) {
+            let currentItemArray = arrayNumbers[i];
+            if(Array.isArray(currentItemArray)) {
 
-                if(j < current.length){
+                if(j < currentItemArray.length){
 
-                    if(parseInt(current[j]) % 2 === 0 && parseInt(current[j]) > 0) {
+                    if(parseInt(currentItemArray[j]) % 2 === 0 && parseInt(currentItemArray[j]) > 0) {
                         count++;
-                        sum += parseInt(current[j]);
-                        return averageOdd(arr, count, sum, i, j + 1);
+                        sum += parseInt(currentItemArray[j]);
+                        return averageOdd(arrayNumbers, count, sum, i, j + 1);
                     }
                 }
-            } else if(!(Array.isArray(arr[i])) && arr[i] % 2 === 0 && arr[i] > 0) {
+            } else if(!(Array.isArray(arrayNumbers[i])) && arrayNumbers[i] % 2 === 0 && arrayNumbers[i] > 0) {
                 count++;
-                sum += arr[i];
-                return averageOdd(arr, count, sum, i + 1, 0);
+                sum += arrayNumbers[i];
+                return averageOdd(arrayNumbers, count, sum, i + 1, 0);
             }
-            return averageOdd(arr, count, sum, i + 1, 0);
+            return averageOdd(arrayNumbers, count, sum, i + 1, 0);
         }
-        memo.index = arr;
+        memo.index = arrayNumbers;
         memo.result = sum/count;
         return sum/count;
     }})();
 
-function matrixTranspose(arr: number[][]) {
-    let arrSt: number[][] = [];
-    for(let i: number = 0; i < arr[i].length; i++) {
-        arrSt.push([]);
+function matrixTranspose(arrayNumbers: number[][]) {
+    let arrayResultTranspose: number[][] = [];
+    for(let i: number = 0; i < arrayNumbers[i].length; i++) {
+        arrayResultTranspose.push([]);
     }
-    for(let a = 0; a < arr.length; a++) {
-        for(let j = 0; j < arr[j].length; j++) {
-            arrSt[j].push(arr[a][j]);
+    for(let a = 0; a < arrayNumbers.length; a++) {
+        for(let j = 0; j < arrayNumbers[j].length; j++) {
+            arrayResultTranspose[j].push(arrayNumbers[a][j]);
         }
     }
-    return arrSt;
+    return arrayResultTranspose;
 }
 
 
@@ -1716,11 +1716,11 @@ interface Memo {
 }
 let memoisedMatrixTranspose = (function() {
     let memo: Memo = {};
-    return function matrixTranspose(arr: number[][], j: number, i: number, arrSt: number[][]): number[][] {
+    return function matrixTranspose(arrayNumbers: number[][], j: number, i: number, arrayResultTranspose: number[][]): number[][] {
   if(memo.index !== undefined && memo.result !== undefined){
            let counter: number = 0;
         for(let item of memo.index){
-            for(let element of arr){
+            for(let element of arrayNumbers){
                 if(item === element){
                     counter++;
                 }
@@ -1730,40 +1730,40 @@ let memoisedMatrixTranspose = (function() {
             }
         }
         }
-        arrSt = arrSt || [];
+        arrayResultTranspose = arrayResultTranspose || [];
         j = j || 0;
         i = i || 0;
-        if(i < arr.length)  {
-            if(j < arr[0].length) {
-                arrSt.push([]);
-                arrSt[j].push(arr[i][j]);
-                return matrixTranspose(arr, j+1, i, arrSt);
+        if(i < arrayNumbers.length)  {
+            if(j < arrayNumbers[0].length) {
+                arrayResultTranspose.push([]);
+                arrayResultTranspose[j].push(arrayNumbers[i][j]);
+                return matrixTranspose(arrayNumbers, j+1, i, arrayResultTranspose);
             }
-            return matrixTranspose(arr, 0, i +1, arrSt);
+            return matrixTranspose(arrayNumbers, 0, i +1, arrayResultTranspose);
         }
-        memo.index = arr;
-        memo.result = arrSt.filter(function (el) {
+        memo.index = arrayNumbers;
+        memo.result = arrayResultTranspose.filter(function (el) {
             return el.length !== 0;
         });
-        return arrSt.filter(function (el) {
+        return arrayResultTranspose.filter(function (el) {
             return el.length !== 0;
         });
     }})();
 
 
-function matrixTranspose(arr: number[][], j: number, i: number, arrSt: number[][]): number[][] {
-    arrSt = arrSt || [];
+function matrixTranspose(arrayNumbers: number[][], j: number, i: number, arrayResultTranspose: number[][]): number[][] {
+    arrayResultTranspose = arrayResultTranspose || [];
     j = j || 0;
     i = i || 0;
-    if(i < arr.length)  {
-        if(j < arr[0].length) {
-            arrSt.push([]);
-            arrSt[j].push(arr[i][j]);
-            return matrixTranspose(arr, j+1, i, arrSt);
+    if(i < arrayNumbers.length)  {
+        if(j < arrayNumbers[0].length) {
+            arrayResultTranspose.push([]);
+            arrayResultTranspose[j].push(arrayNumbers[i][j]);
+            return matrixTranspose(arrayNumbers, j+1, i, arrayResultTranspose);
         }
-        return matrixTranspose(arr, 0, i +1, arrSt);
+        return matrixTranspose(arrayNumbers, 0, i +1, arrayResultTranspose);
     }
-    return arrSt.filter(function (el) {
+    return arrayResultTranspose.filter(function (el) {
         return el.length !== 0;
     });
 }
@@ -1784,21 +1784,21 @@ function sumMatrix(...matrix: number[][][]) {
     return matrixSum;
 }
 
-function sumMatrices(matr1: number[][], matr2: number[][], i: number, j: number, arrSumMatrices: number[][], sum: number): number[][] {
+function sumMatrices(matrix1: number[][], matrix2: number[][], i: number, j: number, arrSumMatrices: number[][], sum: number): number[][] {
     arrSumMatrices = arrSumMatrices || [];
     sum = sum || 0;
     i = i || 0;
     j = j || 0;
-    if(i < matr1.length) {
-        if(j < matr1[j].length){
+    if(i < matrix1.length) {
+        if(j < matrix1[j].length){
             if(j === 0) {
                 arrSumMatrices.push([]);
             }
-            sum = matr1[i][j] + matr2[i][j];
+            sum = matrix1[i][j] + matrix2[i][j];
             arrSumMatrices[i].push(sum);
-            return sumMatrices(matr1, matr2, i,j+1, arrSumMatrices, sum);
+            return sumMatrices(matrix1, matrix2, i,j+1, arrSumMatrices, sum);
         }
-        return sumMatrices(matr1,matr2, i+1,0, arrSumMatrices, sum);
+        return sumMatrices(matrix1, matrix2, i+1,0, arrSumMatrices, sum);
     }
     return arrSumMatrices;
 }
@@ -1809,12 +1809,12 @@ interface Memo {
 }
 let memoisedSumMatrices = (function() {
     let memo: Memo = {};
-    return function sumMatrices(matr1: number[][], matr2: number[][], i: number, j: number, arrSumMatrices: number[][], sum: number): number[][] {
-        let arr = [matr1, matr2];
+    return function sumMatrices(matrix1: number[][], matrix2: number[][], i: number, j: number, arrSumMatrices: number[][], sum: number): number[][] {
+        let arrayMatrices = [matrix1, matrix2];
         if(memo.index !== undefined && memo.result !== undefined){
            let counter: number = 0;
         for(let item of memo.index){
-            for(let element of arr){
+            for(let element of arrayMatrices){
                 if(item === element){
                     counter++;
                 }
@@ -1828,18 +1828,18 @@ let memoisedSumMatrices = (function() {
         sum = sum || 0;
         i = i || 0;
         j = j || 0;
-        if(i < matr1.length) {
-            if(j < matr1[j].length){
+        if(i < matrix1.length) {
+            if(j < matrix1[j].length){
                 if(j === 0) {
                     arrSumMatrices.push([]);
                 }
-                sum = matr1[i][j] + matr2[i][j];
+                sum = matrix1[i][j] + matrix2[i][j];
                 arrSumMatrices[i].push(sum);
-                return sumMatrices(matr1, matr2, i,j+1, arrSumMatrices, sum);
+                return sumMatrices(matrix1, matrix2, i, j+1, arrSumMatrices, sum);
             }
-            return sumMatrices(matr1,matr2, i+1,0, arrSumMatrices, sum);
+            return sumMatrices(matrix1, matrix2, i+1, 0, arrSumMatrices, sum);
         }
-        memo.index = arr;
+        memo.index = arrayMatrices;
         memo.result = arrSumMatrices;
         return arrSumMatrices;
     }})();
@@ -1984,19 +1984,19 @@ let memoisedMatrixCleanZero = (function() {
         return matrix;
     }})();
 
-function factorial(n: number): number {
-    let a: number = 1;
-    let b: number = 2;
-    let c: number = 0;
-    for(let i: number = 2; i <= n; i++ ) {
-        c = a * b;
-        a = c;
-        b = b + 1;
+function factorial(limitNumber: number): number {
+    let previosDigit: number = 1;
+    let nextDigit: number = 2;
+    let currentResult: number = 0;
+    for(let i: number = 2; i <= limitNumber; i++ ) {
+        currentResult = previosDigit * nextDigit;
+        previosDigit = currentResult;
+        nextDigit = nextDigit + 1;
     } 
-    return c;
+    return currentResult;
 }
 
-function factorial(n: number, result: number): number {
+function factorial(limitNumber: number, result: number): number {
     result = result || 1;
     if(n > 0) {
         result = n * factorial(n -1, 1);
@@ -2009,16 +2009,16 @@ interface Memo{
 }
 let memoisedFactorial = (function() {
     let memo: Memo = {};
-    return function factorial(n: number, result: number): number {
-        let current = n.toString();
-        if(current in memo) {
-            return memo[current];
+    return function factorial(limitNumber: number, result: number): number {
+        let limitNumberToString = limitNumber.toString();
+        if(limitNumberToString in memo) {
+            return memo[limitNumberToString];
         }
         result = result || 1;
-        if(n > 0) {
-            result = n * factorial(n -1, 1);
+        if(limitNumber > 0) {
+            result = limitNumber * factorial(limitNumber -1, 1);
         }
-        memo[current] = result;
+        memo[limitNumberToString] = result;
         return result;
     }})();
 
@@ -2027,15 +2027,15 @@ interface Memo{
 }
 let memoisedFactorial = (function() {
     let memo: Memo = {};
-    return function factorial(n: number, result: number): number {
-        let current = n.toString();
-        if(current in memo) {
-            return memo[current];
+    return function factorial(limitNumber: number, result: number): number {
+        let limitNumberToString = limitNumber.toString();
+        if(limitNumberToString in memo) {
+            return memo[limitNumberToString];
         }
         result = result || 1;
-        if(n > 0) {
-            result = n * factorial(n -1, 1);
+        if(limitNumber > 0) {
+            result = limitNumber * factorial(limitNumber -1, 1);
         }
-        memo[current] = result;
+        memo[limitNumberToString] = result;
         return result;
     }})();

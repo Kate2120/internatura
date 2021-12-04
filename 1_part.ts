@@ -19,7 +19,7 @@ function anagram(word1: string, word2: string): boolean {
         if (countWord1 === countWord2) {
             return true;
         }
-        return false;
+        
     }
     return false;
 }
@@ -107,11 +107,11 @@ let memoisedAnangram = (function() {
 
     }})();
 
-interface Result {
+interface CountedDigit {
     [index: string]: number,
 }
 
-function  countDigit(num: number): Result {
+function  countDigit(num: number): CountedDigit {
     let arr: number[] = [];
     let obj: Result = {};
     for(; num > 0;) {
@@ -135,10 +135,10 @@ function  countDigit(num: number): Result {
     return obj;
 };
 
-interface Result {
+interface CountedDigit {
     [index: string]: number,
 }
-function countDigit(num: number, arr: number[], obj: Result, i: number): Result {
+function countDigit(num: number, arr: number[], obj: CountedDigit, i: number): CountedDigit {
     arr = arr || [];
     obj = obj || {};
     i = i || 0;
@@ -165,16 +165,16 @@ function countDigit(num: number, arr: number[], obj: Result, i: number): Result 
 }
 
 
-interface Result {
+interface CountedDigit {
     [index: string]: number,
 }
 interface Memo {
-    [key: string]: Result,
+    [key: string]: CountedDigit,
 }
 let memoizedDigit = (function() {
     let memo: Memo = {};
 
-    return  function countDigit(num: number, arr: number[], obj: Result) {
+    return  function countDigit(num: number, arr: number[], obj: CountedDigit) {
         let key: string = num.toString();
         if (key in memo) {
             return obj;
@@ -286,16 +286,16 @@ let memoisedCountWords = (function(){
 
     }})();
 
-interface Result {
+interface CountedUniqueWords {
     [index: string]: number,
 }
-function uniqueWords(sentence: string): Result {
+function uniqueWords(sentence: string): CountedUniqueWords {
     sentence = sentence.toLowerCase()
     let arr: string[] = sentence.split(/[^а-яА-ЯёЁ]+/gui);
     arr = arr.filter(function(item) {
         return item !== "";
     });
-    let obj: Result = {};
+    let obj: CountedUniqueWords = {};
     for(let i: number = 0; i < arr.length; ) {
         let counter: number = 1;
         for(let j: number = i + 1; j <= arr.length; j++ ) {
@@ -311,10 +311,10 @@ function uniqueWords(sentence: string): Result {
     return obj;
 }
 
-interface Result {
+interface CountedWords {
     [index: string]: number,
 }
-function countWords (arg: string, arr: string[], obj: Result, i: number, j: number, counter: number): Result {
+function countWords (arg: string, arr: string[], obj: CountedWords, i: number, j: number, counter: number): CountedWords {
     arr = arr || [];
     obj = obj || {};
     i = i || 0;
@@ -344,7 +344,7 @@ function countWords (arg: string, arr: string[], obj: Result, i: number, j: numb
     return obj;
 }
 
-interface Result {
+interface CountedWords {
     [index: string]: number,
 }
 interface Memo {
@@ -353,7 +353,7 @@ interface Memo {
 
 let memoisedCountWords = (function() {
     let memo: Memo = {};
-    return function countWords (arg: string, arr: string[], obj: Result, i: number, j: number, counter: number): Result {
+    return function countWords (arg: string, arr: string[], obj: CountedWords, i: number, j: number, counter: number): CountedWords {
         if(arg in memo) {
             return memo[arg];
         }
@@ -387,20 +387,20 @@ let memoisedCountWords = (function() {
         return obj;
     }})();
 
-function fibonacci(n: number, arr: number[]): number[] {
+function fibonacci(limit: number, arr: number[]): number[] {
     arr = [0,1];
-    for(let i: number = 0; i < n - 2; i++){
+    for(let i: number = 0; i < limit - 2; i++){
         arr.push (arr[i] + arr[i+1]);
     }
     return arr;
 }
 
-function fibonacci(n: number, arr: number[], i: number): number[] {
+function fibonacci(limit: number, arr: number[], i: number): number[] {
     arr = arr || [0,1];
     i = i || 0;
     if(i < n - 2){
         arr.push (arr[i] + arr[i+1]);
-        fibonacci(n, arr, i + 1)
+        fibonacci(limit, arr, i + 1)
     }
     return arr;
 }
@@ -410,24 +410,24 @@ interface Memo {
 }
 let memoisedFibonacci = (function() {
     let memo: Memo = {};
-    return function fibonacci(N: number, i: number, arr: number[], count: number): number[] {
+    return function fibonacci(limit: number, i: number, arr: number[], count: number): number[] {
         count = count || 0;
         arr = arr || [];
         i = i || 0;
-        let key = N.toString();
+        let key = limit.toString();
         if(key in memo) {
             return memo.key;
-        } else if(Object.keys(memo).length > 0 && i < N && count ===0) {
+        } else if(Object.keys(memo).length > 0 && i < limit && count ===0) {
             arr = memo[Object.keys(memo).length - 1];
             arr.push(memo[Object.keys(memo).length - 1][Object.keys(memo).length - 2] + memo[Object.keys(memo).length - 1][Object.keys(memo).length - 1]);
             memo[i] = arr.slice();
             count++;
             i = arr.length -1;
-            return fibonacci(N, i + 1, arr, count);
-        } else if(count === 1 && i < N) {
+            return fibonacci(limit, i + 1, arr, count);
+        } else if(count === 1 && i < limit) {
             arr.push(arr[i-2] + arr[i-1]);
             memo[i] = arr.slice();
-            return fibonacci(N, i + 1, arr, count);
+            return fibonacci(limit, i + 1, arr, count);
         } else if(i === 0 && Object.keys(memo).length === 0) {
             arr.push(i);
             memo[i] = arr.slice();
@@ -437,7 +437,7 @@ let memoisedFibonacci = (function() {
             arr.push(arr[i-1] + arr[i]);
             i++;
             memo[i] = arr.slice();
-            return fibonacci(N, i+1, arr, 0);
+            return fibonacci(limit, i+1, arr, 0);
         }
         return arr;
     }})();

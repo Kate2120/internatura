@@ -1,13 +1,7 @@
-interface Nodes{
+class Tree {
     value: number | null;
-    left: null | Nodes;
-    right: null | Nodes;
-}
-
-class Node {
-    value: number | null;
-    left: null | Nodes;
-    right: null | Nodes;
+    left: null | Tree;
+    right: null | Tree;
 
     constructor() {
         this.value = null;
@@ -15,43 +9,43 @@ class Node {
         this.right = null;
     }
 
-    add(value: number | null, node: Nodes | any): any {
+    add(value: number | null, node: Tree): Tree {
         node = node || this;
 
         if(node.value === null){
             node.value = value;
             return;
         }else {
-        if(node.value !== null && value !== null){
-            if(node.value > value){
-                if(node.left === null){
-                    node.left = new Node();
+            if(node.value !== null && value !== null){
+                if(node.value > value){
+                    if(node.left === null){
+                        node.left = new Tree();
+                    }
+                    return this.add(value, node.left);
                 }
-                return this.add(value, node.left);
             }
         }
-}
         if(node.right === null){
-            node.right = new Node();
+            node.right = new Tree();
         }
         return this.add(value, node.right);
     }
-    search(value: number | null, node: Nodes | any): any {
+    search(value: number | null, node: Tree): Tree {
         node = node || this;
         if(node.value !== null && value !== null){
             if(value < node.value) {
                 return this.search(value, node.left);
             } else{
 
-            if(value > node.value) {
-                return this.search(value, node.right);
-            }
+                if(value > node.value) {
+                    return this.search(value, node.right);
+                }
             }
         }
         return node;
     }
 
-    minNode(node: Nodes | any): any {
+    minNode(node: Tree | any): any {
 
         if (node.left === null){
             return node;
@@ -59,7 +53,7 @@ class Node {
         return this.minNode(node.left);
     }
 
-    delite(value: number | null, node: Nodes | any): any {
+    delite(value: number | null, node: Tree): Tree {
         node = node || this;
         if(node.value === value){
             if(node.right === null && node.left === null){
@@ -88,7 +82,6 @@ class Node {
         }
     }
 }
-
 interface MetodArray {
     [index: string]: any;
 }

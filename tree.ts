@@ -45,7 +45,7 @@ class Tree {
         return node;
     }
 
-    minNode(node: Tree | any): any {
+    minNode(node: Tree): Tree {
 
         if (node.left === null){
             return node;
@@ -82,6 +82,8 @@ class Tree {
         }
     }
 }
+
+
 interface MetodArray {
     [index: string]: any;
 }

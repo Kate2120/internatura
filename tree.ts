@@ -88,7 +88,7 @@ interface Array<T> {
     customSort(sort: T): Array<T>;
 }
 
-Array.prototype.customSort = function sort(func) {
+Array.prototype.customSort = function (func) {
     let value: number;
     for(let j = 0; j < this.length; j++) {
         let counter: number = 0;
@@ -108,11 +108,8 @@ Array.prototype.customSort = function sort(func) {
 }
 
 
-interface Array<T> {
-    customSort(sort: T): Array<T>;
-}
 
-Array.prototype.customSort = function sort(func) {
+Array.prototype.customSort = function (func) {
     for (let i: number = 1; i < this.length; i++) {
         let currentValue: number = this[i];
         let j: number = i;

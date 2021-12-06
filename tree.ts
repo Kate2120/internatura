@@ -84,11 +84,11 @@ class Tree {
 }
 
 
-interface MetodArray {
-    [index: string]: any;
+interface Array<T> {
+    customSort(sort: T): Array<T>;
 }
-let custom: MetodArray = Array;
-custom.prototype.customSort = function sort(func: any) {
+
+Array.prototype.customSort = function sort(func) {
     let value: number;
     for(let j = 0; j < this.length; j++) {
         let counter: number = 0;
@@ -107,13 +107,14 @@ custom.prototype.customSort = function sort(func: any) {
     return this;
 }
 
-interface MetodArray {
-    [index: string]: any;
+
+interface Array<T> {
+    customSort(sort: T): Array<T>;
 }
-let custom: MetodArray = Array;
-custom.prototype.customSort = function sort(func: any) {
-     for (let i: number = 1; i < this.length; i++) {
-    let currentValue: number = this[i];
+
+Array.prototype.customSort = function sort(func) {
+    for (let i: number = 1; i < this.length; i++) {
+        let currentValue: number = this[i];
         let j: number = i;
         while (j > 0 && func(this[j - 1], currentValue)) {
             this[j] = this[j - 1];
@@ -122,4 +123,4 @@ custom.prototype.customSort = function sort(func: any) {
         this[j] = currentValue;
     }
     return this;
- }
+}

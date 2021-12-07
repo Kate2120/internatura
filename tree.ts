@@ -1,52 +1,6 @@
-function dataHash(value){
-    let hash = 0;
-    if (value.length === 0) return hash;
-    for (let i = 0; i < value.length; i++) {
-        let char = value.charCodeAt(i);
-        hash = ((hash<<5)-hash)+char;
-        hash = hash & hash;
-    }
-    return hash;
-}
-
-class Tree {
-    value: any;
-    left: null | Tree;
-    right: null | Tree;
-
-    constructor() {
-        this.value = null;
-        this.left = null;
-        this.right = null;
-    }
-
-    add(value: any, node: Tree): Tree {
-        value = dataHash(value);
-        node = node || this;
-
-        if(node.value === null){
-            node.value = value;
-            return;
-        }else {
-                if(node.value > value){
-                    if(node.left === null){
-                        node.left = new Tree();
-                    }
-                    return this.add(value, node.left);
-                }
-
-        }
-        if(node.right === null){
-            node.right = new Tree();
-        }
-        return this.add(value, node.right);
-    }
-    search(value: number, node: Tree): Tree {
-        node = node || this;
 interface Itree {
     hashCode: () => number,
 }
-
 
 class Tree {
     value: Itree | null;

@@ -12,16 +12,20 @@ class Bill{
     amount: number;
     currency: string;
     limit?: number;
-    constructor(){
+    constructor(type: string, amount: number, currency: string, limit: number){
+       this.type = type;
+       this.amount = amount;
+       this.currency = currency;
+       this.limit = limit;
 
     }
-    set typeBill(value){
+    set typeBill(value: string){
         this.type = value;
     }
-    set amountBill(value){
+    set amountBill(value: number){
         this.amount = value;
     }
-    set currencyBill(value){
+    set currencyBill(value: string){
         this.currency = value;
     }
 }
@@ -75,17 +79,17 @@ class Bank {
         }
     }
 
-    async getCurrencyToCallback(callback){
+    async getCurrencyToCallback(callback: Bank["budget"] | Bank["allBankBudget"]){
         let response = await fetch('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
         let data: Data[] = await response.json();
-        if(callback === this.budget){
+        if(callback === myBank.budget){
             callback(data, true , 'USD');
-        } else if(callback === this.allBankBudget){
+        } else if(callback === myBank.allBankBudget){
             callback(data, 'USD');
         }
     }
 
-    budget(data: Data[], isActive: boolean, currency: string){
+    budget(data: Data[], isActive: boolean, currency: string): number{
         let sum: number = 0;
         let rate: number = 1;
         for(let item of this.clients){
@@ -102,10 +106,10 @@ class Bank {
                 }
             }
         }
-
+        return sum;
     }
 
-    allBankBudget(data: Data[], currency: string){
+    allBankBudget(data: Data[], currency: string): number {
         let sum: number = 0;
         let rate: number = 1;
         for(let item of this.clients){
@@ -121,8 +125,8 @@ class Bank {
                     sum += item.bills[i].amount;
                 }
             }
-
         }
+        return sum;
     }
 
     countDebtor(isActive: boolean): number{
@@ -130,9 +134,13 @@ class Bank {
         for(let item of this.clients){
             if(item.is_active === isActive) {
                 for (let i = 0; i < item.bills.length; i++){
-                    if(item.bills[i].amount < item.bills[i].limit)
-                        counter++;
-                }
+                    let value = item.bills[i].limit;
+                    if(typeof value === 'number'){
+                        if(item.bills[i].amount < value)
+                            counter++;
+                            }
+                       }
+                    
             }
         }
         return counter;

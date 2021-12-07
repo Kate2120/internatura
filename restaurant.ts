@@ -1,4 +1,3 @@
-let restaurant = [];
 class DepartmentRestaurant {
     arrayPositions: Positions[] = [];
     departmentId;

@@ -1,3 +1,4 @@
+let restaurant: DepartmentRestaurant[] = [];
 class DepartmentRestaurant {
     arrayPositions: Positions[] = [];
     departmentId;
@@ -23,7 +24,7 @@ class Positions {
     title;
     salary;
     head;
-    constructor(department: DepartmentRestaurant, id: number, title: string, salary: number, head: boolean) {
+    constructor(department: string, id: number, title: string, salary: number, head: boolean) {
         this.id = id;
         this.title = title;
         this.salary = salary;
@@ -46,7 +47,7 @@ class Positions {
     }
 }
 
-function addPositions(department: DepartmentRestaurant, id: number, title: string, salary: number, head: boolean): Positions {
+function addPositions(department: string, id: number, title: string, salary: number, head: boolean): Positions {
     let position: Positions = new Positions(department, id, title, salary, head);
     for(let i: number = 0; i < restaurant.length; i++){
         console.log(restaurant[i]);
@@ -67,7 +68,7 @@ class Employee {
     position;
     dismissalDate;
     department;
-    constructor(department: DepartmentRestaurant, position: Positions, employeeId: number, name: string, surname: string, age: number, employmentDate: Date, dismissalDate: string | Date) {
+    constructor(department: string, position: string, employeeId: number, name: string, surname: string, age: number, employmentDate: Date, dismissalDate: string | Date) {
         this.employeeId = employeeId;
         this.name = name;
         this.surname = surname;
@@ -82,7 +83,7 @@ class Employee {
     }
 }
 
-function addEmployee(department: DepartmentRestaurant, position: Positions, employeeId: number, name: string, surname: string, age: number, employmentDate: Date, dismissalDate: string | Date): Employee {
+function addEmployee(department: string, position: string, employeeId: number, name: string, surname: string, age: number, employmentDate: Date, dismissalDate: string | Date): Employee {
     let employer: Employee = new Employee(department, position, employeeId, name, surname, age, employmentDate, dismissalDate);
     for(let i: number = 0; i < restaurant.length; i++){
 
@@ -99,7 +100,7 @@ function addEmployee(department: DepartmentRestaurant, position: Positions, empl
 }
 
 
-function allSalariesDepartment(department: DepartmentRestaurant): number{
+function allSalariesDepartment(department: string): number{
     let sum: number = 0;
     for(let i = 0; i < restaurant.length; i++){
         if(restaurant[i].title === department){
@@ -111,7 +112,7 @@ function allSalariesDepartment(department: DepartmentRestaurant): number{
     return sum;
 }
 
-function averageSalaryDepartment(department: DepartmentRestaurant): number{
+function averageSalaryDepartment(department: string): number{
     let sum: number = 0;
     let amountPositions: number = 0;
     for(let i: number = 0; i < restaurant.length; i++){
@@ -125,7 +126,7 @@ function averageSalaryDepartment(department: DepartmentRestaurant): number{
     return sum/amountPositions;
 }
 
-function minSalaryDepartment(department: DepartmentRestaurant): number {
+function minSalaryDepartment(department: string): number {
     let arraySalary: number[] = [];
     let minSalary: number = 0;
     for(let i: number = 0; i < restaurant.length; i++){
@@ -140,7 +141,7 @@ function minSalaryDepartment(department: DepartmentRestaurant): number {
     return minSalary;
 }
 
-function maxSalaryDepartment(department: DepartmentRestaurant): number {
+function maxSalaryDepartment(department: string): number {
     let arraySalary: number[] = [];
     let minSalary: number = 0;
     for(let i: number = 0; i < restaurant.length; i++){
@@ -155,7 +156,7 @@ function maxSalaryDepartment(department: DepartmentRestaurant): number {
     return minSalary;
 }
 
-function amountDissmissEmployee(department: DepartmentRestaurant): number{
+function amountDissmissEmployee(department: string): number{
     let currentArr: Employee[] = [];
     let counter: number = 0;
     for(let i = 0; i < restaurant.length; i++){
@@ -173,7 +174,7 @@ function amountDissmissEmployee(department: DepartmentRestaurant): number{
     return counter;
 }
 
-function departmentsWithoutHead(position: string): string[] {
+function departmentsWithoutHead(): string[] {
     let arrayPosition: Positions[] = [];
     let arrEmployee: Employee[] = [];
     let arrayDepartmentWithoutHead: string[] = [];
@@ -181,7 +182,7 @@ function departmentsWithoutHead(position: string): string[] {
         arrayPosition = restaurant[i].getArrayPositions();
         for(let j = 0; j < arrayPosition.length; j++){
             arrEmployee = arrayPosition[j].getArrayEmployee();
-            if(arrayPosition[j][position]){
+            if(arrayPosition[j].head){
                 for(let k = 0; k < arrEmployee.length; k++){
                     if(arrEmployee[k].dismiss() !== "" || arrEmployee.length === 0){
                         arrayDepartmentWithoutHead.push(restaurant[i].title);

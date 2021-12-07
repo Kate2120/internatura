@@ -14,20 +14,16 @@ class Tree {
     }
 
     add(value: Itree, node: Tree): Tree {
-
         node = node || this;
-
         if(node.value === null){
             node.value = value;
             return;
-        }else {
-                if(node.value.hashCode() > value.hashCode()){
-                    if(node.left === null){
-                        node.left = new Tree();
-                    }
-                    return this.add(value, node.left);
-                }
-
+        }  
+        if(node.value.hashCode() > value.hashCode()){
+            if(node.left === null){
+                node.left = new Tree();
+            }
+            return this.add(value, node.left);
         }
         if(node.right === null){
             node.right = new Tree();
@@ -39,12 +35,11 @@ class Tree {
         if(node.value !== null){
             if(value.hashCode() < node.value.hashCode()) {
                 return this.search(value, node.left);
-            } else{
-
-                if(value.hashCode() > node.value.hashCode()) {
+            } 
+            if(value.hashCode() > node.value.hashCode()) {
                     return this.search(value, node.right);
-                }
             }
+            
         }
         return node;
     }

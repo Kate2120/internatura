@@ -43,12 +43,51 @@ class Tree {
     }
     search(value: number, node: Tree): Tree {
         node = node || this;
+interface Itree {
+    hashCode: () => number,
+}
+
+
+class Tree {
+    value: Itree | null;
+    left: null | Tree;
+    right: null | Tree;
+
+    constructor() {
+        this.value = null;
+        this.left = null;
+        this.right = null;
+    }
+
+    add(value: Itree, node: Tree): Tree {
+
+        node = node || this;
+
+        if(node.value === null){
+            node.value = value;
+            return;
+        }else {
+                if(node.value.hashCode() > value.hashCode()){
+                    if(node.left === null){
+                        node.left = new Tree();
+                    }
+                    return this.add(value, node.left);
+                }
+
+        }
+        if(node.right === null){
+            node.right = new Tree();
+        }
+        return this.add(value, node.right);
+    }
+    search(value: Itree, node: Tree): Tree {
+        node = node || this;
         if(node.value !== null){
-            if(value < node.value) {
+            if(value.hashCode() < node.value.hashCode()) {
                 return this.search(value, node.left);
             } else{
 
-                if(value > node.value) {
+                if(value.hashCode() > node.value.hashCode()) {
                     return this.search(value, node.right);
                 }
             }
@@ -64,9 +103,9 @@ class Tree {
         return this.minNode(node.left);
     }
 
-    delite(value: number | null, node: Tree): Tree {
+    delite(value: Itree, node: Tree): Tree {
         node = node || this;
-        if(node.value === value){
+        if(node.value.hashCode() === value.hashCode()){
             if(node.right === null && node.left === null){
                 node = null;
                 return;
@@ -80,11 +119,11 @@ class Tree {
             }
             let newNode = this.minNode(node.right);
             node.value = newNode.value;
-            node.right = this.delite(newNode.value, node.right,);
+            node.right = this.delite(newNode.value, node.right);
             return;
         }
         if(value !== null){
-            if(value < node.value) {
+            if(value.hashCode() < node.value.hashCode()) {
                 node.left = this.delite(value, node.left);
                 return;
             }

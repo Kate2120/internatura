@@ -1,17 +1,19 @@
 let arrayCurrency = ['USD', 'RUB', 'UAH'];
 
 function createAllElements() {
-    let divContainer = document.createElement('DIV');
+    let divContainer = document.createElement('DIV') as HTMLDivElement;
     divContainer.className = 'container';
     divContainer.setAttribute('id', 'container');
     let body = document.querySelector('body');
+    if(body){
+        body.appendChild(divContainer);
+    }
     
-    body.appendChild(divContainer);
-    let divClientsList = document.createElement('DIV');
+    let divClientsList = document.createElement('DIV') as HTMLDivElement;
     divClientsList.setAttribute('id', 'divClientsList');
     divClientsList.className = 'list';
     divContainer.appendChild(divClientsList);
-    let h2 = document.createElement('H2');
+    let h2 = document.createElement('H2') as HTMLHeadingElement;
     h2.className = 'headingH2';
     h2.innerHTML = 'Пользователи';
     divClientsList.appendChild(h2);
@@ -19,24 +21,26 @@ function createAllElements() {
 createAllElements();
 
 function showFormAddEmployee() {
-    let divWorkSpace = document.createElement('DIV');
+    let divWorkSpace = document.createElement('DIV') as HTMLDivElement;
     divWorkSpace.className = 'workSpace';
     divWorkSpace.setAttribute('id', 'workSpace');
     let divContainer = document.getElementById('container');
-    divContainer.appendChild(divWorkSpace);
-    let h2WorkSpace = document.createElement('H2');
+    if(divContainer){
+        divContainer.appendChild(divWorkSpace);
+    }
+    let h2WorkSpace = document.createElement('H2') as HTMLHeadingElement;
     h2WorkSpace.className = 'headingH2';
     h2WorkSpace.innerHTML = 'Рабочая область';
     divWorkSpace.appendChild(h2WorkSpace);
-    let chooseAction = document.createElement('SELECT');
+    let chooseAction = document.createElement('SELECT') as HTMLSelectElement;
     chooseAction.setAttribute('id', 'chooseAction');
     chooseAction.className = 'select';
     divWorkSpace.appendChild(chooseAction);
-    let optionSelectAction = document.createElement('OPTION');
+    let optionSelectAction = document.createElement('OPTION') as HTMLOptionElement;
     optionSelectAction.innerHTML = 'Выберите действие';
     optionSelectAction.setAttribute('id', 'chooseAction');
     chooseAction.appendChild(optionSelectAction);
-    let optionCreateNewCustomer = document.createElement('OPTION');
+    let optionCreateNewCustomer = document.createElement('OPTION') as HTMLOptionElement;
     optionCreateNewCustomer.setAttribute('data-action', "addClient");
     optionCreateNewCustomer.innerHTML = 'Добавить нового клиента';
     optionCreateNewCustomer.setAttribute('id', 'createCustomer');
@@ -45,47 +49,69 @@ function showFormAddEmployee() {
 showFormAddEmployee();
 
 class Bill{
-    type;
-    amount;
-    currency;
-    constructor(){
+    type: string;
+    amount: string;
+    currency: string;
+    constructor(type: string, amount: string, currency: string){
+        this.type = type;
+        this.amount = amount;
+        this.currency = currency;
+
     }
-    set typeBill(value){
+    set typeBill(value: string){
         this.type = value;
     }
-    set amountBill(value){
+    set amountBill(value: string){
         this.amount = value;
     }
-    set currencyBill(value){
+    set currencyBill(value: string){
         this.currency = value;
     }
 }
 
+
+
+interface Client {
+    name: string;
+    surname: string;
+    id?: number;
+    is_active?: boolean;
+    bills: Bill[];
+}
 class Bank {
-    select;
-    constructor(select) {
-        this.clients = [];
+    id: number;
+    select!: HTMLSelectElement | null;
+    [action: string]: any;
+    [action: number]: Function;
+    client: Client;
+    
+    
+    constructor(select: HTMLSelectElement, clients: Client[], client: Client) {
+        this.client = client;
+        this.clients = this.addClients(client);
         this.id = 0;
         this.select = document.querySelector('.select');
-        console.dir(select);
-        this.select.addEventListener('change', this.onEvent.bind(this));
-
+        if(this.select){
+            this.select.addEventListener('change', this.onEvent.bind(this));
+        }
     }
-    onEvent(event){
-        let action = String(event.target.children[event.target.selectedIndex].getAttribute("data-action"));
+    onEvent(event: Event){
+        if(event.target.children[event.target]){let action = String(event.target.children[event.target.selectedIndex].getAttribute("data-action"));}
+        
         if(typeof this[action] === "function"){
             this[action]();
         }
     }
 
-    addClients(client){
+    addClients(client: Client): Client[]{
         client.id = ++this.id;
         client.is_active = true;
         client.bills = [];
         this.clients.push(client);
+        return this.clients;
     }
 
-    addBills(clientId, bill){
+    addBills(clientId: number, bill: Bill){
         for(let client of this.clients){
             if(client.id == clientId){
                 client.bills.push(bill);

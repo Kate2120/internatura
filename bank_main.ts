@@ -796,51 +796,50 @@ class Bank {
         }
         return counter;
     }
-        countSumDebtor(isActive:boolean)
-        {
-            let counter = 0;
-            let sum = 0;
-            for (let item of myBank.clients) {
-                if (item.is_active) {
-                    if (item.is_active.toString() === isActive.toString()) {
-                        if (item.bills) {
-                            for (let i = 0; i < item.bills.length; i++) {
-                                let value = item.bills[i].limit;
-                                if (typeof value === 'number') {
-                                    if (item.bills[i].amount < value)
-                                        sum += value - item.bills[i].amount;
-                                }
+    countSumDebtor(isActive:boolean) {
+        let counter = 0;
+        let sum = 0;
+        for (let item of myBank.clients) {
+            if (item.is_active) {
+                if (item.is_active.toString() === isActive.toString()) {
+                    if (item.bills) {
+                        for (let i = 0; i < item.bills.length; i++) {
+                            let value = item.bills[i].limit;
+                            if (typeof value === 'number') {
+                                if (item.bills[i].amount < value)
+                                    sum += value - item.bills[i].amount;
                             }
                         }
                     }
                 }
             }
-            let divWorkSpace = document.getElementById('workSpace');
-            let formAdd = document.getElementById('formDebt');
-            if (divWorkSpace && formAdd) {
-                divWorkSpace.appendChild(formAdd);
-            }
-            let result = document.getElementById('resultValue');
-            if (result) {
-                result.innerHTML = String(sum);
-            }
-            let ok = document.getElementById('okResult');
-            if (ok && formAdd) {
-                ok.innerHTML = 'OK';
-                formAdd.appendChild(ok);
-                ok.addEventListener('click', function () {
-                    if (result && ok) {
-                        result.remove();
-                        ok.remove();
-                    }
-                    let chooseAction = document.getElementById('chooseAction');
-                    if (chooseAction) {
-                        (chooseAction as HTMLSelectElement).value = 'Выберите действие';
-                    }
-                });
-            }
-            return sum;
         }
+        let divWorkSpace = document.getElementById('workSpace');
+        let formAdd = document.getElementById('formDebt');
+        if (divWorkSpace && formAdd) {
+            divWorkSpace.appendChild(formAdd);
+        }
+        let result = document.getElementById('resultValue');
+        if (result) {
+            result.innerHTML = String(sum);
+        }
+        let ok = document.getElementById('okResult');
+        if (ok && formAdd) {
+            ok.innerHTML = 'OK';
+            formAdd.appendChild(ok);
+            ok.addEventListener('click', function () {
+                if (result && ok) {
+                    result.remove();
+                    ok.remove();
+                }
+                let chooseAction = document.getElementById('chooseAction');
+                if (chooseAction) {
+                    (chooseAction as HTMLSelectElement).value = 'Выберите действие';
+                }
+            });
+        }
+        return sum;
+    }
 }
 
 let myBank: Bank = new Bank();

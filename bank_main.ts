@@ -75,15 +75,7 @@ class Bill{
     amount!: number;
     currency!: string;
     limit!: number;
-    constructor(/*type: string, amount: number, currency: string, limit: number*/){
-/*
-        this.type = type;
-        this.amount = amount;
-        this. currency =currency;
-        this.limit = limit;
-*/
-
-
+    constructor(){
     }
     set typeBill(value: string){
         this.type = value;
@@ -99,28 +91,21 @@ class Bill{
 class Bank {
     id: number;
     select!: HTMLSelectElement;
-
     [action: string]: any;
-
     [action: number]: Function;
-
     clients: ClientInfo[];
-
     constructor() {
         this.clients = [];
         this.id = 0;
         this.select = (document.querySelector('.select')) as HTMLSelectElement;
         this.select.addEventListener('change', this.onEvent.bind(this));
-
     }
-
     onEvent(event: Event) {
         let element = event.target as HTMLSelectElement
         let action = element.children[element.selectedIndex].getAttribute("data-action");
         if (action !== null) {
             this[action]();
         }
-
     }
 
     addClients(clientInfo: ClientInfo) {
@@ -129,7 +114,6 @@ class Bank {
         clientInfo.bills = [];
         this.clients.push(clientInfo);
     }
-
     addBills(clientId: number, bill: Bill) {
         for (let client of this.clients) {
             if (client.id == clientId) {
@@ -139,7 +123,6 @@ class Bank {
             }
         }
     }
-
     addClient() {
         let clientInfo: ClientInfo = {};
         let inputName = document.createElement('INPUT') as HTMLInputElement;
@@ -168,7 +151,6 @@ class Bank {
                     alert((input as HTMLInputElement).placeholder + ' должен содержать только буквы')
                 }
             });
-
             clientInfo.name = inputName.value;
             clientInfo.surname = inputSurname.value;
             myBank.addClients(clientInfo);
@@ -257,11 +239,9 @@ class Bank {
                 chooseAction.appendChild(amountDebtClients);
                 chooseAction.appendChild(sumDebtClients);
             }
-
         });
         return clientInfo;
     }
-
     editClient() {
         let chooseID = document.createElement('SELECT') as HTMLSelectElement;
         chooseID.className = 'select';
@@ -279,7 +259,6 @@ class Bank {
             if (item.id) {
                 cutomerID.innerHTML = String(item.id);
             }
-
             chooseID.appendChild(cutomerID);
         }
         chooseID.addEventListener('change', function () {
@@ -298,7 +277,6 @@ class Bank {
             if (name) {
                 inputName.value = name.innerHTML;
             }
-
             formAdd.appendChild(inputName);
             let inputSurname = document.createElement('INPUT') as HTMLInputElement;
             inputSurname.setAttribute('placeholder', 'Фамилия клиента*');
@@ -332,12 +310,10 @@ class Bank {
                 if (surname) {
                     surname.innerHTML = 'Фамилия: ' + inputSurname.value;
                 }
-
                 for (let item of myBank.clients) {
                     item.name = inputName.value;
                     item.surname = inputSurname.value;
                 }
-
                 chooseID.remove();
                 inputName.remove();
                 inputSurname.remove();
@@ -348,9 +324,7 @@ class Bank {
                 }
             });
         });
-
     }
-
     addStatusActivity() {
         let chooseID = document.createElement('SELECT') as HTMLSelectElement;
         chooseID.className = 'select';
@@ -397,10 +371,8 @@ class Bank {
                     labelInactive.appendChild(inputInactive);
                     if (item.is_active) {
                         inputActive.setAttribute('checked', 'checked');
-
                     } else if (!item.is_active) {
                         inputInactive.setAttribute('checked', 'checked');
-
                     }
                     let button = document.createElement('DIV');
                     button.innerHTML = 'Подтвердить'
@@ -424,9 +396,7 @@ class Bank {
             }
         });
     }
-
     addAccount() {
-
         let chooseID = document.createElement('SELECT') as HTMLSelectElement;
         chooseID.className = 'select';
         let divWorkSpace = document.getElementById('workSpace');
@@ -452,7 +422,6 @@ class Bank {
             }
             let currensyBill = document.createElement('SELECT') as HTMLSelectElement;
             formAdd.appendChild(currensyBill);
-
             let currencyChoose = document.createElement('OPTION') as HTMLOptionElement;
             currencyChoose.innerText = 'Выберите валюту';
             currensyBill.appendChild(currencyChoose);
@@ -498,7 +467,6 @@ class Bank {
                     if (selectTypeBill.value === 'credit') {
                         bill.limit = Number(inputLimit.value);
                     }
-
                     myBank.addBills(Number(id), bill);
                     let divInfoClient = document.getElementById('divInfoClient' + id);
                     let cardBill = document.createElement('DIV') as HTMLDivElement;
@@ -533,9 +501,7 @@ class Bank {
                 });
             });
         });
-
     }
-
     getAllSumMoney() {
         let divWorkSpace = document.getElementById('workSpace');
         let formAdd = document.createElement('FORM') as HTMLFormElement;
@@ -556,20 +522,13 @@ class Bank {
             currensyCount.appendChild(currensyToCount);
         }
         currensyCount.addEventListener('change', function () {
-
             myBank.getCurrencyToCallback(myBank.allBankBudget);
-
-
         });
-
     }
-
     getAmountDebt() {
         myBank.getCurrencyToCallback(myBank.budget);
     }
-
     getAmountDebtClients() {
-
         let divWorkSpace = document.getElementById('workSpace');
         let formAdd = document.createElement('FORM') as HTMLFormElement;
         formAdd.setAttribute('id', 'formDebt')
@@ -616,12 +575,10 @@ class Bank {
                     if (chooseAction) {
                         (chooseAction as HTMLSelectElement).value = 'Выберите действие';
                     }
-
                 });
             });
         });
     }
-
     getSumDebtClientsByActivity() {
         let divWorkSpace = document.getElementById('workSpace');
         let formAdd = document.createElement('FORM') as HTMLFormElement;
@@ -656,7 +613,6 @@ class Bank {
         ok.setAttribute('id', 'okResult');
         ok.innerHTML = 'OK';
         formAdd.appendChild(ok);
-
         let checkboxs = document.querySelectorAll('.checkbox');
         checkboxs.forEach(function (check) {
             check.addEventListener('click', function (event) {
@@ -670,12 +626,10 @@ class Bank {
                     if (chooseAction) {
                         (chooseAction as HTMLSelectElement).value = 'Выберите действие';
                     }
-
                 });
             });
         });
     }
-
     setActiveByClientId(isActive: boolean, clientId: number) {
         for (let item of this.clients) {
             if (item.id === clientId) {
@@ -684,7 +638,6 @@ class Bank {
             }
         }
     }
-
     addAmountBill(clientId: number, type: string, amount: number) {
         for (let client of this.clients) {
             if (client.id === clientId) {
@@ -698,7 +651,6 @@ class Bank {
             }
         }
     }
-
     async getCurrencyToCallback(callback: Bank["budget"] | Bank["allBankBudget"]) {
         let response = await fetch('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
         let data: Data[] = await response.json();
@@ -708,7 +660,6 @@ class Bank {
             callback(data, 'USD');
         }
     }
-
     budget(data: Data[], isActive: boolean, currency: string): number {
         let sum = 0;
         let rate = 1;
@@ -750,18 +701,15 @@ class Bank {
             if (chooseAction) {
                 (chooseAction as HTMLSelectElement).value = 'Выберите действие';
             }
-
         });
         return sum;
     }
-
     allBankBudget(data: Data[], currency: string): number {
         let sum = 0;
         let rate = 1;
         for (let item of myBank.clients) {
             if (item.bills) {
                 for (let i = 0; i < item.bills.length; i++) {
-
                     if (item.bills[i].type === 'debet') {
                         for (let element of data) {
                             if (element.ccy === currency) {
@@ -773,7 +721,6 @@ class Bank {
                         }
                     } else if (item.bills[i].type === 'credit') {
                         sum += item.bills[i].amount;
-
                     }
                 }
             }
@@ -805,7 +752,6 @@ class Bank {
         }
         return sum;
     }
-
     countDebtor(isActive: boolean): number {
         let counter = 0;
         for (let item of myBank.clients) {
@@ -819,7 +765,6 @@ class Bank {
                                     counter++;
                             }
                         }
-
                     }
                 }
             }
@@ -846,11 +791,8 @@ class Bank {
                     if (chooseAction) {
                         (chooseAction as HTMLSelectElement).value = 'Выберите действие';
                     }
-
                 });
             }
-
-            
         }
         return counter;
     }
@@ -866,7 +808,6 @@ class Bank {
                                 let value = item.bills[i].limit;
                                 if (typeof value === 'number') {
                                     if (item.bills[i].amount < value)
-
                                         sum += value - item.bills[i].amount;
                                 }
                             }
@@ -896,14 +837,10 @@ class Bank {
                     if (chooseAction) {
                         (chooseAction as HTMLSelectElement).value = 'Выберите действие';
                     }
-
                 });
             }
-
             return sum;
         }
-
-    
 }
 
 let myBank: Bank = new Bank();

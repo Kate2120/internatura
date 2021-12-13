@@ -1,899 +1,957 @@
-let arrayCurrency = ['USD', 'RUB', 'UAH'];
-
 function createAllElements() {
-    let divContainer = document.createElement('DIV') as HTMLDivElement;
+    let divContainer = document.createElement('DIV');
     divContainer.className = 'container';
     divContainer.setAttribute('id', 'container');
     let body = document.querySelector('body');
-    if(body){
+    if (body) {
         body.appendChild(divContainer);
     }
-    let divClientsList = document.createElement('DIV') as HTMLDivElement;
-    divClientsList.setAttribute('id', 'divClientsList');
-    divClientsList.className = 'list';
-    divContainer.appendChild(divClientsList);
-    let h2 = document.createElement('H2') as HTMLHeadingElement;
+    let divDepartmentsList = document.createElement('DIV');
+    divDepartmentsList.setAttribute('id', 'divDepartmentsList');
+    divDepartmentsList.className = 'list';
+    divContainer.appendChild(divDepartmentsList);
+    let h2 = document.createElement('H2');
     h2.className = 'headingH2';
-    h2.innerHTML = 'Пользователи';
-    divClientsList.appendChild(h2);
+    h2.innerHTML = 'Отделы и сотрудники';
+    divDepartmentsList.appendChild(h2);
 }
 createAllElements();
-
 function showFormAddEmployee() {
-    let divWorkSpace = document.createElement('DIV') as HTMLDivElement;
+    let divWorkSpace = document.createElement('DIV');
     divWorkSpace.className = 'workSpace';
     divWorkSpace.setAttribute('id', 'workSpace');
     let divContainer = document.getElementById('container');
-    if(divContainer){
+    if (divContainer) {
         divContainer.appendChild(divWorkSpace);
     }
-    
-    let h2WorkSpace = document.createElement('H2') as HTMLHeadingElement;
+    let h2WorkSpace = document.createElement('H2');
     h2WorkSpace.className = 'headingH2';
-    h2WorkSpace.innerHTML = 'Рабочая область';
+    h2WorkSpace.innerHTML = 'Инструментарий';
     divWorkSpace.appendChild(h2WorkSpace);
-    let chooseAction = document.createElement('SELECT') as HTMLSelectElement;
+    let chooseAction = document.createElement('SELECT');
     chooseAction.setAttribute('id', 'chooseAction');
     chooseAction.className = 'select';
     divWorkSpace.appendChild(chooseAction);
-    let optionSelectAction = document.createElement('OPTION') as HTMLOptionElement;
+    let optionSelectAction = document.createElement('OPTION');
+    optionSelectAction.setAttribute('id', 'optionChoose');
     optionSelectAction.innerHTML = 'Выберите действие';
-    optionSelectAction.setAttribute('id', 'chooseAction');
     chooseAction.appendChild(optionSelectAction);
-    let optionCreateNewCustomer = document.createElement('OPTION') as HTMLOptionElement;
-    optionCreateNewCustomer.setAttribute('data-action', "addClient");
-    optionCreateNewCustomer.innerHTML = 'Добавить нового клиента';
-    optionCreateNewCustomer.setAttribute('id', 'createCustomer');
-    chooseAction.appendChild(optionCreateNewCustomer);
+    let optionCreateNewDepartment = document.createElement('OPTION');
+    optionCreateNewDepartment.setAttribute('data-action', "addDepartment");
+    optionCreateNewDepartment.innerHTML = 'Добавить новый отдел';
+    chooseAction.appendChild(optionCreateNewDepartment);
 }
 showFormAddEmployee();
-
-interface ClientInfo {
-    name?: string;
-    surname?: string;
-    id?: number;
-    is_active?: boolean;
-    bills?: Bill[];
-}
-
-interface Data {
-    ccy: string,
-    base_ccy: string,
-    buy: string,
-    sale: string
-}
-
-interface ClientAccount {
-    type?: string;
-    currency?: string;
-    amount?: number;
-    limit?: number;
-
-}
-class Bill{
-    type!: string;
-    amount!: number;
-    currency!: string;
-    limit!: number;
-    constructor(type: string, amount: number, currency: string, limit: number){
-        this.type = type;
-        this.amount = amount;
-        this. currency =currency;
-        this.limit = limit;
-
-
+/*class Positions {
+    constructor(department, id, title, salary, head) {
+        this.arrayEmployee = [];
+        this.department = department;
+        this.id = id;
+        this.title = title;
+        this.salary = salary;
+        this.head = head;
     }
-    set typeBill(value: string){
-        this.type = value;
+    salaryAmount() {
+        return parseInt(this.salary);
     }
-    set amountBill(value: number){
-        this.amount = value;
-    }
-    set currencyBill(value: string){
-        this.currency = value;
-    }
-}
-
-class Bank {
-    id: number;
-    select!: HTMLSelectElement;
-    [action: string]: any;
-    [action: number]: Function;
-       clients: ClientInfo[];
-    constructor(select: HTMLSelectElement) {
-        this.clients = [];
-        this.id = 0;
-        this.select = (document.querySelector('.select')) as HTMLSelectElement;
-        this.select.addEventListener('change', this.onEvent.bind(this));
-        
-    }
-    onEvent(event: Event){
-       let element = event.target as HTMLSelectElement
-       let action = element.children[element.selectedIndex].getAttribute("data-action");
-       if(action !== null) {
-            this[action]();
-       }
-
-    }
-
-    addClients(clientInfo: ClientInfo){
-        clientInfo.id = ++this.id;
-        clientInfo.is_active = true;
-        clientInfo.bills = [];
-        this.clients.push(clientInfo);
-    }
-
-    addBills(clientId: number, bill: Bill){
-        for(let client of this.clients){
-            if(client.id == clientId){
-                if(client.bills){
-                    client.bills.push(bill);
-                }
-            }
-        }
-    }
-
-    addClient(){
-        let clientInfo: ClientInfo = {};
-        let inputName = document.createElement('INPUT') as HTMLInputElement;
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.createElement('FORM') as HTMLFormElement;
-        if(divWorkSpace){
-            divWorkSpace.appendChild(formAdd);
-        }
-        inputName.setAttribute('placeholder', 'Имя клиента*');
-        inputName.className = 'input';
-        formAdd.appendChild(inputName);
-        let inputSurname = document.createElement('INPUT') as HTMLInputElement;
-        inputSurname.setAttribute('placeholder', 'Фамилия клиента*');
-        inputSurname.className = 'input';
-        formAdd.appendChild(inputSurname);
-        let button = document.createElement('DIV') as HTMLDivElement;
-        button.className = 'button';
-        button.innerHTML = 'Добавить';
-        formAdd.appendChild(button);
-        button.addEventListener('click', function(){
-            let inputs = document.querySelectorAll('.input');
-            inputs.forEach(function(input){
-                if((input as HTMLInputElement).value === ""){
-                    alert('Введите ' + (input as HTMLInputElement).placeholder);
-                } else if(!(input as HTMLInputElement).value.match(/[A-zА-яЁё]/)){
-                    alert((input as HTMLInputElement).placeholder + ' должен содержать только буквы')
-                }
-            });
-
-            clientInfo.name = inputName.value;
-            clientInfo.surname = inputSurname.value;
-            myBank.addClients(clientInfo);
-            let divInfoClient = document.createElement('DIV') as HTMLDivElement;
-            divInfoClient.className = 'cards';
-            divInfoClient.setAttribute('id', 'divInfoClient' + clientInfo.id);
-            let divClientsList = document.getElementById('divClientsList');
-            if(divClientsList){
-                divClientsList.appendChild(divInfoClient);
-                divClientsList.setAttribute('id', 'divClientsList');
-            }
-            let cardClient = document.createElement('DIV') as HTMLDivElement;
-            cardClient.className = 'clientStyle';
-            divInfoClient.appendChild(cardClient);
-            let id = document.createElement('P') as HTMLParagraphElement;
-            id.innerHTML = 'ID: ' + clientInfo.id;
-            cardClient.appendChild(id);
-            let name = document.createElement('P') as HTMLParagraphElement;
-            name.setAttribute('id', 'name' + clientInfo.id)
-            name.innerHTML = 'Имя: ' + inputName.value;
-            cardClient.appendChild(name);
-            let surname = document.createElement('P') as HTMLParagraphElement;
-            surname.setAttribute('id', 'surname' + clientInfo.id);
-            surname.innerHTML = 'Фамилия: ' + inputSurname.value;
-            cardClient.appendChild(surname);
-            inputName.remove();
-            inputSurname.remove();
-            button.remove();
-            let chooseAction = document.getElementById('chooseAction') as HTMLSelectElement;
-                chooseAction.value = 'Выберите действие';
-            let editClient = document.getElementById('edit');
-            if(editClient === null){
-                editClient = document.createElement('OPTION');
-                editClient.innerHTML = 'Редактировать клиента';
-                editClient.setAttribute('data-action', 'editClient');
-                editClient.setAttribute('id', 'edit');
-            }
-            let changeActivity = document.getElementById('change');
-            if(changeActivity === null) {
-                changeActivity = document.createElement('OPTION');
-                changeActivity.innerHTML = 'Изменить активность клиента';
-                changeActivity.setAttribute('data-action', 'addStatusActivity');
-                changeActivity.setAttribute('id', 'change');
-            }
-            let addAccounts = document.getElementById('accounts');
-            if(addAccounts === null){
-                addAccounts = document.createElement('OPTION');
-                addAccounts.innerHTML = 'Открыть счет клиенту';
-                addAccounts.setAttribute('data-action', 'addAccount');
-                addAccounts.setAttribute('id', 'accounts');
-            }
-            let allSumMoney = document.getElementById('sumMoney');
-            if(allSumMoney === null){
-                allSumMoney = document.createElement('OPTION');
-                allSumMoney.innerHTML = 'Все средства в банке';
-                allSumMoney.setAttribute('id', 'sumMoney');
-                allSumMoney.setAttribute('data-action', 'getAllSumMoney');
-            }
-            let debtAmount = document.getElementById('debtAmount');
-            if(debtAmount === null){
-                debtAmount = document.createElement('OPTION');
-                debtAmount.innerHTML = 'Сумма долга банку';
-                debtAmount.setAttribute('id', 'debtAmount');
-                debtAmount.setAttribute('data-action', 'getAmountDebt');
-            }
-            let amountDebtClients = document.getElementById('amountDebtClients');
-            if(amountDebtClients === null){
-                amountDebtClients = document.createElement('OPTION');
-                amountDebtClients.innerHTML = 'Количество должников';
-                amountDebtClients.setAttribute('id', 'amountDebtClients');
-                amountDebtClients.setAttribute('data-action', 'getAmountDebtClients');
-            }
-            let sumDebtClients = document.getElementById('sumDebtClients');
-            if(sumDebtClients === null){
-                sumDebtClients = document.createElement('OPTION');
-                sumDebtClients.innerHTML = 'Сумма долга по активности';
-                sumDebtClients.setAttribute('id', 'sumDebtClients');
-                sumDebtClients.setAttribute('data-action', 'getSumDebtClientsByActivity');
-            }
-            if(chooseAction){
-                chooseAction.appendChild(editClient);
-                chooseAction.appendChild(changeActivity);
-                chooseAction.appendChild(addAccounts);
-                chooseAction.appendChild(allSumMoney);
-                chooseAction.appendChild(debtAmount);
-                chooseAction.appendChild(amountDebtClients);
-                chooseAction.appendChild(sumDebtClients);
-            }
-
-        });
-        return clientInfo;
-    }
-
-    editClient(){
-        let chooseID = document.createElement('SELECT') as HTMLSelectElement;
-        chooseID.className = 'select';
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.createElement('FORM') as HTMLFormElement;
-        if(divWorkSpace){
-            divWorkSpace.appendChild(formAdd);
-        }
-        formAdd.appendChild(chooseID);
-        let doChoose = document.createElement('OPTION') as HTMLOptionElement;
-        doChoose.innerHTML = 'Выберите ID';
-        chooseID.appendChild(doChoose);
-        for(let item of myBank.clients){
-            let cutomerID = document.createElement('OPTION') as HTMLOptionElement;
-            if(item.id){
-                cutomerID.innerHTML = String(item.id);
-            }
-            
-            chooseID.appendChild(cutomerID);
-        }
-        chooseID.addEventListener('change', function(){
-            let id = chooseID.value;
-            let name = document.getElementById('name' + id);
-            let surname = document.getElementById('surname' + id);
-            let inputName = document.createElement('INPUT') as HTMLInputElement;
-            let divWorkSpace = document.getElementById('workSpace');
-            let formAdd = document.createElement('FORM') as HTMLFormElement;
-            if(divWorkSpace){
-                divWorkSpace.appendChild(formAdd);
-            }
-            inputName.setAttribute('placeholder', 'Имя клиента*');
-            inputName.className = 'input';
-            inputName.value = '';
-            if(name){
-                inputName.value = name.innerHTML;
-            }
-            
-            formAdd.appendChild(inputName);
-            let inputSurname = document.createElement('INPUT') as HTMLInputElement;
-            inputSurname.setAttribute('placeholder', 'Фамилия клиента*');
-            inputSurname.className = 'input';
-            inputSurname.value = '';
-            if(surname){
-                inputSurname.value = surname.innerHTML;
-            }
-            formAdd.appendChild(inputSurname);
-            let button = document.createElement('DIV') as HTMLDivElement;
-            button.className = 'button';
-            button.innerHTML = 'Подтвердить';
-            formAdd.appendChild(button);
-            let inputs = document.querySelectorAll('.input');
-            inputs.forEach(function(input){
-                (input as HTMLInputElement).addEventListener('click', function(event){
-                    (input as HTMLInputElement).value = '';
-                });
-            });
-            button.addEventListener('click', function(){
-                inputs.forEach(function(input){
-                    if((input as HTMLInputElement).value === ""){
-                        alert('Введите ' + (input as HTMLInputElement).placeholder);
-                    } else if(!(input as HTMLInputElement).value.match(/[A-zА-яЁё]/)){
-                        alert((input as HTMLInputElement).placeholder + ' должен содержать только буквы')
-                    }
-                });
-                if(name){
-                    name.innerHTML = 'Имя: ' + inputName.value;
-                }
-                if(surname){
-                    surname.innerHTML = 'Фамилия: ' + inputSurname.value;
-                }
-                
-                for(let item of myBank.clients){
-                    item.name = inputName.value;
-                    item.surname = inputSurname.value;
-                }
-
-                chooseID.remove();
-                inputName.remove();
-                inputSurname.remove();
-                button.remove();
-                let chooseAction = document.getElementById('chooseAction');
-                if(chooseAction){
-                    (chooseAction as HTMLSelectElement).value = 'Выберите действие';
-                }
-            });
-        });
-
-    }
-
-    addStatusActivity(){
-        let chooseID = document.createElement('SELECT') as HTMLSelectElement;
-        chooseID.className = 'select';
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.createElement('FORM') as HTMLFormElement;
-        if(divWorkSpace){
-            divWorkSpace.appendChild(formAdd);
-        }
-        formAdd.appendChild(chooseID);
-        let doChoose = document.createElement('OPTION') as HTMLOptionElement;
-        doChoose.innerHTML = 'Выберите ID';
-        chooseID.appendChild(doChoose);
-        for(let item of myBank.clients){
-            let cutomerID = document.createElement('OPTION') as HTMLOptionElement;
-            cutomerID.innerHTML = String(item.id);
-            chooseID.appendChild(cutomerID);
-        }
-        chooseID.addEventListener('change', function(){
-            let id = chooseID.value;
-            let divWorkSpace = document.getElementById('workSpace');
-            let formAdd = document.createElement('FORM') as HTMLFormElement;
-            if(divWorkSpace){
-                divWorkSpace.appendChild(formAdd);
-            }
-            for(let item of myBank.clients){
-                if(String(item.id) == id){
-                    let labelActive = document.createElement('LABEL') as HTMLLabelElement;
-                    formAdd.appendChild(labelActive);
-                    let inputActive = document.createElement('INPUT') as HTMLInputElement;
-                    inputActive.setAttribute('name', 'activity');
-                    inputActive.setAttribute('type', 'radio');
-                    inputActive.setAttribute('value', 'true');
-                    inputActive.className = 'checkbox';
-                    labelActive.innerHTML = 'Активный';
-                    labelActive.appendChild(inputActive);
-                    let labelInactive = document.createElement('LABEL') as HTMLLabelElement;
-                    formAdd.appendChild(labelInactive);
-                    let inputInactive = document.createElement('INPUT') as HTMLInputElement;
-                    inputInactive.setAttribute('name', 'activity');
-                    inputInactive.setAttribute('value', 'false');
-                    inputInactive.setAttribute('type', 'radio');
-                    inputInactive.className = 'checkbox';
-                    labelInactive.innerHTML = 'Не активный';
-                    labelInactive.appendChild(inputInactive);
-                    if(item.is_active){
-                        inputActive.setAttribute('checked', 'checked');
-
-                    } else if(!item.is_active){
-                        inputInactive.setAttribute('checked', 'checked');
-
-                    }
-                    let button = document.createElement('DIV');
-                    button.innerHTML = 'Подтвердить'
-                    button.className = 'button';
-                    formAdd.appendChild(button);
-                    button.addEventListener('click', function(){
-                        if(inputActive.checked){
-                            item.is_active = true;
-                        } else if(inputInactive.checked){
-                            item.is_active = false;
-                        }
-                        formAdd.remove();
-                        chooseID.remove();
-                        button.remove();
-                        let chooseAction = document.getElementById('chooseAction');
-                        if(chooseAction){
-                            (chooseAction as HTMLSelectElement).value = 'Выберите действие';
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    addAccount(){
-        
-        let chooseID = document.createElement('SELECT') as HTMLSelectElement;
-        chooseID.className = 'select';
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.createElement('FORM') as HTMLFormElement;
-        if(divWorkSpace){
-            divWorkSpace.appendChild(formAdd);
-        }
-        formAdd.appendChild(chooseID);
-        let doChoose = document.createElement('OPTION') as HTMLOptionElement;
-        doChoose.innerHTML = 'Выберите ID';
-        chooseID.appendChild(doChoose);
-        for(let item of myBank.clients){
-            let cutomerID = document.createElement('OPTION') as HTMLOptionElement;
-            cutomerID.innerHTML = String(item.id);
-            chooseID.appendChild(cutomerID);
-        }
-        chooseID.addEventListener('change', function(){
-            let id = (chooseID as HTMLSelectElement).value;
-            let divWorkSpace = document.getElementById('workSpace');
-            let formAdd = document.createElement('FORM') as HTMLFormElement;
-            if(divWorkSpace){
-                divWorkSpace.appendChild(formAdd);
-            }
-            let currensyBill = document.createElement('SELECT') as HTMLSelectElement;
-            formAdd.appendChild(currensyBill);
-
-            let currencyChoose = document.createElement('OPTION') as HTMLOptionElement;
-            currencyChoose.innerText = 'Выберите валюту';
-            currensyBill.appendChild(currencyChoose);
-            for(let item of arrayCurrency){
-                let currensy = document.createElement('OPTION') as HTMLOptionElement;
-                currensy.setAttribute('value', item);
-                currensy.innerHTML = item;
-                currensyBill.appendChild(currensy);
-            }
-            let selectTypeBill = document.createElement('SELECT') as HTMLSelectElement;
-            formAdd.appendChild(selectTypeBill);
-            let chooseTypeBill = document.createElement('OPTION') as HTMLOptionElement;
-            chooseTypeBill.innerHTML = 'Выберите тип счета';
-            selectTypeBill.appendChild(chooseTypeBill);
-            let credit = document.createElement('OPTION') as HTMLOptionElement;
-            credit.innerHTML = 'Кредитный';
-            credit.setAttribute('value', 'credit');
-            selectTypeBill.appendChild(credit);
-            let debet = document.createElement('OPTION') as HTMLOptionElement;
-            debet.innerHTML = 'Дебетовый';
-            debet.setAttribute('value', 'debet');
-            selectTypeBill.appendChild(debet);
-            selectTypeBill.addEventListener('change', function(){
-                let inputAmount = document.createElement('INPUT') as HTMLInputElement;
-                formAdd.appendChild(inputAmount);
-                inputAmount.setAttribute('placeholder', 'Введите сумму');
-                inputAmount.className = 'input';
-                let inputLimit = document.createElement('INPUT') as HTMLInputElement;
-                if(selectTypeBill.value === 'credit'){
-                    formAdd.appendChild(inputLimit);
-                    inputLimit.setAttribute('placeholder', 'Введите лимит');
-                    inputLimit.className = 'input';
-                }
-                let button = document.createElement('DIV') as HTMLDivElement;
-                button.className = 'button';
-                button.innerHTML = 'Подтвердить';
-                formAdd.appendChild(button);
-                button.addEventListener('click', function(){
-                    let bill = new Bill();
-                    bill.type = selectTypeBill.value;
-                    bill.currency = currensyBill.value;
-                    bill.amount = Number(inputAmount.value);
-                    if(selectTypeBill.value === 'credit'){
-                        bill.limit = Number(inputLimit.value);
-                    }
-                    
-                    myBank.addBills(Number(id), bill);
-                    let divInfoClient = document.getElementById('divInfoClient' + id);
-                    let cardBill = document.createElement('DIV') as HTMLDivElement;
-                    cardBill.className = 'clientStyle';
-                    if(divInfoClient){
-                        divInfoClient.appendChild(cardBill);
-                    }
-                    let pType = document.createElement('P') as HTMLParagraphElement;
-                    pType.innerHTML = 'Тип счета: ' + selectTypeBill.value;
-                    cardBill.appendChild(pType);
-                    let pCurrensy = document.createElement('P') as HTMLParagraphElement;
-                    pCurrensy.innerHTML = 'Валюта: ' + currensyBill.value;
-                    cardBill.appendChild(pCurrensy);
-                    let pAmount = document.createElement('P') as HTMLParagraphElement;
-                    pAmount.innerHTML = 'Сумма: ' + inputAmount.value;
-                    cardBill.appendChild(pAmount);
-                    if(selectTypeBill.value === 'credit'){
-                        let pLimit = document.createElement('P') as HTMLParagraphElement;
-                        pLimit.innerHTML = 'Лимит' + inputLimit.value;
-                    }
-                    formAdd.remove();
-                    chooseID.remove();
-                    currensyBill.remove();
-                    selectTypeBill.remove();
-                    inputAmount.remove();
-                    inputLimit.remove();
-                    button.remove();
-                    let chooseAction = document.getElementById('chooseAction');
-                    if(chooseAction){
-                        (chooseAction as HTMLSelectElement).value = 'Выберите действие';
-                    }
-                });
-            });
-        });
-
-    }
-
-    getAllSumMoney(){
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.createElement('FORM') as HTMLFormElement;
-        if(divWorkSpace){
-            divWorkSpace.appendChild(formAdd);
-        }
-        let currensyCount = document.createElement('SELECT') as HTMLSelectElement;
-        formAdd.appendChild(currensyCount);
-        currensyCount.className = 'select';
-        currensyCount.setAttribute('id', 'currensyCounter');
-        let currencyChoose = document.createElement('OPTION') as HTMLOptionElement;
-        currencyChoose.innerText = 'Выберите валюту для рассчета';
-        currensyCount.appendChild(currencyChoose);
-        for(let item of arrayCurrency){
-            let currensyToCount = document.createElement('OPTION') as HTMLOptionElement;
-            currensyToCount.setAttribute('value', item);
-            currensyToCount.innerHTML = item;
-            currensyCount.appendChild(currensyToCount);
-        }
-        currensyCount.addEventListener('change', function(){
-
-            myBank.getCurrencyToCallback(myBank.allBankBudget);
-
-
-        });
-
-    }
-
-    getAmountDebt(){
-        myBank.getCurrencyToCallback(myBank.budget);
-    }
-
-    getAmountDebtClients(){
-
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.createElement('FORM') as HTMLFormElement;
-        formAdd.setAttribute('id', 'formDebt')
-        if(divWorkSpace){
-            divWorkSpace.appendChild(formAdd);
-        }
-        let labelActive = document.createElement('LABEL') as HTMLLabelElement;
-        formAdd.appendChild(labelActive);
-        let inputActive = document.createElement('INPUT') as HTMLInputElement;
-        inputActive.setAttribute('name', 'activity');
-        inputActive.setAttribute('type', 'radio');
-        inputActive.setAttribute('value', 'true');
-        inputActive.className = 'checkbox';
-        labelActive.innerHTML = 'Активный';
-        labelActive.appendChild(inputActive);
-        let labelInactive = document.createElement('LABEL') as HTMLLabelElement;
-        formAdd.appendChild(labelInactive);
-        let inputInactive = document.createElement('INPUT') as HTMLInputElement;
-        inputInactive.setAttribute('name', 'activity');
-        inputInactive.setAttribute('value', 'false');
-        inputInactive.setAttribute('type', 'radio');
-        inputInactive.className = 'checkbox';
-        labelInactive.innerHTML = 'Не активный';
-        labelInactive.appendChild(inputInactive);
-        let result = document.createElement('DIV') as HTMLDivElement;
-        result.className = 'result';
-        result.setAttribute('id', 'resultValue');
-        formAdd.appendChild(result);
-        let ok = document.createElement('DIV') as HTMLDivElement;
-        ok.className = 'button';
-        ok.setAttribute('id', 'okResult');
-        ok.innerHTML = 'OK';
-        formAdd.appendChild(ok);
-        let checkboxs = document.querySelectorAll('.checkbox');
-        checkboxs.forEach(function (check){
-            check.addEventListener('click', function (event){
-                let active = (event.target as HTMLSelectElement).value;
-                myBank.countDebtor(Boolean(active));
-                ok.addEventListener('click', function (){
-                    formAdd.remove();
-                    result.remove();
-                    ok.remove();
-                    let chooseAction = document.getElementById('chooseAction');
-                        if(chooseAction){
-                            (chooseAction as HTMLSelectElement).value = 'Выберите действие';
-                        }
-                    
-                });
-            });
-        });
-    }
-
-    getSumDebtClientsByActivity(){
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.createElement('FORM') as HTMLFormElement;
-        formAdd.setAttribute('id', 'formDebt')
-        if(divWorkSpace){
-            divWorkSpace.appendChild(formAdd);
-        }
-        let labelActive = document.createElement('LABEL') as HTMLLabelElement;
-        formAdd.appendChild(labelActive);
-        let inputActive = document.createElement('INPUT') as HTMLInputElement;
-        inputActive.setAttribute('name', 'activity');
-        inputActive.setAttribute('type', 'radio');
-        inputActive.setAttribute('value', 'true');
-        inputActive.className = 'checkbox';
-        labelActive.innerHTML = 'Активный';
-        labelActive.appendChild(inputActive);
-        let labelInactive = document.createElement('LABEL') as HTMLLabelElement;
-        formAdd.appendChild(labelInactive);
-        let inputInactive = document.createElement('INPUT') as HTMLInputElement;
-        inputInactive.setAttribute('name', 'activity');
-        inputInactive.setAttribute('value', 'false');
-        inputInactive.setAttribute('type', 'radio');
-        inputInactive.className = 'checkbox';
-        labelInactive.innerHTML = 'Не активный';
-        labelInactive.appendChild(inputInactive);
-        let result = document.createElement('DIV') as HTMLDivElement;
-        result.className = 'result';
-        result.setAttribute('id', 'resultValue');
-        formAdd.appendChild(result);
-        let ok = document.createElement('DIV') as HTMLDivElement;
-        ok.className = 'button';
-        ok.setAttribute('id', 'okResult');
-        ok.innerHTML = 'OK';
-        formAdd.appendChild(ok);
-
-        let checkboxs = document.querySelectorAll('.checkbox');
-        checkboxs.forEach(function (check){
-            check.addEventListener('click', function (event){
-                let active = (event.target as HTMLSelectElement).value;
-                myBank.countSumDebtor(active);
-                ok.addEventListener('click', function (){
-                    formAdd.remove();
-                    result.remove();
-                    ok.remove();
-                    let chooseAction = document.getElementById('chooseAction');
-                    if(chooseAction){
-                        (chooseAction as HTMLSelectElement).value= 'Выберите действие';
-                    }
-                    
-                });
-            });
-        });
-    }
-
-    setActiveByClientId(isActive: boolean, clientId: number){
-        for(let item of this.clients){
-            if(item.id === clientId){
-                item.is_active = isActive;
-                break;
-            }
-        }
-    }
-
-    addAmountBill(clientId: number, type: string, amount: number){
-        for(let client of this.clients){
-            if(client.id === clientId){
-                if(client.bills){
-                for(let element of client.bills){
-                    if(element.type === type){
-                        element.amount = amount;
-                    }
-                }
-                }
-            }
-        }
-    }
-
-     async getCurrencyToCallback(callback: Bank["budget"] | Bank["allBankBudget"]){
-        let response = await fetch('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
-        let data: Data[] = await response.json();
-        if(callback === myBank.budget){
-            callback(data, true , 'USD');
-        } else if(callback === myBank.allBankBudget){
-            callback(data, 'USD');
-        }
-    }
-
-    budget(data: Data[], isActive: boolean, currency: string): number{
-        let sum = 0;
-        let rate = 1;
-        for(let item of myBank.clients){
-            if(item.is_active === isActive) {
-                if(item.bills){
-                for (let i = 0; i < item.bills.length; i++) {
-                    if(item.bills[i].type === 'credit'){
-                        for(let element of data){
-                            if(element.ccy === "USD"){
-                                rate = parseInt(element.buy);
-                            }
-                        }
-                        let value = item.bills[i].limit;
-                    if(typeof value === 'number'){
-                        sum += (value - item.bills[i].amount) / rate;
-                       } 
-                    }
-                }
-                }
-            }
-        }
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.createElement('FORM');
-        if(divWorkSpace){
-            divWorkSpace.appendChild(formAdd);
-        }
-        let result = document.createElement('DIV');
-        result.className = 'result';
-        result.innerHTML = String(sum);
-        formAdd.appendChild(result);
-        let ok = document.createElement('DIV');
-        ok.className = 'button';
-        ok.innerHTML = 'OK';
-        formAdd.appendChild(ok);
-        ok.addEventListener('click', function (){
-            formAdd.remove();
-            let chooseAction = document.getElementById('chooseAction');
-            if(chooseAction){
-                (chooseAction as HTMLSelectElement).value = 'Выберите действие';
-            }
-            
-        });
-        return sum;
-    }
-
-    allBankBudget(data: Data[], currency: string): number{
-        let sum = 0;
-        let rate = 1;
-        for(let item of myBank.clients){
-            if(item.bills){
-            for (let i = 0; i < item.bills.length; i++) {
-
-                if(item.bills[i].type === 'debet'){
-                    for(let element of data){
-                        if(element.ccy === currency){
-                            rate = Number(element.buy);
-                        }
-                    }
-                    if(typeof item.bills[i].amount === 'number'){
-                    sum += item.bills[i].amount / rate;
-                    }
-                } else if(item.bills[i].type === 'credit'){
-                    sum += item.bills[i].amount;
-
-                }
-            }
-}
-            let divWorkSpace = document.getElementById('workSpace');
-            let formAdd = document.createElement('FORM');
-            if(divWorkSpace){
-                divWorkSpace.appendChild(formAdd);
-            }
-            let result = document.createElement('DIV');
-            result.className = 'result';
-            result.innerHTML = String(sum);
-            formAdd.appendChild(result);
-            let ok = document.createElement('DIV');
-            ok.className = 'button';
-            ok.innerHTML = 'OK';
-            formAdd.appendChild(ok);
-            ok.addEventListener('click', function (){
-                result.remove();
-                let currensyCounter = document.getElementById('currensyCounter');
-                if(currensyCounter){
-                    currensyCounter.remove();
-                }
-                ok.remove();
-                let chooseAction = document.getElementById('chooseAction');
-                if(chooseAction){
-                    (chooseAction as HTMLSelectElement).value = 'Выберите действие';
-                }
-            });
-        }
-        return sum;
-    }
-
-    countDebtor(isActive: boolean): number{
+    currentEmployee() {
         let counter = 0;
-        for(let item of myBank.clients){
-            if(item.is_active){
-            if(item.is_active.toString() === isActive.toString()) {
-                if(item.bills){
-                for (let i = 0; i < item.bills.length; i++){
-                    let value = item.bills[i].limit;
-                    if(typeof value === 'number'){
-                    if(item.bills[i].amount < value)
-                        counter++;
-                    }
-                }
-                
-            }
+        for (let i = 0; i < this.arrayEmployee.length; i++) {
+            if (this.arrayEmployee[i].dismissalDate === "") {
+                counter++;
             }
         }
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.getElementById('formDebt');
-        if(divWorkSpace && formAdd){
-            divWorkSpace.appendChild(formAdd);
-        }
-        let result = document.getElementById('resultValue');
-        if(result){
-        result.innerHTML = String(counter);
-        }
-        let ok = document.getElementById('okResult');
-        if(ok && formAdd){
-        ok.innerHTML = 'OK';
-        formAdd.appendChild(ok);
-        
-        ok.addEventListener('click', function (){
-            if(result && ok){
-            result.remove();
-            ok.remove();
-            }
-            let chooseAction = document.getElementById('chooseAction');
-            if(chooseAction){
-                (chooseAction as HTMLSelectElement).value = 'Выберите действие';
-            }
-            
-        });
-        }
-
         return counter;
     }
+    getArrayEmployee() {
+        return this.arrayEmployee;
+    }
+}*/
+let restaurant = [];
+class DepartmentRestaurant {
+    constructor() {
+        this.select = (document.querySelector('.select'));
+        this.select.addEventListener('change', this.onEvent.bind(this));
+    }
+    onEvent(event) {
+        let element = event.target;
+        let action = element.children[element.selectedIndex].getAttribute("data-action");
+        if (action !== null) {
+            this[action]();
+            console.log(action);
+        }
+    }
+    addDepartment() {
+        console.log('aaaaaa');
+        let formAdd = document.createElement('FORM');
+        let inputDepartmentId = document.createElement('INPUT');
+        inputDepartmentId.setAttribute('id', 'inputDepartmentId');
+        inputDepartmentId.setAttribute('placeholder', 'ID');
+        inputDepartmentId.className = 'input';
+        if (formAdd) {
+            formAdd.appendChild(inputDepartmentId);
+        }
+        let inputTitle = document.createElement('INPUT');
+        inputTitle.setAttribute('placeholder', 'Название отдела');
+        inputTitle.setAttribute('id', 'inputTitle');
+        inputTitle.className = 'input';
+        if (formAdd) {
+            formAdd.appendChild(inputTitle);
+        }
+        let buttonForm = document.createElement('BUTTON');
+        buttonForm.className = 'button';
+        buttonForm.innerHTML = 'Добавить';
+        if (formAdd) {
+            formAdd.appendChild(buttonForm);
+        }
+        buttonForm.addEventListener('click', function () {
+            /*let department = new DepartmentRestaurant(inputDepartmentId.value, inputTitle.value);*/
+            let department = {};
+            department.departmentId = inputDepartmentId.value;
+            department.title = inputTitle.value;
+            department.arrayPositions = [];
 
-    countSumDebtor(isActive) {
-        let counter = 0;
+            let divDepartment = document.createElement('DIV');
+            divDepartment.setAttribute('id', inputTitle.value);
+            divDepartment.className = 'department';
+            let divDepartmentsList = document.getElementById('divDepartmentsList');
+            if (divDepartmentsList) {
+                divDepartmentsList.appendChild(divDepartment);
+            }
+            let h3 = document.createElement('H3');
+            divDepartment.appendChild(h3);
+            h3.innerHTML = inputTitle.value;
+            let chooseAction = document.getElementById('chooseAction');
+            let optionCreateNewPosition = document.getElementById('3');
+            if (optionCreateNewPosition === null) {
+                let optionCreateNewPosition = document.createElement('OPTION');
+                optionCreateNewPosition.setAttribute('data-action', 'addPosition');
+                optionCreateNewPosition.setAttribute('id', '3');
+                optionCreateNewPosition.innerHTML = 'Добавить новую должность';
+                if (chooseAction) {
+                    chooseAction.appendChild(optionCreateNewPosition);
+                }
+            }
+            inputDepartmentId.remove();
+            inputTitle.remove();
+            buttonForm.remove();
+            if (chooseAction) {
+                chooseAction.value = 'Выберите действие';
+            }
+            restaurant.push(department);
+        });
+        formAdd.setAttribute('id', 'formAdd');
+        formAdd.setAttribute('onsubmit', 'return false');
+        let divWorkSpace = document.getElementById('workSpace');
+        if (divWorkSpace) {
+            divWorkSpace.appendChild(formAdd);
+        }
+        let selectСalculations = document.createElement('SELECT');
+        selectСalculations.setAttribute('id', 'choose');
+        if (divWorkSpace) {
+            divWorkSpace.appendChild(selectСalculations);
+        }
+        let version = document.createElement('OPTION');
+        version.innerHTML = 'Выбрать рассчет';
+        selectСalculations.appendChild(version);
+        let sumAllSalary = document.createElement('OPTION');
+        sumAllSalary.innerHTML = 'Сумма всех зарплат по отделу';
+        sumAllSalary.setAttribute('data-action', 'getSumAllSalaries');
+        selectСalculations.appendChild(sumAllSalary);
+        let avarageSalary = document.createElement('OPTION');
+        avarageSalary.innerHTML = 'Средняя зарплата по отделу';
+        avarageSalary.setAttribute('data-action', 'getAvarageSalary');
+        selectСalculations.appendChild(avarageSalary);
+        let minSalary = document.createElement('OPTION');
+        minSalary.innerHTML = 'Минимальная зарплата по отделу';
+        minSalary.setAttribute('data-action', 'getMinSalary');
+        selectСalculations.appendChild(minSalary);
+        let maxSalary = document.createElement('OPTION');
+        maxSalary.innerHTML = 'Максимальная зарплата по отделу';
+        maxSalary.setAttribute('data-action', 'getMaxSalary');
+        selectСalculations.appendChild(maxSalary);
+        let amountDimiss = document.createElement('OPTION');
+        amountDimiss.innerHTML = 'Количество уволенных';
+        amountDimiss.setAttribute('data-action', 'getAmountDismiss');
+        selectСalculations.appendChild(amountDimiss);
+        let amountWhithoutHead = document.createElement('OPTION');
+        amountWhithoutHead.innerHTML = 'Отделы без хеда';
+        amountWhithoutHead.setAttribute('data-action', 'getDepartmentsWithoutHead');
+        selectСalculations.appendChild(amountWhithoutHead);
+    }
+    addPosition() {
+        console.log('bred');
+        let chooseDepartment = document.createElement('SELECT');
+        let makeChoice = document.createElement('OPTION');
+        makeChoice.innerHTML = 'Выберите отдел';
+        chooseDepartment.appendChild(makeChoice);
+        if (formAdd) {
+            formAdd.appendChild(chooseDepartment);
+        }
+        for (let element of restaurant) {
+            let optionInput = document.createElement('OPTION');
+            optionInput.innerHTML = element.title;
+            chooseDepartment.appendChild(optionInput);
+        }
+        let inputPositionId = document.createElement('INPUT');
+        inputPositionId.setAttribute('id', 'inputPositionId');
+        inputPositionId.setAttribute('placeholder', 'ID');
+        inputPositionId.className = 'input';
+        if (formAdd) {
+            formAdd.appendChild(inputPositionId);
+        }
+        let inputTitlePosition = document.createElement('INPUT');
+        inputTitlePosition.setAttribute('placeholder', 'Название должности');
+        inputTitlePosition.setAttribute('id', 'inputTitlePosition');
+        inputTitlePosition.className = 'input';
+        if (formAdd) {
+            formAdd.appendChild(inputTitlePosition);
+        }
+        let inputSalary = document.createElement('INPUT');
+        inputSalary.setAttribute('placeholder', 'Зарплата');
+        inputSalary.setAttribute('id', 'inputSalary');
+        inputSalary.className = 'input';
+        if (formAdd) {
+            formAdd.appendChild(inputSalary);
+        }
+        let selectIsHead = document.createElement('SELECT');
+        selectIsHead.className = 'input';
+        let choise = document.createElement('OPTION');
+        choise.innerHTML = 'Должность руководящая?';
+        selectIsHead.appendChild(choise);
+        let optionYes = document.createElement('OPTION');
+        optionYes.innerHTML = 'да';
+        optionYes.setAttribute('class', 'true');
+        selectIsHead.appendChild(optionYes);
+        let optionNo = document.createElement('OPTION');
+        optionNo.innerHTML = 'нет';
+        optionNo.setAttribute('class', 'false');
+        selectIsHead.appendChild(optionNo);
+        if (formAdd) {
+            formAdd.appendChild(selectIsHead);
+        }
+        let buttonForm = document.createElement('BUTTON');
+        buttonForm.className = 'button';
+        buttonForm.innerHTML = 'Добавить';
+        if (formAdd) {
+            formAdd.appendChild(buttonForm);
+        }
+        buttonForm.addEventListener('click', function () {
+            let position = {};
+            position.id = inputPositionId.value;
+            position.title = inputTitlePosition.value;
+            position.salary = inputSalary.value;
+            position.head = selectIsHead.value;
+            position.arrayEmployee = [];
+            for (let item of restaurant) {
+                if (item.title === chooseDepartment.value) {
+                    item.arrayPositions.push(position);
+                }
+            }
+            let divDepartment = document.getElementById(chooseDepartment.value);
+            let h4 = document.createElement('H4');
+            h4.innerHTML = inputTitlePosition.value;
+            if (divDepartment) {
+                divDepartment.appendChild(h4);
+            }
+            let divCards = document.createElement('DIV');
+            divCards.setAttribute('id', inputTitlePosition.value);
+            if (divDepartment) {
+                divDepartment.appendChild(divCards);
+            }
+            let chooseAction = document.getElementById('chooseAction');
+
+            let optionCreateNewCustomer = document.getElementById('4');
+            if (optionCreateNewCustomer === null) {
+                let optionCreateNewCustomer = document.createElement('OPTION');
+                optionCreateNewCustomer.setAttribute('id', '4');
+                optionCreateNewCustomer.setAttribute('data-action', 'addEmployee');
+                optionCreateNewCustomer.innerHTML = 'Добавить нового сотрудника';
+                if (chooseAction) {
+                    chooseAction.appendChild(optionCreateNewCustomer);
+                }
+            }
+            console.log('pppppc');
+            chooseDepartment.remove();
+            inputPositionId.remove();
+            inputTitlePosition.remove();
+            inputSalary.remove();
+            selectIsHead.remove();
+            buttonForm.remove();
+            if (chooseAction) {
+                chooseAction.value = 'Выберите действие';
+            }
+        });
+    }
+    addEmployee() {
+        let employer = {};
+        let formAdd = document.getElementById('formAdd');
+        let chooseDepartment = document.createElement('SELECT');
+        let optionInput = document.createElement('OPTION');
+        optionInput.innerHTML = 'Выбрать отдел';
+        chooseDepartment.appendChild(optionInput);
+        for (let element of restaurant) {
+            let optionInput = document.createElement('OPTION');
+            optionInput.innerHTML = element.title;
+            chooseDepartment.appendChild(optionInput);
+        }
+        if (formAdd) {
+            formAdd.appendChild(chooseDepartment);
+        }
+        chooseDepartment.addEventListener('change', function () {
+            let choosePosition = document.createElement('SELECT');
+            let optionInputPosition = document.createElement('OPTION');
+            optionInputPosition.innerHTML = 'Выбрать должность';
+            optionInput.innerHTML = 'Выбрать отдел';
+            choosePosition.appendChild(optionInputPosition);
+            for (let element of restaurant) {
+                if (element.title === chooseDepartment.value) {
+                    for (let item of element.arrayPositions) {
+                        let optionInputPosition = document.createElement('OPTION');
+                        optionInputPosition.innerHTML = item.title;
+                        choosePosition.appendChild(optionInputPosition);
+                    }
+                }
+            }
+            if (formAdd) {
+                formAdd.appendChild(choosePosition);
+            }
+            choosePosition.addEventListener('change', function () {
+
+                let inputEployeeId = document.createElement('INPUT');
+                inputEployeeId.setAttribute('id', 'inputEployeeId');
+                inputEployeeId.setAttribute('placeholder', 'ID');
+                inputEployeeId.className = 'input';
+                let inputNameEmployee = document.createElement('INPUT');
+                inputNameEmployee.setAttribute('placeholder', 'Имя сотрудника');
+                inputNameEmployee.setAttribute('id', 'inputNameEmployee');
+                inputNameEmployee.className = 'input';
+                let inputSurnameEmployee = document.createElement('INPUT');
+                inputSurnameEmployee.setAttribute('placeholder', 'Фамилия');
+                inputSurnameEmployee.setAttribute('id', 'inputSurnameEmployee');
+                inputSurnameEmployee.className = 'input';
+                let inputAgeEmployee = document.createElement('INPUT');
+                inputAgeEmployee.setAttribute('placeholder', 'Возраст');
+                inputAgeEmployee.setAttribute('id', 'inputAgeEmployee');
+                inputAgeEmployee.className = 'input';
+                let inputEmploymentDate = document.createElement('INPUT');
+                inputEmploymentDate.setAttribute('placeholder', 'Дата принятия');
+                inputEmploymentDate.setAttribute('type', 'date');
+                inputEmploymentDate.className = 'input';
+                let buttonForm = document.createElement('BUTTON');
+                buttonForm.className = 'button';
+                buttonForm.innerHTML = 'Добавить';
+                if (formAdd) {
+                    formAdd.appendChild(inputEployeeId);
+                    formAdd.appendChild(inputNameEmployee);
+                    formAdd.appendChild(inputSurnameEmployee);
+                    formAdd.appendChild(inputAgeEmployee);
+                    formAdd.appendChild(inputEmploymentDate);
+                    formAdd.appendChild(buttonForm);
+                }
+                buttonForm.addEventListener('click', function () {
+                    /*let employer = new Employee(chooseDepartment.value, choosePosition.value, inputEployeeId.value, inputNameEmployee.value, inputSurnameEmployee.value, inputAgeEmployee.value, inputEmploymentDate.value, '');*/
+                    employer.employeeId = inputEployeeId.value;
+                    employer.name = inputNameEmployee.value;
+                    employer.surname = inputSurnameEmployee.value;
+                    employer.age = inputAgeEmployee.value;
+                    employer.employmentDate = inputEmploymentDate.value;
+                    employer.dismissalDate = '';
+                    for (let item of restaurant) {
+                        if (item.title === chooseDepartment.value) {
+                            for (let element of item.arrayPositions) {
+                                console.log(element);
+                                if (element.title === choosePosition.value) {
+                                    element.arrayEmployee.push(employer);
+                                }
+                            }
+                        }
+                    }
+                    let divDepartment = document.getElementById(choosePosition.value);
+                    let cardEmployer = document.createElement('DIV');
+                    cardEmployer.className = 'employerStyle';
+                    cardEmployer.setAttribute('id', inputEployeeId.value);
+                    if (divDepartment) {
+                        divDepartment.appendChild(cardEmployer);
+                    }
+                    let pId = document.createElement('P');
+                    pId.innerHTML = "ID: " + inputEployeeId.value;
+                    cardEmployer.appendChild(pId);
+                    let pName = document.createElement('P');
+                    pName.setAttribute('id', 'pName' + inputEployeeId.value);
+                    pName.innerHTML = inputNameEmployee.value;
+                    cardEmployer.appendChild(pName);
+                    let pSurname = document.createElement('P');
+                    pSurname.innerHTML = inputSurnameEmployee.value;
+                    pSurname.setAttribute('id', 'pSurname' + inputEployeeId.value);
+                    cardEmployer.appendChild(pSurname);
+                    let pAge = document.createElement('P');
+                    pAge.innerHTML = inputAgeEmployee.value;
+                    pAge.setAttribute('id', 'pAge' + inputEployeeId.value);
+                    cardEmployer.appendChild(pAge);
+                    let pEmploymentDate = document.createElement('P');
+                    pEmploymentDate.innerHTML = inputEmploymentDate.value;
+                    cardEmployer.appendChild(pEmploymentDate);
+                    let optionCreateNewCustomer = document.getElementById('5');
+                    let chooseAction = document.getElementById('chooseAction');
+                    if (optionCreateNewCustomer === null) {
+                        let optionCreateDeliteCustomer = document.createElement('OPTION');
+                        optionCreateDeliteCustomer.setAttribute('data-action', 'dissmissEmployee');
+                        optionCreateDeliteCustomer.setAttribute('id', '5');
+                        optionCreateDeliteCustomer.innerHTML = 'Уволить сотрудника';
+                        if (chooseAction) {
+                            chooseAction.appendChild(optionCreateDeliteCustomer);
+                        }
+                    }
+                    let optionEditCustomer = document.getElementById('6');
+                    if (optionEditCustomer === null) {
+                        let optionEditCustomer = document.createElement('OPTION');
+                        optionEditCustomer.setAttribute('data-action', 'editEmployee');
+                        optionEditCustomer.setAttribute('id', '6');
+                        optionEditCustomer.innerHTML = 'Редактировать сотрудника';
+                        if (chooseAction) {
+                            chooseAction.appendChild(optionEditCustomer);
+                        }
+                    }
+                    chooseDepartment.remove();
+                    choosePosition.remove();
+                    inputEployeeId.remove();
+                    inputNameEmployee.remove();
+                    inputSurnameEmployee.remove();
+                    inputAgeEmployee.remove();
+                    inputEmploymentDate.remove();
+                    buttonForm.remove();
+                    if (chooseAction) {
+                        chooseAction.value = 'Выберите действие';
+                    }
+                });
+            });
+            return choosePosition;
+        });
+    }
+    dissmissEmployee() {
+        let formAdd = document.getElementById('formAdd');
+        let chooseDepartment = document.createElement('SELECT');
+        let optionInput = document.createElement('OPTION');
+        optionInput.innerHTML = 'Выбрать отдел';
+        chooseDepartment.appendChild(optionInput);
+        for (let element of restaurant) {
+            let optionInput = document.createElement('OPTION');
+            optionInput.innerHTML = element.title;
+            chooseDepartment.appendChild(optionInput);
+        }
+        if (formAdd) {
+            formAdd.appendChild(chooseDepartment);
+        }
+        chooseDepartment.addEventListener('change', function () {
+            let choosePosition = document.createElement('SELECT');
+            let optionInputPosition = document.createElement('OPTION');
+            optionInputPosition.innerHTML = 'Выбрать должность';
+            optionInput.innerHTML = 'Выбрать отдел';
+            choosePosition.appendChild(optionInputPosition);
+            for (let element of restaurant) {
+                if (element.title === chooseDepartment.value) {
+                    for (let item of element.arrayPositions) {
+                        let optionInputPosition = document.createElement('OPTION');
+                        optionInputPosition.innerHTML = item.title;
+                        choosePosition.appendChild(optionInputPosition);
+                    }
+                }
+            }
+            if (formAdd) {
+                formAdd.appendChild(choosePosition);
+            }
+            choosePosition.addEventListener('change', function () {
+                let inputEployeeId = document.createElement('INPUT');
+                inputEployeeId.setAttribute('id', 'inputEployeeId');
+                inputEployeeId.setAttribute('placeholder', 'ID');
+                inputEployeeId.className = 'input';
+                if (formAdd) {
+                    formAdd.appendChild(inputEployeeId);
+                }
+                let inputDismissDate = document.createElement('INPUT');
+                inputDismissDate.setAttribute('placeholder', 'Дата увольнения');
+                inputDismissDate.setAttribute('type', 'date');
+                inputDismissDate.className = 'input';
+                if (formAdd) {
+                    formAdd.appendChild(inputDismissDate);
+                }
+                let buttonForm = document.createElement('BUTTON');
+                buttonForm.className = 'button';
+                buttonForm.innerHTML = 'Уволить';
+                if (formAdd) {
+                    formAdd.appendChild(buttonForm);
+                }
+                buttonForm.addEventListener('click', function () {
+                    for (let item of restaurant) {
+                        if (item.title === chooseDepartment.value) {
+                            for (let element of item.arrayPositions) {
+                                if (element.title === choosePosition.value) {
+                                    for (let el of element.arrayEmployee) {
+                                        if (el.employeeId === inputEployeeId.value) {
+                                            el.dismissalDate = inputDismissDate.value;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    let divDepartment = document.getElementById(inputEployeeId.value);
+                    if (divDepartment) {
+                        divDepartment.remove();
+                    }
+                    chooseDepartment.remove();
+                    choosePosition.remove();
+                    inputEployeeId.remove();
+                    inputDismissDate.remove();
+                    buttonForm.remove();
+                    let chooseAction = document.getElementById('chooseAction');
+                    if (chooseAction) {
+                        chooseAction.value = 'Выберите действие';
+                    }
+                });
+            });
+        });
+    }
+    editEmployee() {
+        let formAdd = document.getElementById('formAdd');
+        let chooseDepartment = document.createElement('SELECT');
+        let optionInput = document.createElement('OPTION');
+        optionInput.innerHTML = 'Выбрать отдел';
+        chooseDepartment.appendChild(optionInput);
+        for (let element of restaurant) {
+            let optionInput = document.createElement('OPTION');
+            optionInput.innerHTML = element.title;
+            chooseDepartment.appendChild(optionInput);
+        }
+        if (formAdd) {
+            formAdd.appendChild(chooseDepartment);
+        }
+        chooseDepartment.addEventListener('change', function () {
+            let choosePosition = document.createElement('SELECT');
+            let optionInputPosition = document.createElement('OPTION');
+            optionInputPosition.innerHTML = 'Выбрать должность';
+            optionInput.innerHTML = 'Выбрать отдел';
+            choosePosition.appendChild(optionInputPosition);
+            for (let element of restaurant) {
+                if (element.title === chooseDepartment.value) {
+                    for (let item of element.arrayPositions) {
+                        let optionInputPosition = document.createElement('OPTION');
+                        optionInputPosition.innerHTML = item.title;
+                        choosePosition.appendChild(optionInputPosition);
+                    }
+                }
+            }
+            if (formAdd) {
+                formAdd.appendChild(choosePosition);
+            }
+            choosePosition.addEventListener('change', function () {
+                let selectId = document.createElement('SELECT');
+                if (formAdd) {
+                    formAdd.appendChild(selectId);
+                }
+                let optionEpmty = document.createElement('OPTION');
+                optionEpmty.innerHTML = 'Выбрать id';
+                selectId.appendChild(optionEpmty);
+                for (let item of restaurant) {
+                    if (item.title === chooseDepartment.value) {
+                        for (let element of item.arrayPositions) {
+                            if (element.title === choosePosition.value) {
+                                for (let el of element.arrayEmployee) {
+                                    let optionId = document.createElement('OPTION');
+                                    optionId.innerHTML = el.employeeId;
+                                    selectId.appendChild(optionId);
+                                }
+                            }
+                        }
+                    }
+                }
+                let nameEmpoyee;
+                let surnameEmployee;
+                let ageEmployee;
+                selectId.addEventListener('change', function () {
+                    for (let item of restaurant) {
+                        if (item.title === chooseDepartment.value) {
+                            for (let element of item.arrayPositions) {
+                                if (element.title === choosePosition.value) {
+                                    for (let el of element.arrayEmployee) {
+                                        if (el.employeeId === selectId.value) {
+                                            nameEmpoyee = el.name;
+                                            surnameEmployee = el.surname;
+                                            ageEmployee = el.age;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    let inputNameEmployee = document.createElement('INPUT');
+                    inputNameEmployee.value = nameEmpoyee;
+                    inputNameEmployee.className = 'input';
+                    let inputSurnameEmployee = document.createElement('INPUT');
+                    inputSurnameEmployee.value = surnameEmployee;
+                    inputSurnameEmployee.className = 'input';
+                    let inputAgeEmployee = document.createElement('INPUT');
+                    inputAgeEmployee.value = ageEmployee;
+                    inputAgeEmployee.className = 'input';
+                    let buttonForm = document.createElement('BUTTON');
+                    buttonForm.className = 'button';
+                    buttonForm.innerHTML = 'Подтвердить';
+                    if (formAdd) {
+                        formAdd.appendChild(inputNameEmployee);
+                        formAdd.appendChild(inputSurnameEmployee);
+                        formAdd.appendChild(inputAgeEmployee);
+                        formAdd.appendChild(buttonForm);
+                    }
+                    buttonForm.addEventListener('click', function () {
+                        for (let item of restaurant) {
+                            if (item.title === chooseDepartment.value) {
+                                for (let element of item.arrayPositions) {
+                                    if (element.title === choosePosition.value) {
+                                        for (let el of element.arrayEmployee) {
+                                            if (el.employeeId === selectId.value) {
+                                                el.name = inputNameEmployee.value;
+                                                el.surname = inputSurnameEmployee.value;
+                                                el.age = inputAgeEmployee.value;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        let pName = document.getElementById('pName' + selectId.value);
+                        let pSurname = document.getElementById('pSurname' + selectId.value);
+                        let pAge = document.getElementById('pAge' + selectId.value);
+                        if (pName) {
+                            pName.innerHTML = inputNameEmployee.value;
+                        }
+                        if (pSurname) {
+                            pSurname.innerHTML = inputSurnameEmployee.value;
+                        }
+                        if (pAge) {
+                            pAge.innerHTML = inputAgeEmployee.value;
+                        }
+                        chooseDepartment.remove();
+                        choosePosition.remove();
+                        selectId.remove();
+                        inputNameEmployee.remove();
+                        inputSurnameEmployee.remove();
+                        inputAgeEmployee.remove();
+                        buttonForm.remove();
+                        let chooseAction = document.getElementById('chooseAction');
+                        if (chooseAction) {
+                            chooseAction.value = 'Выберите действие';
+                        }
+                    });
+                });
+            });
+        });
+    }
+    getSumAllSalaries() {
+        let selectDepart = document.createElement('SELECT');
+        selectDepart.className = 'select';
+        let workSpase = document.getElementById('workSpace');
+        if (workSpase) {
+            workSpase.appendChild(selectDepart);
+        }
+        let versionDepart = document.createElement('OPTION');
+        versionDepart.innerHTML = 'Выбрать отдел';
+        selectDepart.appendChild(versionDepart);
+        for (let item of restaurant) {
+            let chooseDepartment = document.createElement('OPTION');
+            chooseDepartment.innerHTML = item.title;
+            selectDepart.appendChild(chooseDepartment);
+        }
         let sum = 0;
-        for(let item of myBank.clients){
-            if(item.is_active){
-            if(item.is_active.toString() === isActive.toString()) {
-                if(item.bills){
-                for (let i = 0; i < item.bills.length; i++){
-                    let value = item.bills[i].limit;
-                    if(typeof value === 'number'){
-                    if(item.bills[i].amount < value)
+        selectDepart.addEventListener('change', function () {
+            for (let i = 0; i < restaurant.length; i++) {
+                if (restaurant[i].title === selectDepart.value) {
+                    for (let j = 0; j < restaurant[i].arrayPositions.length; j++) {
+                        sum += restaurant[i].arrayPositions[j].salaryAmount() * restaurant[i].arrayPositions[j].currentEmployee();
+                    }
+                }
+            }
+            let answer = document.createElement('DIV');
+            answer.className = 'divAnswer';
+            answer.innerHTML = sum.toString();
+            let button = document.createElement('DIV');
+            button.className = 'buttonOk';
+            button.innerHTML = 'OK';
+            if (workSpase) {
+                workSpase.appendChild(answer);
+                workSpase.appendChild(button);
+            }
+            button.addEventListener('click', function () {
+                selectDepart.remove();
+                answer.remove();
+                button.remove();
+                let select = document.getElementById('choose');
+                if (select) {
+                    select.value = 'Выбрать рассчет';
+                }
+            });
+        });
+        return sum;
+    }
 
-                        sum += value - item.bills[i].amount;
-                }
-                }
+}
+let iii = new DepartmentRestaurant();
+/*
+class Employee {
+    constructor(department, position, employeeId, name, surname, age, employmentDate, dismissalDate) {
+        this.employeeId = employeeId;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.employmentDate = employmentDate;
+        this.position = position;
+        this.dismissalDate = dismissalDate;
+        this.department = department;
+    }
+    dismiss() {
+        return this.dismissalDate;
+    }
+}
+
+
+function
+function getAvarageSalary() {
+    let selectDepart = document.createElement('SELECT');
+    selectDepart.className = 'select';
+    let workSpase = document.getElementById('workSpace');
+    if (workSpase) {
+        workSpase.appendChild(selectDepart);
+    }
+    let versionDepart = document.createElement('OPTION');
+    versionDepart.innerHTML = 'Выбрать отдел';
+    selectDepart.appendChild(versionDepart);
+    for (let item of restaurant) {
+        let chooseDepartment = document.createElement('OPTION');
+        chooseDepartment.innerHTML = item.title;
+        selectDepart.appendChild(chooseDepartment);
+    }
+    let sum = 0;
+    let amountPositions = 0;
+    selectDepart.addEventListener('change', function () {
+        for (let i = 0; i < restaurant.length; i++) {
+            if (restaurant[i].title === selectDepart.value) {
+                amountPositions = restaurant[i].arrayPositions.length;
+                for (let j = 0; j < amountPositions; j++) {
+                    sum += restaurant[i].arrayPositions[j].salaryAmount();
                 }
             }
         }
+        let answer = document.createElement('DIV');
+        answer.className = 'divAnswer';
+        if (answer) {
+            answer.innerHTML = (sum / amountPositions).toString();
         }
-        let divWorkSpace = document.getElementById('workSpace');
-        let formAdd = document.getElementById('formDebt');
-        if(divWorkSpace && formAdd){
-            divWorkSpace.appendChild(formAdd);
+        let button = document.createElement('DIV');
+        button.className = 'buttonOk';
+        button.innerHTML = 'OK';
+        if (workSpase) {
+            workSpase.appendChild(answer);
+            workSpase.appendChild(button);
         }
-        let result = document.getElementById('resultValue');
-        if(result){
-        result.innerHTML = String(sum);
-        }
-        let ok = document.getElementById('okResult');
-        if(ok && formAdd){
-            ok.innerHTML = 'OK';
-            formAdd.appendChild(ok);
-            ok.addEventListener('click', function (){
-                if(result && ok){
-                result.remove();
-                ok.remove();
-                }
-                let chooseAction = document.getElementById('chooseAction');
-                if(chooseAction){
-                    (chooseAction as HTMLSelectElement).value = 'Выберите действие';
-                }
-                
-            });
-        }
-        
-        return sum;
-    }
-    
+        button.addEventListener('click', function () {
+            selectDepart.remove();
+            answer.remove();
+            button.remove();
+            let select = document.getElementById('choose');
+            if (select) {
+                select.value = 'Выбрать рассчет';
+            }
+        });
+    });
+    return sum / amountPositions;
 }
-
-let myBank: Bank = new Bank();
+function getMinSalary() {
+    let selectDepart = document.createElement('SELECT');
+    selectDepart.className = 'select';
+    let workSpase = document.getElementById('workSpace');
+    if (workSpase) {
+        workSpase.appendChild(selectDepart);
+    }
+    let versionDepart = document.createElement('OPTION');
+    versionDepart.innerHTML = 'Выбрать отдел';
+    selectDepart.appendChild(versionDepart);
+    for (let item of restaurant) {
+        let chooseDepartment = document.createElement('OPTION');
+        chooseDepartment.innerHTML = item.title;
+        selectDepart.appendChild(chooseDepartment);
+    }
+    let arraySalary = [];
+    let minSalary = 0;
+    selectDepart.addEventListener('change', function () {
+        for (let i = 0; i < restaurant.length; i++) {
+            if (restaurant[i].title === selectDepart.value) {
+                for (let j = 0; j < restaurant[i].arrayPositions.length; j++) {
+                    arraySalary.push(restaurant[i].arrayPositions[j].salaryAmount());
+                    arraySalary.sort();
+                    minSalary = arraySalary[0];
+                }
+            }
+        }
+        let answer = document.createElement('DIV');
+        answer.className = 'divAnswer';
+        answer.innerHTML = minSalary.toString();
+        let button = document.createElement('DIV');
+        button.className = 'buttonOk';
+        button.innerHTML = 'OK';
+        if (workSpase) {
+            workSpase.appendChild(answer);
+            workSpase.appendChild(button);
+        }
+        button.addEventListener('click', function () {
+            selectDepart.remove();
+            answer.remove();
+            button.remove();
+            let select = document.getElementById('choose');
+            if (select) {
+                select.value = 'Выбрать рассчет';
+            }
+        });
+    });
+    return minSalary;
+}
+function getMaxSalary() {
+    let selectDepart = document.createElement('SELECT');
+    selectDepart.className = 'select';
+    let workSpase = document.getElementById('workSpace');
+    if (workSpase) {
+        workSpase.appendChild(selectDepart);
+    }
+    let versionDepart = document.createElement('OPTION');
+    versionDepart.innerHTML = 'Выбрать отдел';
+    selectDepart.appendChild(versionDepart);
+    for (let item of restaurant) {
+        let chooseDepartment = document.createElement('OPTION');
+        chooseDepartment.innerHTML = item.title;
+        selectDepart.appendChild(chooseDepartment);
+    }
+    let arraySalary = [];
+    let maxSalary = 0;
+    selectDepart.addEventListener('change', function () {
+        for (let i = 0; i < restaurant.length; i++) {
+            if (restaurant[i].title === selectDepart.value) {
+                for (let j = 0; j < restaurant[i].arrayPositions.length; j++) {
+                    arraySalary.push(restaurant[i].arrayPositions[j].salaryAmount());
+                    arraySalary.sort();
+                    maxSalary = arraySalary[arraySalary.length - 1];
+                }
+            }
+        }
+        let answer = document.createElement('DIV');
+        answer.className = 'divAnswer';
+        answer.innerHTML = maxSalary.toString();
+        if (workSpase) {
+            workSpase.appendChild(answer);
+        }
+        let button = document.createElement('DIV');
+        button.className = 'buttonOk';
+        button.innerHTML = 'OK';
+        if (workSpase) {
+            workSpase.appendChild(button);
+        }
+        button.addEventListener('click', function () {
+            selectDepart.remove();
+            answer.remove();
+            button.remove();
+            let select = document.getElementById('choose');
+            if (select) {
+                select.value = 'Выбрать рассчет';
+            }
+        });
+    });
+    return maxSalary;
+}
+function getAmountDismiss() {
+    let selectDepart = document.createElement('SELECT');
+    selectDepart.className = 'select';
+    let workSpase = document.getElementById('workSpace');
+    if (workSpase) {
+        workSpase.appendChild(selectDepart);
+    }
+    let versionDepart = document.createElement('OPTION');
+    versionDepart.innerHTML = 'Выбрать отдел';
+    selectDepart.appendChild(versionDepart);
+    for (let item of restaurant) {
+        let chooseDepartment = document.createElement('OPTION');
+        chooseDepartment.innerHTML = item.title;
+        selectDepart.appendChild(chooseDepartment);
+    }
+    let currentArr = [];
+    let counter = 0;
+    selectDepart.addEventListener('change', function () {
+        for (let i = 0; i < restaurant.length; i++) {
+            if (restaurant[i].title === selectDepart.value) {
+                for (let j = 0; j < restaurant[i].arrayPositions.length; j++) {
+                    currentArr = restaurant[i].arrayPositions[j].getArrayEmployee();
+                    for (let k = 0; k < currentArr.length; k++) {
+                        if (currentArr[k].dismissalDate !== "") {
+                            counter++;
+                        }
+                    }
+                }
+            }
+        }
+        let answer = document.createElement('DIV');
+        answer.className = 'divAnswer';
+        answer.innerHTML = counter.toString();
+        if (workSpase) {
+            workSpase.appendChild(answer);
+        }
+        let button = document.createElement('DIV');
+        button.className = 'buttonOk';
+        button.innerHTML = 'OK';
+        if (workSpase) {
+            workSpase.appendChild(button);
+        }
+        button.addEventListener('click', function () {
+            selectDepart.remove();
+            answer.remove();
+            button.remove();
+            let select = document.getElementById('choose');
+            if (select) {
+                select.value = 'Выбрать рассчет';
+            }
+        });
+    });
+    return counter;
+}
+let arrayDepartmentWithoutHead = [];
+let result;
+function getDepartmentsWithoutHead() {
+    for (let i = 0; i < restaurant.length; i++) {
+        for (let j = 0; j < restaurant[i].arrayPositions.length; j++) {
+            if (restaurant[i].arrayPositions[j].head) {
+                for (let k = 0; k < restaurant[i].arrayPositions[j].arrayEmployee.length; k++) {
+                    if (restaurant[i].arrayPositions[j].arrayEmployee[k].dismissalDate !== "" || restaurant[i].arrayPositions[j].arrayEmployee.length === 0) {
+                        arrayDepartmentWithoutHead.push(restaurant[i].title);
+                        result = arrayDepartmentWithoutHead.join(', ');
+                    }
+                }
+            }
+        }
+    }
+    let answer = document.createElement('DIV');
+    answer.className = 'divAnswer';
+    answer.innerHTML = result;
+    let workSpase = document.getElementById('workSpace');
+    let button = document.createElement('DIV');
+    button.className = 'buttonOk';
+    button.innerHTML = 'OK';
+    if (workSpase) {
+        workSpase.appendChild(answer);
+        workSpase.appendChild(button);
+    }
+    button.addEventListener('click', function () {
+        answer.remove();
+        button.remove();
+        let select = document.getElementById('choose');
+        if (select) {
+            select.value = 'Выбрать рассчет';
+        }
+    });
+    return arrayDepartmentWithoutHead;
+}*/

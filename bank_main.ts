@@ -94,11 +94,13 @@ class Bank {
     [action: string]: any;
     [action: number]: Function;
     clients: ClientInfo[];
+    contextBank: this;
     constructor() {
         this.clients = [];
         this.id = 0;
         this.select = (document.querySelector('.select')) as HTMLSelectElement;
         this.select.addEventListener('change', this.onEvent.bind(this));
+        this.contextBank = this;
     }
     onEvent(event: Event) {
         let element = event.target as HTMLSelectElement
@@ -106,6 +108,10 @@ class Bank {
         if (action !== null) {
             this[action]();
         }
+    }
+
+    getThis(){
+        return this;
     }
 
     addClients(clientInfo: ClientInfo) {
@@ -124,6 +130,7 @@ class Bank {
         }
     }
     addClient() {
+        let currentContext = this.getThis();
         let clientInfo: ClientInfo = {};
         let inputName = document.createElement('INPUT') as HTMLInputElement;
         let divWorkSpace = document.getElementById('workSpace');
@@ -153,7 +160,7 @@ class Bank {
             });
             clientInfo.name = inputName.value;
             clientInfo.surname = inputSurname.value;
-            myBank.addClients(clientInfo);
+            currentContext.addClients(clientInfo);
             let divInfoClient = document.createElement('DIV') as HTMLDivElement;
             divInfoClient.className = 'cards';
             divInfoClient.setAttribute('id', 'divInfoClient' + clientInfo.id);
@@ -243,6 +250,8 @@ class Bank {
         return clientInfo;
     }
     editClient() {
+        let currentContext = this.getThis();
+        let cont = this.getThis();
         let chooseID = document.createElement('SELECT') as HTMLSelectElement;
         chooseID.className = 'select';
         let divWorkSpace = document.getElementById('workSpace');
@@ -254,7 +263,7 @@ class Bank {
         let doChoose = document.createElement('OPTION') as HTMLOptionElement;
         doChoose.innerHTML = 'Выберите ID';
         chooseID.appendChild(doChoose);
-        for (let item of myBank.clients) {
+        for (let item of cont.clients) {
             let cutomerID = document.createElement('OPTION') as HTMLOptionElement;
             if (item.id) {
                 cutomerID.innerHTML = String(item.id);
@@ -310,7 +319,7 @@ class Bank {
                 if (surname) {
                     surname.innerHTML = 'Фамилия: ' + inputSurname.value;
                 }
-                for (let item of myBank.clients) {
+                for (let item of currentContext.clients) {
                     item.name = inputName.value;
                     item.surname = inputSurname.value;
                 }
@@ -326,6 +335,7 @@ class Bank {
         });
     }
     addStatusActivity() {
+        let currentContext = this.getThis();
         let chooseID = document.createElement('SELECT') as HTMLSelectElement;
         chooseID.className = 'select';
         let divWorkSpace = document.getElementById('workSpace');
@@ -337,7 +347,7 @@ class Bank {
         let doChoose = document.createElement('OPTION') as HTMLOptionElement;
         doChoose.innerHTML = 'Выберите ID';
         chooseID.appendChild(doChoose);
-        for (let item of myBank.clients) {
+        for (let item of currentContext.clients) {
             let cutomerID = document.createElement('OPTION') as HTMLOptionElement;
             cutomerID.innerHTML = String(item.id);
             chooseID.appendChild(cutomerID);
@@ -349,7 +359,7 @@ class Bank {
             if (divWorkSpace) {
                 divWorkSpace.appendChild(formAdd);
             }
-            for (let item of myBank.clients) {
+            for (let item of currentContext.clients) {
                 if (String(item.id) == id) {
                     let labelActive = document.createElement('LABEL') as HTMLLabelElement;
                     formAdd.appendChild(labelActive);
@@ -397,6 +407,7 @@ class Bank {
         });
     }
     addAccount() {
+        let currentContext = this.getThis();
         let chooseID = document.createElement('SELECT') as HTMLSelectElement;
         chooseID.className = 'select';
         let divWorkSpace = document.getElementById('workSpace');
@@ -408,7 +419,7 @@ class Bank {
         let doChoose = document.createElement('OPTION') as HTMLOptionElement;
         doChoose.innerHTML = 'Выберите ID';
         chooseID.appendChild(doChoose);
-        for (let item of myBank.clients) {
+        for (let item of currentContext.clients) {
             let cutomerID = document.createElement('OPTION') as HTMLOptionElement;
             cutomerID.innerHTML = String(item.id);
             chooseID.appendChild(cutomerID);
@@ -467,7 +478,7 @@ class Bank {
                     if (selectTypeBill.value === 'credit') {
                         bill.limit = Number(inputLimit.value);
                     }
-                    myBank.addBills(Number(id), bill);
+                    currentContext.addBills(Number(id), bill);
                     let divInfoClient = document.getElementById('divInfoClient' + id);
                     let cardBill = document.createElement('DIV') as HTMLDivElement;
                     cardBill.className = 'clientStyle';
@@ -503,6 +514,7 @@ class Bank {
         });
     }
     getAllSumMoney() {
+        let currentContext = this.getThis();
         let divWorkSpace = document.getElementById('workSpace');
         let formAdd = document.createElement('FORM') as HTMLFormElement;
         if (divWorkSpace) {
@@ -522,13 +534,15 @@ class Bank {
             currensyCount.appendChild(currensyToCount);
         }
         currensyCount.addEventListener('change', function () {
-            myBank.getCurrencyToCallback(myBank.allBankBudget);
+            currentContext.getCurrencyToCallback(currentContext.allBankBudget);
         });
     }
     getAmountDebt() {
-        myBank.getCurrencyToCallback(myBank.budget);
+        let currentContext = this.getThis();
+        currentContext.getCurrencyToCallback(currentContext.budget);
     }
     getAmountDebtClients() {
+        let currentContext = this.getThis();
         let divWorkSpace = document.getElementById('workSpace');
         let formAdd = document.createElement('FORM') as HTMLFormElement;
         formAdd.setAttribute('id', 'formDebt')
@@ -566,7 +580,7 @@ class Bank {
         checkboxs.forEach(function (check) {
             check.addEventListener('click', function (event) {
                 let active = (event.target as HTMLSelectElement).value;
-                myBank.countDebtor(Boolean(active));
+                currentContext.countDebtor(Boolean(active));
                 ok.addEventListener('click', function () {
                     formAdd.remove();
                     result.remove();
@@ -580,6 +594,7 @@ class Bank {
         });
     }
     getSumDebtClientsByActivity() {
+        let currentContext = this.getThis();
         let divWorkSpace = document.getElementById('workSpace');
         let formAdd = document.createElement('FORM') as HTMLFormElement;
         formAdd.setAttribute('id', 'formDebt')
@@ -617,7 +632,7 @@ class Bank {
         checkboxs.forEach(function (check) {
             check.addEventListener('click', function (event) {
                 let active = (event.target as HTMLSelectElement).value;
-                myBank.countSumDebtor(Boolean(active));
+                currentContext.countSumDebtor(Boolean(active));
                 ok.addEventListener('click', function () {
                     formAdd.remove();
                     result.remove();
@@ -652,18 +667,20 @@ class Bank {
         }
     }
     async getCurrencyToCallback(callback: Bank["budget"] | Bank["allBankBudget"]) {
+        let currentContext = this.getThis();
         let response = await fetch('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
         let data: Data[] = await response.json();
-        if (callback === myBank.budget) {
+        if (callback === currentContext.budget) {
             callback(data, true, 'USD');
-        } else if (callback === myBank.allBankBudget) {
+        } else if (callback === currentContext.allBankBudget) {
             callback(data, 'USD');
         }
     }
     budget(data: Data[], isActive: boolean, currency: string): number {
+        let currentContext = this.getThis();
         let sum = 0;
         let rate = 1;
-        for (let item of myBank.clients) {
+        for (let item of currentContext.clients) {
             if (item.is_active === isActive) {
                 if (item.bills) {
                     for (let i = 0; i < item.bills.length; i++) {
@@ -705,9 +722,10 @@ class Bank {
         return sum;
     }
     allBankBudget(data: Data[], currency: string): number {
+        let currentContext = this.getThis();
         let sum = 0;
         let rate = 1;
-        for (let item of myBank.clients) {
+        for (let item of currentContext.clients) {
             if (item.bills) {
                 for (let i = 0; i < item.bills.length; i++) {
                     if (item.bills[i].type === 'debet') {
@@ -753,8 +771,9 @@ class Bank {
         return sum;
     }
     countDebtor(isActive: boolean): number {
+        let currentContext = this.getThis();
         let counter = 0;
-        for (let item of myBank.clients) {
+        for (let item of currentContext.clients) {
             if (item.is_active) {
                 if (item.is_active.toString() === isActive.toString()) {
                     if (item.bills) {
@@ -797,9 +816,10 @@ class Bank {
         return counter;
     }
     countSumDebtor(isActive:boolean) {
+        let currentContext = this.getThis();
         let counter = 0;
         let sum = 0;
-        for (let item of myBank.clients) {
+        for (let item of currentContext.clients) {
             if (item.is_active) {
                 if (item.is_active.toString() === isActive.toString()) {
                     if (item.bills) {
@@ -842,4 +862,4 @@ class Bank {
     }
 }
 
-let myBank: Bank = new Bank();
+

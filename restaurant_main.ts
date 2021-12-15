@@ -1,5 +1,3 @@
-
-
 function createAllElements() {
     let divContainer = document.createElement('DIV') as HTMLDivElement;
     divContainer.className = 'container';
@@ -110,7 +108,7 @@ class Restaurant {
     onEvent(event: Event) {
         let element = event.target as HTMLSelectElement;
         let action = element.children[element.selectedIndex].getAttribute("data-action");
-        if (action !== null) {
+        if (action) {
             this[action]();
         }
     }
